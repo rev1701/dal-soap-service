@@ -16,7 +16,7 @@ SOAP web service to access exam database, using ASP.NET WCF SOAP web service
 - Devonte Holmes
 - Paul Stanton
 - Stephen Osei-Owusu
-- Summer Wilkens
+- Summer Wilken
 
 
 ---
