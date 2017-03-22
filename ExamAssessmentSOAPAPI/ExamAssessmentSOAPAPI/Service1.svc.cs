@@ -5,6 +5,8 @@ using System.Runtime.Serialization;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Text;
+using AutoMapper;
+using EAD=ExamAssessmentDaal;
 
 namespace LMS1701.EA.SOAPAPI
 {
@@ -19,6 +21,10 @@ namespace LMS1701.EA.SOAPAPI
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
+            EAD.Subtopic test = new EAD.Subtopic();
+            AutoMapperConfiguration.Configure();
+            SubTopic test2 = new SubTopic();
+            test2 = Mapper.Map<SubTopic>(test);
             if (composite == null)
             {
                 throw new ArgumentNullException("composite");
