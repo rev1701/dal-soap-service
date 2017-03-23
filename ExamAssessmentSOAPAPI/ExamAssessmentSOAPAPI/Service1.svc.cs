@@ -44,7 +44,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Subject>GetAllSubject()
         {
-            List<SubTopic> result = new List<SubTopic>()
+            List<Subject> result = new List<Subject>();
             var x = from c in db.Subjects
                     select c;
             for(int i =0; i < x.ToList().Count; i++)
@@ -63,11 +63,35 @@ namespace LMS1701.EA.SOAPAPI
                              where c.Categories_ID == ab.ToList().ToArray()[b].Categories_ID
                              select c;
                     cat.Categories_ID = abc.ToArray()[b].Categories_ID;
-                    cat.Categories_Name
+                    var cde = from c in db.Categories
+                              where c.Categories_ID == cat.Categories_ID
+                              select c;
+                    cat.Categories_Name = cat.Categories_Name;
+                    var xe = from gg in db.Categories_Subtopic
+                             where gg.Categories_ID == abc.ToArray()[b].Categories_ID
+                             select gg;
+                    for (int c = 0; c < xe.ToList().Count; c++)
+                    {
+                        SubTopic subT = new SubTopic();
+                        var xed = from xx in db.Subtopics
+                                  where xx.Subtopic_ID == xe.ToArray()[c].Subtopic_ID
+                                  select xx;
+                        for(int dd =0; dd < xed.ToList().Count; dd++)
+                        {
+                            subT.Subtopic_Name = xed.ToArray()[dd].Subtopic_Name;
+                            subT.Subtopic_ID = xed.ToArray()[dd].Subtopic_ID;
+                            cat.subtopics.Add(subT);
+                            sub.listC.Add(cat);
+                            result.Add(sub);
+                        }
+                        
+                        
+                    }
+
                 }
 
             }
-            return x.ToList();
+            return result.ToList();
         }
         public List<SubTopic> GetSubtopicList()
         {
