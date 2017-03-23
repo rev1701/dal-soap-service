@@ -1,24 +1,24 @@
-﻿using System;
+﻿using LMS1701.EA.SOAPAPI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
-using System.Web;
-using System.Web.Services.Description;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace LMS1701.EA.SOAPAPI
+namespace ConsoleApplication1
 {
-    public class Program
+    class Program
     {
-        static void main()
+        static void Main(string[] args)
         {
             using (ServiceHost host = new ServiceHost(typeof(IService1)))
             {
                 host.Open();
-                Console.WriteLine("Host started @ " +DateTime.Now.ToString());
+                Console.WriteLine("Host started @ " + DateTime.Now.ToString());
                 Console.ReadLine();
 
             }
         }
-      
     }
 }

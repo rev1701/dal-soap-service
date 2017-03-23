@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExamAssessmentSOAPAPI.DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -15,9 +16,16 @@ namespace LMS1701.EA.SOAPAPI
 
         [OperationContract]
         string GetData(int value);
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "TestThis")]
+        List<SubTopic> GetSubtopicList();
 
         [OperationContract]
-        CompositeType GetDataUsingDataContract(CompositeType composite);
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "TestThisagain?QuestID={QuestID}")]
+        List<Answers> GetAnswersQuestion(int Questid);
+
+        //     [OperationContract]
+        //     CompositeType GetDataUsingDataContract(CompositeType composite);
 
         // TODO: Add your service operations here
     }
