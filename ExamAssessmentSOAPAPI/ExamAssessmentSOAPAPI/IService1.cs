@@ -24,6 +24,9 @@ namespace LMS1701.EA.SOAPAPI
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "TestThisagain?QuestID={QuestID}")]
         List<Answers> GetAnswersQuestion(int Questid);
 
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "GetAllInfo")]
+        List<Subject> GetAllSubject();
         //     [OperationContract]
         //     CompositeType GetDataUsingDataContract(CompositeType composite);
 

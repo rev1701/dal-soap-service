@@ -135,6 +135,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="DTO\Answers.cs" />
+    <Compile Include="DTO\Category.cs" />
+    <Compile Include="DTO\Subject.cs" />
     <Compile Include="DTO\SubTopic.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

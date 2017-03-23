@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace ExamAssessmentSOAPAPI.DTO
+namespace LMS1701.EA.SOAPAPI
 {
     public class Answers
     {

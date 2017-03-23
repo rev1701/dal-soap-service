@@ -8,7 +8,7 @@ using System.Text;
 using AutoMapper;
 using EAD = ExamAssessmentDaal;
 using LMS1701.EA.SOAPAPI;
-using ExamAssessmentSOAPAPI.DTO;
+
 
 namespace LMS1701.EA.SOAPAPI
 {
@@ -42,10 +42,37 @@ namespace LMS1701.EA.SOAPAPI
             return i;
 
         }
-        public List<SubTopic>GetSubtopicList()
+        public List<Subject>GetAllSubject()
+        {
+            List<SubTopic> result = new List<SubTopic>()
+            var x = from c in db.Subjects
+                    select c;
+            for(int i =0; i < x.ToList().Count; i++)
+            {
+                Subject sub = new Subject();
+                sub.Subject_ID = x.ToList().ToArray()[i].Subject_ID;
+                sub.Subject_Name = x.ToList().ToArray()[i].Subject_Name;
+                var ab = from c in db.Subject_Categories
+                         where c.Subject_ID == sub.Subject_ID
+                        select c;
+
+                for(int b = 0; b < ab.ToList().Count; b++)
+                {
+                    Category cat = new Category();
+                    var abc = from c in db.Categories_Subtopic
+                             where c.Categories_ID == ab.ToList().ToArray()[b].Categories_ID
+                             select c;
+                    cat.Categories_ID = abc.ToArray()[b].Categories_ID;
+                    cat.Categories_Name
+                }
+
+            }
+            return x.ToList();
+        }
+        public List<SubTopic> GetSubtopicList()
         {
             var x = db.Subtopics.Select(j => Mapper.Map<SubTopic>(j));
-            return x.ToList();
+            return x.ToList().ToArray().ToList();
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
