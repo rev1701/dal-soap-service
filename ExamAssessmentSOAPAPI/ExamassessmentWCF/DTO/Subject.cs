@@ -14,7 +14,11 @@ namespace LMS1701.EA.SOAPAPI
         [DataMember]
         public string Subject_Name { get; set; }
         [DataMember]
-        public List<Category> listC { get; set; }
+        public List<Category> listCat { get; set; }
+        public Subject()
+        {
+            listCat = new List<Category>();
+        }
 
     }
 }

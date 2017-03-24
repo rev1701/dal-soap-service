@@ -15,6 +15,10 @@ namespace LMS1701.EA.SOAPAPI
         public string Categories_Name { get; set; }
         [DataMember]
         public List<SubTopic> subtopics { get; set; }
+        public Category()
+        {
+            subtopics = new List<SubTopic>();
+        }
 
     }
 }

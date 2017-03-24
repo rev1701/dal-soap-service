@@ -45,50 +45,71 @@ namespace LMS1701.EA.SOAPAPI
         public List<Subject> GetAllSubject()
         {
             List<Subject> result = new List<Subject>();
-            var x = from c in db.Subjects
-                    select c;
-            for (int i = 0; i < x.ToList().Count; i++)
+            var subjects = from tempSubjects in db.Subjects
+                    select tempSubjects;
+            for (int i = 0; i < subjects.ToList().Count; i++)
             {
-                Subject sub = new Subject();
-                sub.Subject_ID = x.ToList().ToArray()[i].Subject_ID;
-                sub.Subject_Name = x.ToList().ToArray()[i].Subject_Name;
-                var ab = from c in db.Subject_Categories
-                         where c.Subject_ID == sub.Subject_ID
+                Subject newSubject = new Subject();
+                newSubject.Subject_ID = subjects.ToList().ToArray()[i].Subject_ID;
+                newSubject.Subject_Name = subjects.ToList().ToArray()[i].Subject_Name;
+                var categories = from c in db.Subject_Categories
+                         where c.Subject_ID == newSubject.Subject_ID
                          select c;
-
-                for (int b = 0; b < ab.ToList().Count; b++)
+                if(categories.ToList().Count < 1)
                 {
-                    Category cat = new Category();
-                    var abc = from c in db.Categories_Subtopic
-                              where c.Categories_ID == ab.ToList().ToArray()[b].Categories_ID
-                              select c;
-                    cat.Categories_ID = abc.ToArray()[b].Categories_ID;
-                    var cde = from c in db.Categories
-                              where c.Categories_ID == cat.Categories_ID
-                              select c;
-                    cat.Categories_Name = cat.Categories_Name;
-                    var xe = from gg in db.Categories_Subtopic
-                             where gg.Categories_ID == abc.ToArray()[b].Categories_ID
-                             select gg;
-                    for (int c = 0; c < xe.ToList().Count; c++)
+                    result.Add(newSubject);
+                }
+                else
+                {
+                    for (int b = 0; b < categories.ToList().Count; b++)
                     {
-                        SubTopic subT = new SubTopic();
-                        var xed = from xx in db.Subtopics
-                                  where xx.Subtopic_ID == xe.ToArray()[c].Subtopic_ID
-                                  select xx;
-                        for (int dd = 0; dd < xed.ToList().Count; dd++)
-                        {
-                            subT.Subtopic_Name = xed.ToArray()[dd].Subtopic_Name;
-                            subT.Subtopic_ID = xed.ToArray()[dd].Subtopic_ID;
-                            cat.subtopics.Add(subT);
-                            sub.listC.Add(cat);
-                            result.Add(sub);
-                        }
 
+                        Category Tempcategory = new Category();
+                        var categoryID = from c in db.Categories_Subtopic
+                                         where c.Categories_ID == categories.ToList().ToArray()[b].Categories_ID
+                                         select c.Categories_ID;
+                        Tempcategory.Categories_ID = categories.ToList().ToArray()[b].Categories_ID;
+                        var CategoryName = from tempName in db.Categories
+                                           where tempName.Categories_ID == Tempcategory.Categories_ID
+                                           select tempName;
+                        Tempcategory.Categories_Name = CategoryName.ToArray().ElementAt(0).Categories_Name;
+                        var SubtopicIDs = from TempID in db.Categories_Subtopic
+                                          where TempID.Categories_ID == Tempcategory.Categories_ID
+                                          select TempID.Subtopic_ID;
+                        if(SubtopicIDs.ToList().Count() < 0)
+                        {
+                            newSubject.listCat.Add(Tempcategory);
+                            result.Add(newSubject);
+                        }
+                        else
+                        {
+                            for (int c = 0; c < SubtopicIDs.ToList().Count; c++)
+                            {
+                                SubTopic newSub = new SubTopic();
+                                var NewSubtopics = from SubtopicCount in db.Subtopics
+                                                   where SubtopicCount.Subtopic_ID == SubtopicIDs.ToArray()[c]
+                                                   select SubtopicCount;
+                                
+                                for (int dd = 0; dd < 2; dd++)
+                                {
+                                    newSub = new SubTopic();
+                                    newSub.Subtopic_Name = "dd";
+                                    newSub.Subtopic_ID = 3;
+                                    Tempcategory.subtopics.Add(newSub);
+                                    
+                                }
+
+
+                            }
+                            newSubject.listCat.Add(Tempcategory);
+                            result.Add(newSubject);
+                        }
+                      
 
                     }
 
                 }
+
 
             }
             return result.ToList();
