@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SOAPAPIUnitTests", "SOAPAPI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamAssessmentDaal", "ExamAssessmentDaal\ExamAssessmentDaal.csproj", "{EA7B636D-7C10-4CFB-B920-660ECB82A938}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{76505889-19BD-4BB6-8665-1D712ED72D83}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,10 +27,6 @@ Global
 		{EA7B636D-7C10-4CFB-B920-660ECB82A938}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA7B636D-7C10-4CFB-B920-660ECB82A938}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA7B636D-7C10-4CFB-B920-660ECB82A938}.Release|Any CPU.Build.0 = Release|Any CPU
-		{76505889-19BD-4BB6-8665-1D712ED72D83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76505889-19BD-4BB6-8665-1D712ED72D83}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76505889-19BD-4BB6-8665-1D712ED72D83}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76505889-19BD-4BB6-8665-1D712ED72D83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
