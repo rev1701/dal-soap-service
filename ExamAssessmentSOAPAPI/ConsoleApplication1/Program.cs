@@ -12,7 +12,7 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            using (ServiceHost host = new ServiceHost(typeof(IService1)))
+            using (ServiceHost host = new ServiceHost(typeof(Service1)))
             {
                 host.Open();
                 Console.WriteLine("Host started @ " + DateTime.Now.ToString());
