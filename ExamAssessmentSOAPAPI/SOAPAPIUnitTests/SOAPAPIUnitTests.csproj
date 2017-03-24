@@ -53,9 +53,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ExamAssessmentSOAPAPI\ExamAssessmentSOAPAPI.csproj">
-      <Project>{9de83e87-0c5c-4d8a-bbc0-52725f86e922}</Project>
-      <Name>ExamAssessmentSOAPAPI</Name>
+    <ProjectReference Include="..\ExamassessmentWCF\ExamassessmentWCF.csproj">
+      <Project>{d3685b96-bcb9-4675-a23d-281e90f31c52}</Project>
+      <Name>ExamassessmentWCF</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
