@@ -1,1 +1,1 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="LMS1701.EA.SOAPAPI.Service1" CodeBehind="Service1.svc.cs" %>
+﻿<%@ ServiceHost Language="C#" Debug="true" Service="ExamassessmentWCF.Service1" CodeBehind="Service1.svc.cs" %>
