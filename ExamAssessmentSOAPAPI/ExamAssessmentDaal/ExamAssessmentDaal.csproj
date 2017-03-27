@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{EA7B636D-7C10-4CFB-B920-660ECB82A938}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ExamAssessmentDaal</RootNamespace>
+    <AssemblyName>ExamAssessmentDaal</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.0.2.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.0.2\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Answer.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Categories_Subtopic.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Category.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Class1.cs" />
+    <Compile Include="ExamAssessmentDB.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExamAssessmentDB.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExamAssessmentDB.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExamAssessmentDB.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ExamAssessmentDB.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="ExamQuestion.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExamQuestionList.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExamQuestion_Categories.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExamTemplate.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExamTemplateQuestion.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExamType.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="LanguageType.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Question.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionAnswer.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionCategory.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="QuestionType.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAddExistingSubtopicToCategory_Result.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAddNewCategoryType_Result.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAddSubtopicType_Result.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spRemoveCategory_Result.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Subject.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Subject_Categories.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Subtopic.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="ExamAssessmentDB.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ExamAssessmentDB.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config" />
+    <None Include="ExamAssessmentDB.edmx.diagram">
+      <DependentUpon>ExamAssessmentDB.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ExamAssessmentDB.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExamAssessmentDB.edmx</DependentUpon>
+      <LastGenOutput>ExamAssessmentDB.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="ExamAssessmentDB.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExamAssessmentDB.edmx</DependentUpon>
+      <LastGenOutput>ExamAssessmentDB.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
