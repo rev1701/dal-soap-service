@@ -5,8 +5,7 @@ using System.Runtime.Serialization;
 using System.Web;
 
 namespace ExamassessmentWCF.DTO
-{
-    [DataContract]
+{ 
     public class QuestionType
     {
        
@@ -14,12 +13,9 @@ namespace ExamassessmentWCF.DTO
         {
             this.ExamQuestions = new HashSet<ExamQuestion>();
         }
-        [DataMember]
         public int PKID { get; set; }
-        [DataMember]
         public string QuestionTypeName { get; set; }
 
-        [DataMember]
         public virtual ICollection<ExamQuestion> ExamQuestions { get; set; }
     }
 }

@@ -6,16 +6,11 @@ using System.Web;
 using ExamassessmentWCF.DTO;
 namespace LMS1701.EA.SOAPAPI
 {
-    [DataContract]
     public class Answers
     {
-        [DataMember]
         public int PKID { get; set; }
-        [DataMember]
         public string Answer1 { get; set; }
-        [DataMember]
-        public String AddLanguageTypeID { get; set; }
-        [DataMember]
+        public string AddLanguageTypeID { get; set; }
         public Correct correct;
     }
 }

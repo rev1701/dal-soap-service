@@ -6,10 +6,8 @@ using System.Web;
 
 namespace ExamassessmentWCF.DTO
 {
-    [DataContract]
     public class Correct
     {
-        [DataMember]
         public Boolean isCorrect { get; set; }
          
     }
