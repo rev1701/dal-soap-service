@@ -10,17 +10,12 @@
 namespace ExamAssessmentDaal
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class QuestionCategory
+    public partial class spAddQuestionAsExamQuestion_Result
     {
-        public int PKID { get; set; }
-        public string ExamQuestionName { get; set; }
-        public int QuestionTypeID { get; set; }
         public string ExamQuestionID { get; set; }
-        public string Subject_Name { get; set; }
-        public string Categories_Name { get; set; }
-        public string Subtopic_Name { get; set; }
-        public string Answer { get; set; }
+        public Nullable<int> QuestionType { get; set; }
+        public string Name { get; set; }
+        public Nullable<int> QuestionID { get; set; }
     }
 }

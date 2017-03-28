@@ -17,16 +17,16 @@ namespace ExamAssessmentDaal
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Question()
         {
-            this.ExamQuestionLists = new HashSet<ExamQuestionList>();
-            this.QuestionAnswers = new HashSet<QuestionAnswer>();
+            this.ExamQuestionList = new HashSet<ExamQuestionList>();
+            this.QuestionAnswers = new HashSet<QuestionAnswers>();
         }
     
         public int PKID { get; set; }
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ExamQuestionList> ExamQuestionLists { get; set; }
+        public virtual ICollection<ExamQuestionList> ExamQuestionList { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual ICollection<QuestionAnswers> QuestionAnswers { get; set; }
     }
 }

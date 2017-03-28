@@ -142,8 +142,26 @@
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ExamAssessment.dbo.QuestionCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="QuestionCategories">
+warning 6002: The table/view 'ExamAssessment.dbo.FullExamTemplateInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="FullExamTemplateInfo">
+          <Key>
+            <PropertyRef Name="ExamTemplateName" />
+            <PropertyRef Name="ExamQuestionName" />
+            <PropertyRef Name="Answer" />
+            <PropertyRef Name="IsCorrect" />
+          </Key>
+          <Property Name="ExamTemplateName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" />
+          <Property Name="ExamTemplateID" Type="varchar" MaxLength="100" />
+          <Property Name="ExamQuestionID" Type="varchar" MaxLength="100" />
+          <Property Name="ExamQuestionName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="Answer" Type="varchar(max)" Nullable="false" />
+          <Property Name="IsCorrect" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ExamAssessment.dbo.vwQuestionCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="vwQuestionCategories">
           <Key>
             <PropertyRef Name="PKID" />
             <PropertyRef Name="ExamQuestionName" />
@@ -352,6 +370,11 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
         </Function>
         <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="spAddExistingCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Subject" Type="varchar" Mode="In" />
+          <Parameter Name="Category" Type="varchar" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="InOut" />
+        </Function>
         <Function Name="spAddExistingSubtopicToCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Subtopic" Type="varchar" Mode="In" />
           <Parameter Name="Category" Type="varchar" Mode="In" />
@@ -362,13 +385,56 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Parameter Name="Category" Type="varchar" Mode="In" />
           <Parameter Name="result" Type="int" Mode="InOut" />
         </Function>
+        <Function Name="spAddQuestionAsExamQuestion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ExamQuestionID" Type="varchar" Mode="In" />
+          <Parameter Name="QuestionID" Type="int" Mode="In" />
+          <Parameter Name="Name" Type="varchar" Mode="In" />
+          <Parameter Name="QuestionType" Type="int" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spAddQuestionCategories" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Categories" Type="nvarchar" Mode="In" />
+          <Parameter Name="PKID" Type="int" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spAddQuestionToAnswer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionID" Type="int" Mode="In" />
+          <Parameter Name="AnswerID" Type="int" Mode="In" />
+          <Parameter Name="isCorrect" Type="bit" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spAddQuestionToExam" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ExamID" Type="varchar" Mode="In" />
+          <Parameter Name="ExamQuestionID" Type="varchar" Mode="In" />
+          <Parameter Name="weight" Type="int" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="InOut" />
+        </Function>
         <Function Name="spAddSubtopicType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="Subtopic" Type="varchar" Mode="In" />
           <Parameter Name="Category" Type="varchar" Mode="In" />
           <Parameter Name="result" Type="int" Mode="InOut" />
         </Function>
+        <Function Name="spDeleteQuestionCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Categories" Type="nvarchar" Mode="In" />
+          <Parameter Name="ExamQuestionID" Type="varchar" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spRemoveAnswerFromQuestion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="QuestionID" Type="int" Mode="In" />
+          <Parameter Name="AnswerID" Type="int" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="InOut" />
+        </Function>
         <Function Name="spRemoveCategory" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="CategoryName" Type="varchar" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="InOut" />
+        </Function>
+        <Function Name="spRemoveQuestionAsExamQuestion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ExamQuestionID" Type="varchar" Mode="In" />
+          <Parameter Name="result" Type="int" Mode="In" />
+        </Function>
+        <Function Name="spRemoveQuestionFromExam" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="ExamID" Type="varchar" Mode="In" />
+          <Parameter Name="ExamQuestionID" Type="varchar" Mode="In" />
           <Parameter Name="result" Type="int" Mode="InOut" />
         </Function>
         <EntityContainer Name="ExamAssessmentModelStoreContainer">
@@ -389,17 +455,29 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <EntitySet Name="Subject_Categories" EntityType="Self.Subject_Categories" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Subtopic" EntityType="Self.Subtopic" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="QuestionCategories" EntityType="Self.QuestionCategories" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="FullExamTemplateInfo" EntityType="Self.FullExamTemplateInfo" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [QuestionCategories].[PKID] AS [PKID], 
-    [QuestionCategories].[ExamQuestionName] AS [ExamQuestionName], 
-    [QuestionCategories].[QuestionTypeID] AS [QuestionTypeID], 
-    [QuestionCategories].[ExamQuestionID] AS [ExamQuestionID], 
-    [QuestionCategories].[Subject_Name] AS [Subject_Name], 
-    [QuestionCategories].[Categories_Name] AS [Categories_Name], 
-    [QuestionCategories].[Subtopic_Name] AS [Subtopic_Name], 
-    [QuestionCategories].[Answer] AS [Answer]
-    FROM [dbo].[QuestionCategories] AS [QuestionCategories]</DefiningQuery>
+    [FullExamTemplateInfo].[ExamTemplateName] AS [ExamTemplateName], 
+    [FullExamTemplateInfo].[CreatedDate] AS [CreatedDate], 
+    [FullExamTemplateInfo].[ExamTemplateID] AS [ExamTemplateID], 
+    [FullExamTemplateInfo].[ExamQuestionID] AS [ExamQuestionID], 
+    [FullExamTemplateInfo].[ExamQuestionName] AS [ExamQuestionName], 
+    [FullExamTemplateInfo].[Description] AS [Description], 
+    [FullExamTemplateInfo].[Answer] AS [Answer], 
+    [FullExamTemplateInfo].[IsCorrect] AS [IsCorrect]
+    FROM [dbo].[FullExamTemplateInfo] AS [FullExamTemplateInfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="vwQuestionCategories" EntityType="Self.vwQuestionCategories" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [vwQuestionCategories].[PKID] AS [PKID], 
+    [vwQuestionCategories].[ExamQuestionName] AS [ExamQuestionName], 
+    [vwQuestionCategories].[QuestionTypeID] AS [QuestionTypeID], 
+    [vwQuestionCategories].[ExamQuestionID] AS [ExamQuestionID], 
+    [vwQuestionCategories].[Subject_Name] AS [Subject_Name], 
+    [vwQuestionCategories].[Categories_Name] AS [Categories_Name], 
+    [vwQuestionCategories].[Subtopic_Name] AS [Subtopic_Name], 
+    [vwQuestionCategories].[Answer] AS [Answer]
+    FROM [dbo].[vwQuestionCategories] AS [vwQuestionCategories]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_AnswerID" Association="Self.FK_AnswerID">
             <End Role="Answer" EntitySet="Answer" />
@@ -465,7 +543,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <NavigationProperty Name="QuestionAnswers" Relationship="Self.FK_AnswerID" FromRole="Answer" ToRole="QuestionAnswers" />
           <NavigationProperty Name="LanguageType" Relationship="Self.FK_AnswerLanguageType" FromRole="Answer" ToRole="LanguageType" />
         </EntityType>
-        <EntityType Name="Category">
+        <EntityType Name="Categories">
           <Key>
             <PropertyRef Name="Categories_ID" />
           </Key>
@@ -482,7 +560,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Name="Categories_Subtopic_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Categories_ID" Type="Int32" Nullable="false" />
           <Property Name="Subtopic_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_CategoriesSubtopic_CategoriesID" FromRole="Categories_Subtopic" ToRole="Categories" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_CategoriesSubtopic_CategoriesID" FromRole="Categories_Subtopic" ToRole="Categories" />
           <NavigationProperty Name="Subtopic" Relationship="Self.FK_CategoriesSubtopic_SubtopicID" FromRole="Categories_Subtopic" ToRole="Subtopic" />
         </EntityType>
         <EntityType Name="ExamQuestion">
@@ -503,7 +581,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Name="ExamQuestion_Categories_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Categories_ID" Type="Int32" Nullable="false" />
           <Property Name="ExamQuestion_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_ExamQuestionCategories_CategoriesID" FromRole="ExamQuestion_Categories" ToRole="Categories" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_ExamQuestionCategories_CategoriesID" FromRole="ExamQuestion_Categories" ToRole="Categories" />
           <NavigationProperty Name="ExamQuestion" Relationship="Self.FK_ExamQuestionCategories_ExamQuestionID" FromRole="ExamQuestion_Categories" ToRole="ExamQuestion" />
         </EntityType>
         <EntityType Name="ExamQuestionList">
@@ -526,7 +604,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Name="ExamTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="ExamType" Relationship="Self.FK_ExamTypeID" FromRole="ExamTemplate" ToRole="ExamType" />
         </EntityType>
-        <EntityType Name="ExamTemplateQuestion">
+        <EntityType Name="ExamTemplateQuestions">
           <Key>
             <PropertyRef Name="ExamTemplateID" />
             <PropertyRef Name="ExamQuestionID" />
@@ -541,7 +619,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </Key>
           <Property Name="PKID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ExamTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ExamTemplates" Relationship="Self.FK_ExamTypeID" FromRole="ExamType" ToRole="ExamTemplate" />
+          <NavigationProperty Name="ExamTemplate" Relationship="Self.FK_ExamTypeID" FromRole="ExamType" ToRole="ExamTemplate" />
         </EntityType>
         <EntityType Name="LanguageType">
           <Key>
@@ -549,7 +627,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </Key>
           <Property Name="PKID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="LanguageName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="Answers" Relationship="Self.FK_AnswerLanguageType" FromRole="LanguageType" ToRole="Answer" />
+          <NavigationProperty Name="Answer" Relationship="Self.FK_AnswerLanguageType" FromRole="LanguageType" ToRole="Answer" />
         </EntityType>
         <EntityType Name="Question">
           <Key>
@@ -557,10 +635,10 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </Key>
           <Property Name="PKID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="ExamQuestionLists" Relationship="Self.FK_ExamQuestionListQuestionID" FromRole="Question" ToRole="ExamQuestionList" />
+          <NavigationProperty Name="ExamQuestionList" Relationship="Self.FK_ExamQuestionListQuestionID" FromRole="Question" ToRole="ExamQuestionList" />
           <NavigationProperty Name="QuestionAnswers" Relationship="Self.FK_QuestionID" FromRole="Question" ToRole="QuestionAnswers" />
         </EntityType>
-        <EntityType Name="QuestionAnswer">
+        <EntityType Name="QuestionAnswers">
           <Key>
             <PropertyRef Name="QuestionID" />
             <PropertyRef Name="AnswerID" />
@@ -577,7 +655,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </Key>
           <Property Name="PKID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="QuestionTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="ExamQuestions" Relationship="Self.FK_QuesitonTypeID" FromRole="QuestionType" ToRole="ExamQuestion" />
+          <NavigationProperty Name="ExamQuestion" Relationship="Self.FK_QuesitonTypeID" FromRole="QuestionType" ToRole="ExamQuestion" />
         </EntityType>
         <EntityType Name="Subject">
           <Key>
@@ -594,7 +672,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Name="Subject_Categories_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Categories_ID" Type="Int32" Nullable="false" />
           <Property Name="Subject_ID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Category" Relationship="Self.FK_SubjectCategories_CategoriesID" FromRole="Subject_Categories" ToRole="Categories" />
+          <NavigationProperty Name="Categories" Relationship="Self.FK_SubjectCategories_CategoriesID" FromRole="Subject_Categories" ToRole="Categories" />
           <NavigationProperty Name="Subject" Relationship="Self.FK_SubjectCategories_SubjectID" FromRole="Subject_Categories" ToRole="Subject" />
         </EntityType>
         <EntityType Name="Subtopic">
@@ -605,7 +683,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Name="Subtopic_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Categories_Subtopic" Relationship="Self.FK_CategoriesSubtopic_SubtopicID" FromRole="Subtopic" ToRole="Categories_Subtopic" />
         </EntityType>
-        <EntityType Name="sysdiagram">
+        <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
           </Key>
@@ -615,7 +693,23 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="QuestionCategory">
+        <EntityType Name="FullExamTemplateInfo">
+          <Key>
+            <PropertyRef Name="ExamTemplateName" />
+            <PropertyRef Name="ExamQuestionName" />
+            <PropertyRef Name="Answer" />
+            <PropertyRef Name="IsCorrect" />
+          </Key>
+          <Property Name="ExamTemplateName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <Property Name="ExamTemplateID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ExamQuestionID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ExamQuestionName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="IsCorrect" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="vwQuestionCategories">
           <Key>
             <PropertyRef Name="PKID" />
             <PropertyRef Name="ExamQuestionName" />
@@ -638,7 +732,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <End Role="Answer" Type="Self.Answer" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="QuestionAnswers" Type="Self.QuestionAnswer" Multiplicity="*" />
+          <End Role="QuestionAnswers" Type="Self.QuestionAnswers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Answer">
               <PropertyRef Name="PKID" />
@@ -661,7 +755,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_CategoriesSubtopic_CategoriesID">
-          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
           <End Role="Categories_Subtopic" Type="Self.Categories_Subtopic" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
@@ -673,7 +767,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ExamQuestionCategories_CategoriesID">
-          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
           <End Role="ExamQuestion_Categories" Type="Self.ExamQuestion_Categories" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
@@ -685,7 +779,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_SubjectCategories_CategoriesID">
-          <End Role="Categories" Type="Self.Category" Multiplicity="1" />
+          <End Role="Categories" Type="Self.Categories" Multiplicity="1" />
           <End Role="Subject_Categories" Type="Self.Subject_Categories" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Categories">
@@ -762,7 +856,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
         </Association>
         <Association Name="FK_QuestionID">
           <End Role="Question" Type="Self.Question" Multiplicity="1" />
-          <End Role="QuestionAnswers" Type="Self.QuestionAnswer" Multiplicity="*" />
+          <End Role="QuestionAnswers" Type="Self.QuestionAnswers" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Question">
               <PropertyRef Name="PKID" />
@@ -785,31 +879,32 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="ExamAssessmentEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Answers" EntityType="Self.Answer" />
-          <EntitySet Name="Categories" EntityType="Self.Category" />
+          <EntitySet Name="Answer" EntityType="Self.Answer" />
+          <EntitySet Name="Categories" EntityType="Self.Categories" />
           <EntitySet Name="Categories_Subtopic" EntityType="Self.Categories_Subtopic" />
-          <EntitySet Name="ExamQuestions" EntityType="Self.ExamQuestion" />
+          <EntitySet Name="ExamQuestion" EntityType="Self.ExamQuestion" />
           <EntitySet Name="ExamQuestion_Categories" EntityType="Self.ExamQuestion_Categories" />
-          <EntitySet Name="ExamQuestionLists" EntityType="Self.ExamQuestionList" />
-          <EntitySet Name="ExamTemplates" EntityType="Self.ExamTemplate" />
-          <EntitySet Name="ExamTemplateQuestions" EntityType="Self.ExamTemplateQuestion" />
-          <EntitySet Name="ExamTypes" EntityType="Self.ExamType" />
-          <EntitySet Name="LanguageTypes" EntityType="Self.LanguageType" />
-          <EntitySet Name="Questions" EntityType="Self.Question" />
-          <EntitySet Name="QuestionAnswers" EntityType="Self.QuestionAnswer" />
-          <EntitySet Name="QuestionTypes" EntityType="Self.QuestionType" />
-          <EntitySet Name="Subjects" EntityType="Self.Subject" />
+          <EntitySet Name="ExamQuestionList" EntityType="Self.ExamQuestionList" />
+          <EntitySet Name="ExamTemplate" EntityType="Self.ExamTemplate" />
+          <EntitySet Name="ExamTemplateQuestions" EntityType="Self.ExamTemplateQuestions" />
+          <EntitySet Name="ExamType" EntityType="Self.ExamType" />
+          <EntitySet Name="LanguageType" EntityType="Self.LanguageType" />
+          <EntitySet Name="Question" EntityType="Self.Question" />
+          <EntitySet Name="QuestionAnswers" EntityType="Self.QuestionAnswers" />
+          <EntitySet Name="QuestionType" EntityType="Self.QuestionType" />
+          <EntitySet Name="Subject" EntityType="Self.Subject" />
           <EntitySet Name="Subject_Categories" EntityType="Self.Subject_Categories" />
-          <EntitySet Name="Subtopics" EntityType="Self.Subtopic" />
-          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
-          <EntitySet Name="QuestionCategories" EntityType="Self.QuestionCategory" />
+          <EntitySet Name="Subtopic" EntityType="Self.Subtopic" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="FullExamTemplateInfo" EntityType="Self.FullExamTemplateInfo" />
+          <EntitySet Name="vwQuestionCategories" EntityType="Self.vwQuestionCategories" />
           <AssociationSet Name="FK_AnswerID" Association="Self.FK_AnswerID">
-            <End Role="Answer" EntitySet="Answers" />
+            <End Role="Answer" EntitySet="Answer" />
             <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
           </AssociationSet>
           <AssociationSet Name="FK_AnswerLanguageType" Association="Self.FK_AnswerLanguageType">
-            <End Role="LanguageType" EntitySet="LanguageTypes" />
-            <End Role="Answer" EntitySet="Answers" />
+            <End Role="LanguageType" EntitySet="LanguageType" />
+            <End Role="Answer" EntitySet="Answer" />
           </AssociationSet>
           <AssociationSet Name="FK_CategoriesSubtopic_CategoriesID" Association="Self.FK_CategoriesSubtopic_CategoriesID">
             <End Role="Categories" EntitySet="Categories" />
@@ -824,31 +919,31 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
             <End Role="Subject_Categories" EntitySet="Subject_Categories" />
           </AssociationSet>
           <AssociationSet Name="FK_CategoriesSubtopic_SubtopicID" Association="Self.FK_CategoriesSubtopic_SubtopicID">
-            <End Role="Subtopic" EntitySet="Subtopics" />
+            <End Role="Subtopic" EntitySet="Subtopic" />
             <End Role="Categories_Subtopic" EntitySet="Categories_Subtopic" />
           </AssociationSet>
           <AssociationSet Name="FK_ExamQuestionCategories_ExamQuestionID" Association="Self.FK_ExamQuestionCategories_ExamQuestionID">
-            <End Role="ExamQuestion" EntitySet="ExamQuestions" />
+            <End Role="ExamQuestion" EntitySet="ExamQuestion" />
             <End Role="ExamQuestion_Categories" EntitySet="ExamQuestion_Categories" />
           </AssociationSet>
           <AssociationSet Name="FK_QuesitonTypeID" Association="Self.FK_QuesitonTypeID">
-            <End Role="QuestionType" EntitySet="QuestionTypes" />
-            <End Role="ExamQuestion" EntitySet="ExamQuestions" />
+            <End Role="QuestionType" EntitySet="QuestionType" />
+            <End Role="ExamQuestion" EntitySet="ExamQuestion" />
           </AssociationSet>
           <AssociationSet Name="FK_ExamQuestionListQuestionID" Association="Self.FK_ExamQuestionListQuestionID">
-            <End Role="Question" EntitySet="Questions" />
-            <End Role="ExamQuestionList" EntitySet="ExamQuestionLists" />
+            <End Role="Question" EntitySet="Question" />
+            <End Role="ExamQuestionList" EntitySet="ExamQuestionList" />
           </AssociationSet>
           <AssociationSet Name="FK_ExamTypeID" Association="Self.FK_ExamTypeID">
-            <End Role="ExamType" EntitySet="ExamTypes" />
-            <End Role="ExamTemplate" EntitySet="ExamTemplates" />
+            <End Role="ExamType" EntitySet="ExamType" />
+            <End Role="ExamTemplate" EntitySet="ExamTemplate" />
           </AssociationSet>
           <AssociationSet Name="FK_QuestionID" Association="Self.FK_QuestionID">
-            <End Role="Question" EntitySet="Questions" />
+            <End Role="Question" EntitySet="Question" />
             <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
           </AssociationSet>
           <AssociationSet Name="FK_SubjectCategories_SubjectID" Association="Self.FK_SubjectCategories_SubjectID">
-            <End Role="Subject" EntitySet="Subjects" />
+            <End Role="Subject" EntitySet="Subject" />
             <End Role="Subject_Categories" EntitySet="Subject_Categories" />
           </AssociationSet>
           <FunctionImport Name="sp_alterdiagram">
@@ -881,6 +976,11 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="spAddExistingCategory" ReturnType="Collection(ExamAssessmentModel.spAddExistingCategory_Result)">
+            <Parameter Name="Subject" Mode="In" Type="String" />
+            <Parameter Name="Category" Mode="In" Type="String" />
+            <Parameter Name="result" Mode="InOut" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spAddExistingSubtopicToCategory" ReturnType="Collection(ExamAssessmentModel.spAddExistingSubtopicToCategory_Result)">
             <Parameter Name="Subtopic" Mode="In" Type="String" />
             <Parameter Name="Category" Mode="In" Type="String" />
@@ -891,13 +991,56 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
             <Parameter Name="Category" Mode="In" Type="String" />
             <Parameter Name="result" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="spAddQuestionAsExamQuestion" ReturnType="Collection(ExamAssessmentModel.spAddQuestionAsExamQuestion_Result)">
+            <Parameter Name="ExamQuestionID" Mode="In" Type="String" />
+            <Parameter Name="QuestionID" Mode="In" Type="Int32" />
+            <Parameter Name="Name" Mode="In" Type="String" />
+            <Parameter Name="QuestionType" Mode="In" Type="Int32" />
+            <Parameter Name="result" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddQuestionCategories" ReturnType="Collection(ExamAssessmentModel.spAddQuestionCategories_Result)">
+            <Parameter Name="Categories" Mode="In" Type="String" />
+            <Parameter Name="PKID" Mode="In" Type="Int32" />
+            <Parameter Name="result" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddQuestionToAnswer" ReturnType="Collection(ExamAssessmentModel.spAddQuestionToAnswer_Result)">
+            <Parameter Name="QuestionID" Mode="In" Type="Int32" />
+            <Parameter Name="AnswerID" Mode="In" Type="Int32" />
+            <Parameter Name="isCorrect" Mode="In" Type="Boolean" />
+            <Parameter Name="result" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spAddQuestionToExam" ReturnType="Collection(ExamAssessmentModel.spAddQuestionToExam_Result)">
+            <Parameter Name="ExamID" Mode="In" Type="String" />
+            <Parameter Name="ExamQuestionID" Mode="In" Type="String" />
+            <Parameter Name="weight" Mode="In" Type="Int32" />
+            <Parameter Name="result" Mode="InOut" Type="Int32" />
+          </FunctionImport>
           <FunctionImport Name="spAddSubtopicType" ReturnType="Collection(ExamAssessmentModel.spAddSubtopicType_Result)">
             <Parameter Name="Subtopic" Mode="In" Type="String" />
             <Parameter Name="Category" Mode="In" Type="String" />
             <Parameter Name="result" Mode="InOut" Type="Int32" />
           </FunctionImport>
-          <FunctionImport Name="spRemoveCategory" ReturnType="Collection(ExamAssessmentModel.spRemoveCategory_Result)">
+          <FunctionImport Name="spDeleteQuestionCategory" ReturnType="Collection(ExamAssessmentModel.spDeleteQuestionCategory_Result)">
+            <Parameter Name="Categories" Mode="In" Type="String" />
+            <Parameter Name="ExamQuestionID" Mode="In" Type="String" />
+            <Parameter Name="result" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spRemoveAnswerFromQuestion" ReturnType="Collection(ExamAssessmentModel.spRemoveAnswerFromQuestion_Result)">
+            <Parameter Name="QuestionID" Mode="In" Type="Int32" />
+            <Parameter Name="AnswerID" Mode="In" Type="Int32" />
+            <Parameter Name="result" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spRemoveCategory" ReturnType="Collection(String)">
             <Parameter Name="CategoryName" Mode="In" Type="String" />
+            <Parameter Name="result" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spRemoveQuestionAsExamQuestion" ReturnType="Collection(ExamAssessmentModel.spRemoveQuestionAsExamQuestion_Result)">
+            <Parameter Name="ExamQuestionID" Mode="In" Type="String" />
+            <Parameter Name="result" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="spRemoveQuestionFromExam" ReturnType="Collection(ExamAssessmentModel.spRemoveQuestionFromExam_Result)">
+            <Parameter Name="ExamID" Mode="In" Type="String" />
+            <Parameter Name="ExamQuestionID" Mode="In" Type="String" />
             <Parameter Name="result" Mode="InOut" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
@@ -912,6 +1055,12 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
           <Property Type="Int32" Name="OwnerID" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="spAddExistingCategory_Result">
+          <Property Type="Int32" Name="Subject_CategoryID" Nullable="true" />
+          <Property Type="Int32" Name="SubjectID" Nullable="true" />
+          <Property Type="Int32" Name="CategoryID" Nullable="true" />
+          <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="100" />
+        </ComplexType>
         <ComplexType Name="spAddExistingSubtopicToCategory_Result">
           <Property Type="Int32" Name="SubtopicID" Nullable="true" />
           <Property Type="String" Name="SubtopicName" Nullable="true" MaxLength="100" />
@@ -923,14 +1072,52 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Type="Int32" Name="CategoryID" Nullable="true" />
           <Property Type="String" Name="CategoryName" Nullable="true" MaxLength="100" />
         </ComplexType>
+        <ComplexType Name="spAddQuestionAsExamQuestion_Result">
+          <Property Type="String" Name="ExamQuestionID" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionType" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spAddQuestionCategories_Result">
+          <Property Type="Int32" Name="ExamQuestionCategoriesID" Nullable="true" />
+          <Property Type="Int32" Name="CategoriesID" Nullable="true" />
+          <Property Type="Int32" Name="ExamQuestionPKID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spAddQuestionToAnswer_Result">
+          <Property Type="Int32" Name="QuestionID" Nullable="true" />
+          <Property Type="Int32" Name="AnswerID" Nullable="true" />
+          <Property Type="Boolean" Name="IsCorrect" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spAddQuestionToExam_Result">
+          <Property Type="String" Name="ExamTemplateID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ExamQuestionID" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionWeight" Nullable="true" />
+        </ComplexType>
         <ComplexType Name="spAddSubtopicType_Result">
           <Property Type="Int32" Name="SubtopicID" Nullable="true" />
           <Property Type="String" Name="SubtopicName" Nullable="true" MaxLength="100" />
           <Property Type="Int32" Name="CategoryID" Nullable="true" />
         </ComplexType>
-        <ComplexType Name="spRemoveCategory_Result">
-          <Property Type="String" Name="Subtopic_Name" Nullable="false" MaxLength="45" />
-          <Property Type="Int32" Name="Categories_ID" Nullable="false" />
+        <ComplexType Name="spDeleteQuestionCategory_Result">
+          <Property Type="Int32" Name="ExamQuestion_Categories_ID" Nullable="true" />
+          <Property Type="Int32" Name="Categories_ID" Nullable="true" />
+          <Property Type="Int32" Name="ExamQuestion_ID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spRemoveAnswerFromQuestion_Result">
+          <Property Type="Int32" Name="QuestionID" Nullable="true" />
+          <Property Type="Int32" Name="AnswerID" Nullable="true" />
+          <Property Type="Boolean" Name="IsCorrect" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spRemoveQuestionAsExamQuestion_Result">
+          <Property Type="String" Name="ExamQuestionID" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionType" Nullable="true" />
+          <Property Type="String" Name="Name" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionID" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="spRemoveQuestionFromExam_Result">
+          <Property Type="String" Name="ExamTemplateID" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="ExamQuestionID" Nullable="true" MaxLength="100" />
+          <Property Type="Int32" Name="QuestionWeight" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -938,7 +1125,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ExamAssessmentModelStoreContainer" CdmEntityContainer="ExamAssessmentEntities">
-          <EntitySetMapping Name="Answers">
+          <EntitySetMapping Name="Answer">
             <EntityTypeMapping TypeName="ExamAssessmentModel.Answer">
               <MappingFragment StoreEntitySet="Answer">
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
@@ -948,7 +1135,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Categories">
-            <EntityTypeMapping TypeName="ExamAssessmentModel.Category">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.Categories">
               <MappingFragment StoreEntitySet="Categories">
                 <ScalarProperty Name="Categories_ID" ColumnName="Categories_ID" />
                 <ScalarProperty Name="Categories_Name" ColumnName="Categories_Name" />
@@ -964,7 +1151,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ExamQuestions">
+          <EntitySetMapping Name="ExamQuestion">
             <EntityTypeMapping TypeName="ExamAssessmentModel.ExamQuestion">
               <MappingFragment StoreEntitySet="ExamQuestion">
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
@@ -983,7 +1170,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ExamQuestionLists">
+          <EntitySetMapping Name="ExamQuestionList">
             <EntityTypeMapping TypeName="ExamAssessmentModel.ExamQuestionList">
               <MappingFragment StoreEntitySet="ExamQuestionList">
                 <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
@@ -991,7 +1178,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ExamTemplates">
+          <EntitySetMapping Name="ExamTemplate">
             <EntityTypeMapping TypeName="ExamAssessmentModel.ExamTemplate">
               <MappingFragment StoreEntitySet="ExamTemplate">
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
@@ -1003,7 +1190,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ExamTemplateQuestions">
-            <EntityTypeMapping TypeName="ExamAssessmentModel.ExamTemplateQuestion">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.ExamTemplateQuestions">
               <MappingFragment StoreEntitySet="ExamTemplateQuestions">
                 <ScalarProperty Name="ExamTemplateID" ColumnName="ExamTemplateID" />
                 <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
@@ -1011,7 +1198,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ExamTypes">
+          <EntitySetMapping Name="ExamType">
             <EntityTypeMapping TypeName="ExamAssessmentModel.ExamType">
               <MappingFragment StoreEntitySet="ExamType">
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
@@ -1019,7 +1206,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="LanguageTypes">
+          <EntitySetMapping Name="LanguageType">
             <EntityTypeMapping TypeName="ExamAssessmentModel.LanguageType">
               <MappingFragment StoreEntitySet="LanguageType">
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
@@ -1027,7 +1214,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Questions">
+          <EntitySetMapping Name="Question">
             <EntityTypeMapping TypeName="ExamAssessmentModel.Question">
               <MappingFragment StoreEntitySet="Question">
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
@@ -1036,7 +1223,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="QuestionAnswers">
-            <EntityTypeMapping TypeName="ExamAssessmentModel.QuestionAnswer">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.QuestionAnswers">
               <MappingFragment StoreEntitySet="QuestionAnswers">
                 <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
                 <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
@@ -1044,7 +1231,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QuestionTypes">
+          <EntitySetMapping Name="QuestionType">
             <EntityTypeMapping TypeName="ExamAssessmentModel.QuestionType">
               <MappingFragment StoreEntitySet="QuestionType">
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
@@ -1052,7 +1239,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Subjects">
+          <EntitySetMapping Name="Subject">
             <EntityTypeMapping TypeName="ExamAssessmentModel.Subject">
               <MappingFragment StoreEntitySet="Subject">
                 <ScalarProperty Name="Subject_ID" ColumnName="Subject_ID" />
@@ -1069,7 +1256,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Subtopics">
+          <EntitySetMapping Name="Subtopic">
             <EntityTypeMapping TypeName="ExamAssessmentModel.Subtopic">
               <MappingFragment StoreEntitySet="Subtopic">
                 <ScalarProperty Name="Subtopic_ID" ColumnName="Subtopic_ID" />
@@ -1078,7 +1265,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
-            <EntityTypeMapping TypeName="ExamAssessmentModel.sysdiagram">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.sysdiagrams">
               <MappingFragment StoreEntitySet="sysdiagrams">
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="principal_id" ColumnName="principal_id" />
@@ -1088,9 +1275,23 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="QuestionCategories">
-            <EntityTypeMapping TypeName="ExamAssessmentModel.QuestionCategory">
-              <MappingFragment StoreEntitySet="QuestionCategories">
+          <EntitySetMapping Name="FullExamTemplateInfo">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.FullExamTemplateInfo">
+              <MappingFragment StoreEntitySet="FullExamTemplateInfo">
+                <ScalarProperty Name="ExamTemplateName" ColumnName="ExamTemplateName" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ExamTemplateID" ColumnName="ExamTemplateID" />
+                <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
+                <ScalarProperty Name="ExamQuestionName" ColumnName="ExamQuestionName" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="vwQuestionCategories">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.vwQuestionCategories">
+              <MappingFragment StoreEntitySet="vwQuestionCategories">
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
                 <ScalarProperty Name="ExamQuestionName" ColumnName="ExamQuestionName" />
                 <ScalarProperty Name="QuestionTypeID" ColumnName="QuestionTypeID" />
@@ -1126,6 +1327,16 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="ExamAssessmentModel.Store.sp_renamediagram" />
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="ExamAssessmentModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="spAddExistingCategory" FunctionName="ExamAssessmentModel.Store.spAddExistingCategory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spAddExistingCategory_Result">
+                <ScalarProperty Name="Subject_CategoryID" ColumnName="Subject_CategoryID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="CategoryID" ColumnName="CategoryID" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spAddExistingSubtopicToCategory" FunctionName="ExamAssessmentModel.Store.spAddExistingSubtopicToCategory">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ExamAssessmentModel.spAddExistingSubtopicToCategory_Result">
@@ -1145,6 +1356,43 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAddQuestionAsExamQuestion" FunctionName="ExamAssessmentModel.Store.spAddQuestionAsExamQuestion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spAddQuestionAsExamQuestion_Result">
+                <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAddQuestionCategories" FunctionName="ExamAssessmentModel.Store.spAddQuestionCategories">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spAddQuestionCategories_Result">
+                <ScalarProperty Name="ExamQuestionCategoriesID" ColumnName="ExamQuestionCategoriesID" />
+                <ScalarProperty Name="CategoriesID" ColumnName="CategoriesID" />
+                <ScalarProperty Name="ExamQuestionPKID" ColumnName="ExamQuestionPKID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAddQuestionToAnswer" FunctionName="ExamAssessmentModel.Store.spAddQuestionToAnswer">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spAddQuestionToAnswer_Result">
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spAddQuestionToExam" FunctionName="ExamAssessmentModel.Store.spAddQuestionToExam">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spAddQuestionToExam_Result">
+                <ScalarProperty Name="ExamTemplateID" ColumnName="ExamTemplateID" />
+                <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
+                <ScalarProperty Name="QuestionWeight" ColumnName="QuestionWeight" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="spAddSubtopicType" FunctionName="ExamAssessmentModel.Store.spAddSubtopicType">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ExamAssessmentModel.spAddSubtopicType_Result">
@@ -1154,11 +1402,41 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="spRemoveCategory" FunctionName="ExamAssessmentModel.Store.spRemoveCategory">
+          <FunctionImportMapping FunctionImportName="spDeleteQuestionCategory" FunctionName="ExamAssessmentModel.Store.spDeleteQuestionCategory">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ExamAssessmentModel.spRemoveCategory_Result">
-                <ScalarProperty Name="Subtopic_Name" ColumnName="Subtopic_Name" />
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spDeleteQuestionCategory_Result">
+                <ScalarProperty Name="ExamQuestion_Categories_ID" ColumnName="ExamQuestion_Categories_ID" />
                 <ScalarProperty Name="Categories_ID" ColumnName="Categories_ID" />
+                <ScalarProperty Name="ExamQuestion_ID" ColumnName="ExamQuestion_ID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spRemoveAnswerFromQuestion" FunctionName="ExamAssessmentModel.Store.spRemoveAnswerFromQuestion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spRemoveAnswerFromQuestion_Result">
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spRemoveCategory" FunctionName="ExamAssessmentModel.Store.spRemoveCategory" />
+          <FunctionImportMapping FunctionImportName="spRemoveQuestionAsExamQuestion" FunctionName="ExamAssessmentModel.Store.spRemoveQuestionAsExamQuestion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spRemoveQuestionAsExamQuestion_Result">
+                <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="spRemoveQuestionFromExam" FunctionName="ExamAssessmentModel.Store.spRemoveQuestionFromExam">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ExamAssessmentModel.spRemoveQuestionFromExam_Result">
+                <ScalarProperty Name="ExamTemplateID" ColumnName="ExamTemplateID" />
+                <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
+                <ScalarProperty Name="QuestionWeight" ColumnName="QuestionWeight" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
@@ -1176,7 +1454,7 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

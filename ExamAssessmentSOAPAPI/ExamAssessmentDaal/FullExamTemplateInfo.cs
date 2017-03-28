@@ -12,12 +12,15 @@ namespace ExamAssessmentDaal
     using System;
     using System.Collections.Generic;
     
-    public partial class sysdiagram
+    public partial class FullExamTemplateInfo
     {
-        public string name { get; set; }
-        public int principal_id { get; set; }
-        public int diagram_id { get; set; }
-        public Nullable<int> version { get; set; }
-        public byte[] definition { get; set; }
+        public string ExamTemplateName { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string ExamTemplateID { get; set; }
+        public string ExamQuestionID { get; set; }
+        public string ExamQuestionName { get; set; }
+        public string Description { get; set; }
+        public string Answer { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }

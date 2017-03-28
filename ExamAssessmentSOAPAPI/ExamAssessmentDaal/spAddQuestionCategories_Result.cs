@@ -10,15 +10,11 @@
 namespace ExamAssessmentDaal
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class Categories_Subtopic
+    public partial class spAddQuestionCategories_Result
     {
-        public int Categories_Subtopic_ID { get; set; }
-        public int Categories_ID { get; set; }
-        public int Subtopic_ID { get; set; }
-    
-        public virtual Categories Categories { get; set; }
-        public virtual Subtopic Subtopic { get; set; }
+        public Nullable<int> ExamQuestionCategoriesID { get; set; }
+        public Nullable<int> CategoriesID { get; set; }
+        public Nullable<int> ExamQuestionPKID { get; set; }
     }
 }

@@ -11,9 +11,10 @@ namespace ExamAssessmentDaal
 {
     using System;
     
-    public partial class spRemoveCategory_Result
+    public partial class spRemoveQuestionFromExam_Result
     {
-        public string Subtopic_Name { get; set; }
-        public int Categories_ID { get; set; }
+        public string ExamTemplateID { get; set; }
+        public string ExamQuestionID { get; set; }
+        public Nullable<int> QuestionWeight { get; set; }
     }
 }

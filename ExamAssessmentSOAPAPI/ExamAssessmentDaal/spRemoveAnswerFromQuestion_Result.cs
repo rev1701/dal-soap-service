@@ -10,15 +10,11 @@
 namespace ExamAssessmentDaal
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class QuestionAnswer
+    public partial class spRemoveAnswerFromQuestion_Result
     {
-        public int QuestionID { get; set; }
-        public int AnswerID { get; set; }
-        public bool IsCorrect { get; set; }
-    
-        public virtual Answer Answer { get; set; }
-        public virtual Question Question { get; set; }
+        public Nullable<int> QuestionID { get; set; }
+        public Nullable<int> AnswerID { get; set; }
+        public Nullable<bool> IsCorrect { get; set; }
     }
 }

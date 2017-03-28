@@ -2,10 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace ExamassessmentWCF.DTO
 {
+    [DataContract]
     public class Question
     {
 
@@ -15,13 +17,17 @@ namespace ExamassessmentWCF.DTO
          //   this.ExamQuestionLists = new HashSet<ExamQuestionList>();
             this.Answers = new List<Answers>();
         }
-
+        [DataMember]
         public int PKID { get; set; }
+        [DataMember]
         public string Description { get; set; }
+        [DataMember]
+        public Correct correct { get; set; }
 
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-      //  public virtual ICollection<ExamQuestionList> ExamQuestionLists { get; set; }
-       // [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        //  public virtual ICollection<ExamQuestionList> ExamQuestionLists { get; set; }
+        // [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        [DataMember]
         public virtual ICollection<Answers> Answers { get; set; }
     }
 }

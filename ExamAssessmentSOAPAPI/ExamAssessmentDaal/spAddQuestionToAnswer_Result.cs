@@ -10,12 +10,11 @@
 namespace ExamAssessmentDaal
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class ExamTemplateQuestion
+    public partial class spAddQuestionToAnswer_Result
     {
-        public string ExamTemplateID { get; set; }
-        public string ExamQuestionID { get; set; }
-        public Nullable<int> QuestionWeight { get; set; }
+        public Nullable<int> QuestionID { get; set; }
+        public Nullable<int> AnswerID { get; set; }
+        public Nullable<bool> IsCorrect { get; set; }
     }
 }

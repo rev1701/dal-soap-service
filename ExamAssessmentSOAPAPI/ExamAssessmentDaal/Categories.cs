@@ -12,10 +12,10 @@ namespace ExamAssessmentDaal
     using System;
     using System.Collections.Generic;
     
-    public partial class Category
+    public partial class Categories
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Category()
+        public Categories()
         {
             this.Categories_Subtopic = new HashSet<Categories_Subtopic>();
             this.ExamQuestion_Categories = new HashSet<ExamQuestion_Categories>();

@@ -87,6 +87,7 @@
     <Compile Include="AutoMapperConfiguration.cs" />
     <Compile Include="DTO\Answers.cs" />
     <Compile Include="DTO\Category.cs" />
+    <Compile Include="DTO\Correct.cs" />
     <Compile Include="DTO\ExamQuestion.cs" />
     <Compile Include="DTO\ExamTemplate.cs" />
     <Compile Include="DTO\Examtype.cs" />
