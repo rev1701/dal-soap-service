@@ -14,7 +14,10 @@ namespace LMS1701.EA.SOAPAPI
         {
             Mapper.Initialize(cfg => {
             cfg.CreateMap<ExamAssessmentDaal.Subtopic, SubTopic>();
+                cfg.CreateMap<ExamAssessmentDaal.Subject, Subject>();
+                cfg.CreateMap<ExamAssessmentDaal.Category, Category>();
                 cfg.CreateMap<ExamAssessmentDaal.Answer, Answer>();
+                cfg.CreateMap<ExamAssessmentDaal.ExamTemplate, ExamTemplate>();
 
             });
             

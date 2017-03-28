@@ -14,6 +14,6 @@ namespace LMS1701.EA.SOAPAPI
         [DataMember]
         public string Answer1 { get; set; }
         [DataMember]
-        public int AddLanguageTypeID { get; set; }
+        public String AddLanguageTypeID { get; set; }
     }
 }
