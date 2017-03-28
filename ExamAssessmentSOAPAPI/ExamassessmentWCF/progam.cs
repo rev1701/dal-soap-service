@@ -14,15 +14,15 @@ namespace ExamassessmentWCF
         static void StartService()
         {
             host = new ServiceHost(typeof(Service1));
-            /***********
-             * if you don't want to use App.Config for the web service host, 
-                 * just uncomment below:
-             ***********
+ 
+              /*if you don't want to use App.Config for the web service host, 
+                 just uncomment below:
+ 
                  host.AddServiceEndpoint(new ServiceEndpoint(
                  ContractDescription.GetContract(typeof(IStudentEnrollmentService)),
                  new WSHttpBinding(), 
-                 new EndpointAddress("http://localhost:8732/awesomeschoolservice"))); 
-             **********/
+                 new EndpointAddress("http://localhost:8732/awesomeschoolservice"))); */
+
             host.Open();
         }
 
