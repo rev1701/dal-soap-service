@@ -24,7 +24,8 @@ namespace LMS1701.EA.SOAPAPI
         {
             return string.Format("You entered: {0}", value);
         }
-        public List<Question> GetAllQuestion()
+
+        public List<Question> GetAllQuestions()
         {
             List<Question> result = new List<Question>();
             var first = from c in db.Question                    
