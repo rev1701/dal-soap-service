@@ -147,7 +147,7 @@ namespace LMS1701.EA.SOAPAPI
                             ans.correct.isCorrect = isCorrect;
                             quest.Answers.Add(ans);
                         }
-                        ExamQ.quest = quest;
+                        ExamQ.quest.Add(quest);
                         exam.ExamQuestions.Add(ExamQ);
                        
                     }

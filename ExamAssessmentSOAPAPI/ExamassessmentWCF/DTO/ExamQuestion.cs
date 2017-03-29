@@ -15,6 +15,7 @@ namespace LMS1701.EA.SOAPAPI
         {
             this.ExamQuestion_Categories = new List<Category>();
             this.QuestionType = new QuestionType();
+            this.quest = new List<Question>();
           
         }
         [DataMember]
@@ -26,7 +27,7 @@ namespace LMS1701.EA.SOAPAPI
         [DataMember]
         public string ExamQuestionID { get; set; }
         [DataMember]
-        public Question quest { get; set; }
+        public List<Question> quest { get; set; }
         [DataMember]
         public virtual ICollection<Category> ExamQuestion_Categories { get; set; }
     //    public virtual QuestionType QuestionType { get; set; }
