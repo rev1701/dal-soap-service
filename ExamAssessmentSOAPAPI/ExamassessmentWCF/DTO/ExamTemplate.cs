@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace ExamassessmentWCF.DTO
+namespace LMS1701.EA.SOAPAPI
 {
     [DataContract]
     public class ExamTemplate
@@ -21,7 +21,7 @@ namespace ExamassessmentWCF.DTO
         public Nullable<System.DateTime> CreatedDate { get; set; }
         [DataMember]
         public string ExamTemplateID { get; set; }
-        //   public int ExamTypeID { get; set; }
+
         [DataMember]
         public virtual Examtype ExamType { get; set; }
         [DataMember]
