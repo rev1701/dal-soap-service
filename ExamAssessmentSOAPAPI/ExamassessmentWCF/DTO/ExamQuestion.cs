@@ -16,7 +16,6 @@ namespace LMS1701.EA.SOAPAPI
             this.ExamQuestion_Categories = new List<Category>();
             this.QuestionType = new QuestionType();
             this.quest = new List<Question>();
-          
         }
         [DataMember]
         public int PKID { get; set; }

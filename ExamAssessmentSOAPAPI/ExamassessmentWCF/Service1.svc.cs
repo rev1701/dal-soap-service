@@ -24,11 +24,36 @@ namespace LMS1701.EA.SOAPAPI
         {
             return string.Format("You entered: {0}", value);
         }
-        public int spAddExistingCategory(String subject, String category, int result)
+        
+        public int spAddExistingCategory(String subject, String category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
             db.spAddExistingCategory(subject, category, myOutputParamInt);
             return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spAddExistingSubtopicToCategory(String subtopic, String category)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddExistingSubtopicToCategory(subtopic, category, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spAddNewCategoryType(String subject, String category)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddQuestionAsExamQuestion(ExamQuestionID, QuestionID,name,QuestionID, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spAddQuestionCategories(String Categories, int PKID)
+        {
+            int result = 0;
+            db.spAddQuestionCategories(Categories, PKID, result);
+            return result;
         }
         public List<Question> GetAllQuestions()
         {
@@ -43,16 +68,22 @@ namespace LMS1701.EA.SOAPAPI
                 var second = from x in db.QuestionAnswers
                              where x.QuestionID == quest.PKID
                              select x;
-                for(int j=0; j < second.ToList().Count; j++)
+                for(int j=0; j < second.Count(); j++)
                 {
+                    var temp = second.ToList().ElementAt(j).AnswerID;
                     var third = from answer in db.Answer
-                                where answer.PKID == second.ToList().ElementAt(j).AnswerID
+                                where answer.PKID == temp
                                 select answer;
                     Answers ans = new Answers();
-                    ans.PKID = third.ToList().First().PKID;
-                    ans.Answer1 = third.ToList().First().Answer1;
-                    quest.Answers.Add(ans);
-                    result.Add(quest);
+                    if (third.Count() > 0)
+                    {
+
+
+                        ans.PKID = third.FirstOrDefault().PKID;
+                        ans.Answer1 = third.ToList().First().Answer1;
+                        quest.Answers.Add(ans);
+                        result.Add(quest);
+                    }
                 }
             }
             return result;
