@@ -8,7 +8,7 @@ using System.Text;
 using AutoMapper;
 using EAD = ExamAssessmentDaal;
 using LMS1701.EA.SOAPAPI;
-
+using System.Data.Entity.Core.Objects;
 
 namespace LMS1701.EA.SOAPAPI
 {
@@ -24,7 +24,12 @@ namespace LMS1701.EA.SOAPAPI
         {
             return string.Format("You entered: {0}", value);
         }
-
+        public int spAddExistingCategory(String subject, String category, int result)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddExistingCategory(subject, category, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
         public List<Question> GetAllQuestions()
         {
             List<Question> result = new List<Question>();
@@ -44,8 +49,8 @@ namespace LMS1701.EA.SOAPAPI
                                 where answer.PKID == second.ToList().ElementAt(j).AnswerID
                                 select answer;
                     Answers ans = new Answers();
-                    ans.PKID = third.First().PKID;
-                    ans.Answer1 = third.First().Answer1;
+                    ans.PKID = third.ToList().First().PKID;
+                    ans.Answer1 = third.ToList().First().Answer1;
                     quest.Answers.Add(ans);
                     result.Add(quest);
                 }
