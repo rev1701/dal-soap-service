@@ -24,16 +24,43 @@ namespace LMS1701.EA.SOAPAPI
         {
             return string.Format("You entered: {0}", value);
         }
+        public List<Question> GetAllQuestion()
+        {
+            List<Question> result = new List<Question>();
+            var first = from c in db.Question                    
+                        select c;
+            for(int i =0; i < first.ToList().Count; i++)
+            {
+                Question quest = new Question();
+                quest.PKID = first.ToList().ElementAt(i).PKID;
+                quest.Description = first.ToList().ElementAt(i).Description;
+                var second = from x in db.QuestionAnswers
+                             where x.QuestionID == quest.PKID
+                             select x;
+                for(int j=0; j < second.ToList().Count; j++)
+                {
+                    var third = from answer in db.Answer
+                                where answer.PKID == second.ToList().ElementAt(j).AnswerID
+                                select answer;
+                    Answers ans = new Answers();
+                    ans.PKID = third.First().PKID;
+                    ans.Answer1 = third.First().Answer1;
+                    quest.Answers.Add(ans);
+                    result.Add(quest);
+                }
+            }
+            return result;
+        }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
-            var first = from c in db.QuestionAnswers
+            var Question = from c in db.QuestionAnswers
                         where c.QuestionID == Questid
                         select c.AnswerID;
             List<Answers> i = new List<Answers>();
-            for (int k = 0; k < first.ToList().Count; k++)
+            for (int k = 0; k < Question.ToList().Count; k++)
             {
                 var second = from x in db.Answer
-                             where x.PKID == first.ToArray()[k]
+                             where x.PKID == Question.ToArray()[k]
                              select x;
                 var resulter = Mapper.Map<Answers>(second);
                 i.Add(resulter);
@@ -116,7 +143,7 @@ namespace LMS1701.EA.SOAPAPI
                             ans.PKID = TheAnswer.ToArray()[0].PKID;
                             ans.Answer1 = TheAnswer.FirstOrDefault().Answer1;
                             ans.correct = new Correct();
-                            bool isCorrect = AnswersID.ElementAt(k).IsCorrect;
+                            bool isCorrect = AnswersID.FirstOrDefault().IsCorrect;
                             ans.correct.isCorrect = isCorrect;
                             quest.Answers.Add(ans);
                         }
