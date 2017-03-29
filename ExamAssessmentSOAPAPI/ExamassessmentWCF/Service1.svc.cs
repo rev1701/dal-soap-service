@@ -106,16 +106,18 @@ namespace LMS1701.EA.SOAPAPI
                         var AnswersID = from QuestionAnswers in db.QuestionAnswers
                                         where QuestionAnswers.QuestionID == quest.PKID
                                         select QuestionAnswers;
-                        for(int k = 0;  k < AnswersID.Count(); k++)
+                        for(int k = 0;  k < AnswersID.ToList().Count(); k++)
                         {
+                            int answer = AnswersID.ToList().ToArray()[k].AnswerID;
                             var TheAnswer = from tempAnswer in db.Answer
-                                            where tempAnswer.PKID == AnswersID.ToList().ElementAt(k).AnswerID
+                                            where tempAnswer.PKID == answer
                                             select tempAnswer;
                             Answers ans = new Answers();
-                            ans.PKID = TheAnswer.FirstOrDefault().PKID;
+                            ans.PKID = TheAnswer.ToArray()[0].PKID;
                             ans.Answer1 = TheAnswer.FirstOrDefault().Answer1;
                             ans.correct = new Correct();
-                            ans.correct.isCorrect = AnswersID.ElementAt(k).IsCorrect;
+                            bool isCorrect = AnswersID.ElementAt(k).IsCorrect;
+                            ans.correct.isCorrect = isCorrect;
                             quest.Answers.Add(ans);
                         }
                         ExamQ.quest = quest;
