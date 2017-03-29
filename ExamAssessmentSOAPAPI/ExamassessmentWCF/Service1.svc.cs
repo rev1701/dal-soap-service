@@ -8,7 +8,7 @@ using System.Text;
 using AutoMapper;
 using EAD = ExamAssessmentDaal;
 using LMS1701.EA.SOAPAPI;
-using ExamassessmentWCF.DTO;
+
 
 namespace LMS1701.EA.SOAPAPI
 {
@@ -42,31 +42,30 @@ namespace LMS1701.EA.SOAPAPI
             return i;
 
         }
-       public ExamTemplate getExamTemplate(int id)
+       public ExamTemplate getExamTemplate(String id)
         {
          //   List<ExamTemplate> getResults = new List<ExamTemplate>();
-        /*    var result = from TempExamTemplate in db.FullExamTemplateInfo
+           var result = from TempExamTemplate in db.FullExamTemplateInfo
                          where TempExamTemplate.ExamTemplateID == id
                          select TempExamTemplate;
-           result.First()
-            return result.ToDictionary*/
+           // return result.First().ExamTemplateID.First();
            // return result.;
             
             var ExamTemplate = from TempExamTemplate in db.ExamTemplate
-                               where TempExamTemplate.PKID == id
+                               where TempExamTemplate.ExamTemplateID == id
                                select TempExamTemplate;
             ExamTemplate exam = new ExamTemplate();
             exam.PKID = ExamTemplate.First().PKID;
             exam.CreatedDate = ExamTemplate.First().CreatedDate;
             exam.ExamTemplateName = ExamTemplate.First().ExamTemplateName;
-            exam.ExamTemplateID = ExamTemplate.First().ExamTemplateID;
+            exam.ExamTemplateID = ExamTemplate.FirstOrDefault().ExamTemplateID;
             var ExamTypes = from TempExamType in db.ExamType
                            where TempExamType.PKID == ExamTemplate.First().ExamTypeID
                            select TempExamType;
             Examtype type = new Examtype();
-            type.PKID = ExamTypes.First().PKID;
-            type.ExamTypeName = ExamTypes.First().ExamTypeName;
-            exam.ExamType = type;
+            //type.PKID = ExamTypes.FirstOrDefault().PKID;
+            //type.ExamTypeName = ExamTypes.FirstOrDefault().ExamTypeName;
+            //exam.ExamType = type;
             var ExamQuestions = from TempExamQuestions in db.ExamTemplateQuestions
                                where TempExamQuestions.ExamTemplateID == exam.ExamTemplateID
                                select TempExamQuestions.ExamQuestionID;
@@ -78,39 +77,43 @@ namespace LMS1701.EA.SOAPAPI
             {
                for(int i = 0; i < ExamQuestions.Count(); i++)
                 {
-                    var ExamQuestion = from TempQuest in db.ExamQuestion
-                                       where TempQuest.ExamQuestionID == ExamQuestions.ElementAt(i)
-                                       select TempQuest;
+                    var ExamQuestion = (from TempQuest in db.ExamQuestion.ToList()
+                                        where TempQuest.ExamQuestionID == ExamQuestions.ToList().ElementAt(i)
+                                        select TempQuest);
 
 
                     ExamQuestion ExamQ = new ExamQuestion();
-                    ExamQ.ExamQuestionID = ExamQuestion.First().ExamQuestionID;
-                    ExamQ.ExamQuestionName = ExamQuestion.First().ExamQuestionName;
-                    ExamQ.PKID = ExamQuestion.First().PKID;
-                    ExamQ.QuestionType.PKID = ExamQuestion.First().QuestionType.PKID;
-                    ExamQ.QuestionType.QuestionTypeName = ExamQuestion.First().QuestionType.QuestionTypeName;
+                    //   String tempe = ExamQuestion.ToArray()[0].ExamQuestionID;
+                    var jjd = ExamQuestion;
+                  //  EAD.ExamQuestion t = ExamQuestion;
+                    ExamQ.ExamQuestionID = ExamQuestion.FirstOrDefault().ExamQuestionID;
+                    ExamQ.ExamQuestionName = ExamQuestion.FirstOrDefault().ExamQuestionName;
+                    ExamQ.PKID = ExamQuestion.FirstOrDefault().PKID;
+                    ExamQ.QuestionType.PKID = 1;//ExamQuestion.FirstOrDefault().QuestionType.PKID;
+                    ExamQ.QuestionType.QuestionTypeName = ExamQuestion.FirstOrDefault().QuestionType.QuestionTypeName;
                     var ExamQuestionList = from TempQuestion in db.ExamQuestionList
-                                   where TempQuestion.ExamQuestionID == ExamQuestion.First().ExamQuestionID
+                                   where TempQuestion.ExamQuestionID == ExamQ.ExamQuestionID
                                    select TempQuestion;
-                    for(int j= 0; j < ExamQuestionList.Count(); j++)
+                    for(int j= 0; j < ExamQuestionList.ToList().Count(); j++)
                     {
+                        int tempID = ExamQuestionList.ToList().ElementAt(j).QuestionID;
                         var Question = from TempQuestion in db.Question
-                                       where TempQuestion.PKID == ExamQuestionList.ElementAt(j).QuestionID
+                                       where TempQuestion.PKID == tempID
                                        select TempQuestion;
                         Question quest = new Question();
-                        quest.PKID = Question.ElementAt(j).PKID;
-                        quest.Description = Question.ElementAt(j).Description;
+                        quest.PKID = Question.FirstOrDefault().PKID;
+                        quest.Description = Question.FirstOrDefault().Description;
                         var AnswersID = from QuestionAnswers in db.QuestionAnswers
                                         where QuestionAnswers.QuestionID == quest.PKID
                                         select QuestionAnswers;
                         for(int k = 0;  k < AnswersID.Count(); k++)
                         {
                             var TheAnswer = from tempAnswer in db.Answer
-                                            where tempAnswer.PKID == AnswersID.ElementAt(k).AnswerID
+                                            where tempAnswer.PKID == AnswersID.ToList().ElementAt(k).AnswerID
                                             select tempAnswer;
                             Answers ans = new Answers();
-                            ans.PKID = TheAnswer.First().PKID;
-                            ans.Answer1 = TheAnswer.First().Answer1;
+                            ans.PKID = TheAnswer.FirstOrDefault().PKID;
+                            ans.Answer1 = TheAnswer.FirstOrDefault().Answer1;
                             ans.correct = new Correct();
                             ans.correct.isCorrect = AnswersID.ElementAt(k).IsCorrect;
                             quest.Answers.Add(ans);
@@ -130,6 +133,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Subject> GetAllSubject()
         {
+            AutoMapperConfiguration.Configure();
             List<Subject> result = new List<Subject>();
             var subjects = from tempSubjects in db.Subject
                     select tempSubjects;
@@ -152,8 +156,8 @@ namespace LMS1701.EA.SOAPAPI
                     {
 
                         Category Tempcategory = new Category();
-                        Tempcategory = Mapper.Map<Category>(categories.ToArray()[b]);
-                      /*  var categoryID = from c in db.Categories_Subtopic
+                      //  Tempcategory = Mapper.Map<Category>(categories.ToArray()[b]);
+                        var categoryID = from c in db.Categories_Subtopic
                                          where c.Categories_ID == categories.ToList().ToArray()[b].Categories_ID
                                          select c.Categories_ID;
                         
@@ -161,7 +165,7 @@ namespace LMS1701.EA.SOAPAPI
                         var CategoryName = from tempName in db.Categories
                                            where tempName.Categories_ID == Tempcategory.Categories_ID
                                            select tempName;
-                        Tempcategory.Categories_Name = CategoryName.ToArray().ElementAt(0).Categories_Name;*/
+                        Tempcategory.Categories_Name = CategoryName.ToArray().ElementAt(0).Categories_Name;
                         var SubtopicIDs = from TempID in db.Categories_Subtopic
                                           where TempID.Categories_ID == Tempcategory.Categories_ID
                                           select TempID.Subtopic_ID;
@@ -175,19 +179,18 @@ namespace LMS1701.EA.SOAPAPI
                             for (int c = 0; c < SubtopicIDs.ToList().Count; c++)
                             {
                                 SubTopic newSub = new SubTopic();
-                                var Subtopics = from SubtopicCount in db.Subtopic
-                                                   where SubtopicCount.Subtopic_ID == SubtopicIDs.ToArray()[c]
-                                                   select SubtopicCount;
+                                var Subtopics = from Subtopic in db.Subtopic
+                                                   where Subtopic.Subtopic_ID == SubtopicIDs.ToArray()[c]
+                                                   select Subtopic;
                                 
-                                for (int d = 0; d < Subtopics.ToList().Count; d++)
-                                {
+                                
                                    newSub = new SubTopic();
-                                   newSub = Mapper.Map<SubTopic>(Subtopics.ToArray()[d]);
-                                  /*  newSub.Subtopic_Name = Subtopics.ToList().ToArray()[d].Subtopic_Name;
-                                    newSub.Subtopic_ID = Subtopics.ToList().ToArray()[d].Subtopic_ID;*/
+                                // newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
+                                newSub.Subtopic_Name = "jaja";// Subtopics.First().Subtopic_Name;
+                                newSub.Subtopic_ID = 33;//Subtopics.First().Subtopic_ID;
                                     Tempcategory.subtopics.Add(newSub);
                                     
-                                }
+                                
 
 
                             }
@@ -207,7 +210,7 @@ namespace LMS1701.EA.SOAPAPI
         public List<SubTopic> GetSubtopicList()
         {
             var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j));
-            return x.ToList().ToArray().ToList();
+            return x.ToList();
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)

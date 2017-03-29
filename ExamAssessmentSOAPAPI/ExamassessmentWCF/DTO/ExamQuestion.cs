@@ -5,14 +5,16 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace ExamassessmentWCF.DTO
+namespace LMS1701.EA.SOAPAPI
 {
     [DataContract]
     public class ExamQuestion
     {
+        
         public ExamQuestion()
         {
             this.ExamQuestion_Categories = new List<Category>();
+            this.QuestionType = new QuestionType();
           
         }
         [DataMember]
