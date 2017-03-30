@@ -55,6 +55,19 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionCategories(Categories, PKID, result);
             return result;
         }
+   
+        public int spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spAddQuestionToExam(String ExamID, String ExamQuestionID, int weight)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddQuestionToExam(ExamID, ExamQuestionID, weight, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
         public List<Question> GetAllQuestions()
         {
             List<Question> result = new List<Question>();
