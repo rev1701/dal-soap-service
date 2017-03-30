@@ -134,45 +134,52 @@ namespace LMS1701.EA.SOAPAPI
                         where c.QuestionID == Questid
                         select c.AnswerID;
             List<Answers> i = new List<Answers>();
-            for (int k = 0; k < Question.ToList().Count; k++)
+            if (Question.Count() > 0)
             {
-                var second = from x in db.Answer
-                             where x.PKID == Question.ToArray()[k]
-                             select x;
-                Answers ans = new Answers();
-                ans = Mapper.Map<Answers>(second);
-        
-                i.Add(ans);
+                for (int k = 0; k < Question.ToList().Count; k++)
+                {
+                    var second = from x in db.Answer
+                                 where x.PKID == Question.ToArray()[k]
+                                 select x;
+                    Answers ans = new Answers();
+                    ans.PKID = second.First().PKID;
+                    i.Add(ans);
 
+                }
             }
             return i;
 
         }
        public ExamTemplate getExamTemplate(String id)
         {
-           var result = from TempExamTemplate in db.FullExamTemplateInfo
-                         where TempExamTemplate.ExamTemplateID == id
-                         select TempExamTemplate;
 
-            
-            var ExamTemplate = from TempExamTemplate in db.ExamTemplate
-                               where TempExamTemplate.ExamTemplateID == id
-                               select TempExamTemplate;
+            #region 
+            /* var ExamTemplate = from TempExamTemplate in db.ExamTemplate
+                                where TempExamTemplate.ExamTemplateID == id
+                                select TempExamTemplate;*/
+            #endregion
+            List<EAD.ExamTemplate> ExamTemplate = db.ExamTemplate.Where(s => s.ExamTemplateID == id).ToList();
             ExamTemplate exam = new ExamTemplate();
             exam.PKID = ExamTemplate.First().PKID;
             exam.CreatedDate = ExamTemplate.First().CreatedDate;
             exam.ExamTemplateName = ExamTemplate.First().ExamTemplateName;
             exam.ExamTemplateID = ExamTemplate.FirstOrDefault().ExamTemplateID;
-            var ExamTypes = from TempExamType in db.ExamType
+            #region
+            /*var ExamTypes = from TempExamType in db.ExamType
                            where TempExamType.PKID == ExamTemplate.First().ExamTypeID
-                           select TempExamType;
+                           select TempExamType;*/
+            #endregion
+            List<EAD.ExamType> ExamTypes = db.ExamType.Where(s => s.PKID == ExamTemplate.First().ExamType.PKID).ToList();              
             Examtype type = new Examtype();
-            //type.PKID = ExamTypes.FirstOrDefault().PKID;
-            //type.ExamTypeName = ExamTypes.FirstOrDefault().ExamTypeName;
-            //exam.ExamType = type;
-            var ExamQuestions = from TempExamQuestions in db.ExamTemplateQuestions
-                               where TempExamQuestions.ExamTemplateID == exam.ExamTemplateID
-                               select TempExamQuestions.ExamQuestionID;
+            type.PKID = ExamTypes.FirstOrDefault().PKID;
+            type.ExamTypeName = ExamTypes.FirstOrDefault().ExamTypeName;
+            exam.ExamType = type;
+            #region
+            /* var ExamQuestions = from TempExamQuestions in db.ExamTemplateQuestions
+                                where TempExamQuestions.ExamTemplateID == exam.ExamTemplateID
+                                select TempExamQuestions.ExamQuestionID;*/
+            #endregion
+            List<EAD.ExamTemplateQuestions> ExamQuestions = db.ExamTemplateQuestions.Where(s => s.ExamTemplateID == exam.ExamTemplateID).ToList();
             if(ExamQuestions.Count() < 1)
             {
                 return exam;
@@ -186,48 +193,61 @@ namespace LMS1701.EA.SOAPAPI
                 var dbanswer = db.Answer.ToList();
                 for (int i = 0; i < ExamQuestions.Count(); i++)
                 {
-                    var ExamQuestion = (from TempQuest in dbExamQuestion
-                                        where TempQuest.ExamQuestionID == ExamQuestions.ToList().ElementAt(i)
-                                        select TempQuest);
+                    #region
+                    /* var ExamQuestion = (from TempQuest in dbExamQuestion
+                                         where TempQuest.ExamQuestionID == ExamQuestions.ToList().ElementAt(i)
+                                         select TempQuest);*/
+                    #endregion
+                    List<EAD.ExamQuestion>ExamQuestion = dbExamQuestion.Where(s => s.ExamQuestionID == ExamQuestions.ElementAt(i).ExamQuestionID).ToList();
 
 
                     ExamQuestion ExamQ = new ExamQuestion();
+                    #region
                     //   String tempe = ExamQuestion.ToArray()[0].ExamQuestionID;
-                    var jjd = ExamQuestion;
-                  //  EAD.ExamQuestion t = ExamQuestion;
-                    ExamQ.ExamQuestionID = ExamQuestion.FirstOrDefault().ExamQuestionID;
-                    ExamQ.ExamQuestionName = ExamQuestion.FirstOrDefault().ExamQuestionName;
-                    ExamQ.PKID = ExamQuestion.FirstOrDefault().PKID;
-                    ExamQ.QuestionType.PKID = ExamQuestion.FirstOrDefault().QuestionType.PKID;
-                    ExamQ.QuestionType.QuestionTypeName = ExamQuestion.FirstOrDefault().QuestionType.QuestionTypeName;
-                    
-                    var ExamQuestionList = from TempQuestion in dbExamQuestionList
+                    //   var jjd = ExamQuestion;
+                    //  EAD.ExamQuestion t = ExamQuestion;
+                    #endregion
+                    ExamQ.ExamQuestionID = ExamQuestion.ElementAt(0).ExamQuestionID;
+                    ExamQ.ExamQuestionName = ExamQuestion.ElementAt(0).ExamQuestionName;
+                    ExamQ.PKID = ExamQuestion.ElementAt(0).PKID;
+                    ExamQ.QuestionType.PKID = ExamQuestion.ElementAt(0).QuestionType.PKID;
+                    ExamQ.QuestionType.QuestionTypeName = ExamQuestion.ElementAt(0).QuestionType.QuestionTypeName;
+                    #region
+                    /*var ExamQuestionList = from TempQuestion in dbExamQuestionList
                                    where TempQuestion.ExamQuestionID == ExamQ.ExamQuestionID
-                                   select TempQuestion;
-                    for(int j= 0; j < ExamQuestionList.ToList().Count(); j++)
+                                   select TempQuestion;*/
+                    #endregion
+                    var ExamQuestionList = dbExamQuestionList.Where(s => s.ExamQuestionID == ExamQ.ExamQuestionID).ToList();
+                    for(int j= 0; j < ExamQuestionList.Count(); j++)
                     {
-                        int tempID = ExamQuestionList.ToList().ElementAt(j).QuestionID;
-                        var Question = from TempQuestion in dbquestion
+                        int tempID = ExamQuestionList.ElementAt(j).QuestionID;
+                        #region
+                        /*var Question = from TempQuestion in dbquestion
                                        where TempQuestion.PKID == tempID
-                                       select TempQuestion;
+                                       select TempQuestion;*/
+                        #endregion
+                        List<EAD.Question> Question = db.Question.Where(s => s.PKID == tempID).ToList();
                         Question quest = new Question();
-                        quest.PKID = Question.FirstOrDefault().PKID;
-                        quest.Description = Question.FirstOrDefault().Description;
-                        var AnswersID = from QuestionAnswers in dbQuestionAnswers
-                                        where QuestionAnswers.QuestionID == quest.PKID
-                                        select QuestionAnswers;
-                        for(int k = 0;  k < AnswersID.ToList().Count(); k++)
+                        quest.PKID = Question.ElementAt(0).PKID;
+                        quest.Description = Question.ElementAt(0).Description;
+                        #region
+                        /* var AnswersID = from QuestionAnswers in dbQuestionAnswers
+                                         where QuestionAnswers.QuestionID == quest.PKID
+                                         select QuestionAnswers;*/
+                        #endregion
+                        List<EAD.QuestionAnswers> AnswersID = db.QuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
+                        for(int k = 0;  k < AnswersID.Count(); k++)
                         {
-                            int answer = AnswersID.ToList().ToArray()[k].AnswerID;
+                            int answer = AnswersID.ElementAt(k).AnswerID;
                             var TheAnswer = from tempAnswer in dbanswer
                                             where tempAnswer.PKID == answer
                                             select tempAnswer;
                             Answers ans = new Answers();
                             ans.PKID = TheAnswer.ToArray()[0].PKID;
                             ans.Answer1 = TheAnswer.FirstOrDefault().Answer1;
-                            ans.correct = new Correct();
+                         //   ans.correct = new Correct();
                             bool isCorrect = AnswersID.FirstOrDefault().IsCorrect;
-                            ans.correct.isCorrect = isCorrect;
+                           // ans.correct.isCorrect = isCorrect;
                             quest.Answers.Add(ans);
                         }
                         ExamQ.quest.Add(quest);
@@ -255,33 +275,36 @@ namespace LMS1701.EA.SOAPAPI
                 newSubject = Mapper.Map<Subject>(subjects.ToArray()[i]);
                /* newSubject.Subject_ID = subjects.ToList().ToArray()[i].Subject_ID;
                 newSubject.Subject_Name = subjects.ToList().ToArray()[i].Subject_Name;*/
-                var categories = from c in db.Subject_Categories
+                var categories = (from c in db.Subject_Categories
                          where c.Subject_ID == newSubject.Subject_ID
-                         select c;
-                if(categories.ToList().Count < 1)
+                         select c).ToList();
+        
+                if(categories.Count < 1)
                 {
                     result.Add(newSubject);
                 }
                 else
                 {
-                    for (int b = 0; b < categories.ToList().Count; b++)
+                    for (int b = 0; b < categories.Count; b++)
                     {
 
                         Category Tempcategory = new Category();
-                      //  Tempcategory = Mapper.Map<Category>(categories.ToArray()[b]);
-                        var categoryID = from c in db.Categories_Subtopic
-                                         where c.Categories_ID == categories.ToList().ToArray()[b].Categories_ID
-                                         select c.Categories_ID;
-                        
-                        Tempcategory.Categories_ID = categories.ToList().ToArray()[b].Categories_ID;
-                        var CategoryName = from tempName in db.Categories
-                                           where tempName.Categories_ID == Tempcategory.Categories_ID
-                                           select tempName;
-                        Tempcategory.Categories_Name = CategoryName.ToArray().ElementAt(0).Categories_Name;
+                        var Category = (from tempCat in db.Categories
+                                       where tempCat.Categories_ID == categories.ElementAt(b).Categories_ID
+                                       select tempCat).ToList();
+
+                        //  Tempcategory = Mapper.Map<Category>(categories.ToArray()[b]);
+                        /* var category = from c in db.Categories_Subtopic
+                                          where c.Categories_ID == categories.ElementAt(b).Categories_ID
+                                          select c;*/
+
+                        Tempcategory.Categories_ID = Category.ElementAt(0).Categories_ID;
+                      
+                        Tempcategory.Categories_Name = Category.ElementAt(0).Categories_Name;
                         var SubtopicIDs = from TempID in db.Categories_Subtopic
                                           where TempID.Categories_ID == Tempcategory.Categories_ID
                                           select TempID.Subtopic_ID;
-                        if(SubtopicIDs.ToList().Count() < 0)
+                        if(SubtopicIDs.Count() < 1)
                         {
                             newSubject.listCat.Add(Tempcategory);
                             result.Add(newSubject);
