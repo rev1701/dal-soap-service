@@ -193,7 +193,7 @@ namespace LMS1701.EA.SOAPAPI
                     ExamQ.ExamQuestionID = ExamQuestion.FirstOrDefault().ExamQuestionID;
                     ExamQ.ExamQuestionName = ExamQuestion.FirstOrDefault().ExamQuestionName;
                     ExamQ.PKID = ExamQuestion.FirstOrDefault().PKID;
-                    ExamQ.QuestionType.PKID = 1;//ExamQuestion.FirstOrDefault().QuestionType.PKID;
+                    ExamQ.QuestionType.PKID = ExamQuestion.FirstOrDefault().QuestionType.PKID;
                     ExamQ.QuestionType.QuestionTypeName = ExamQuestion.FirstOrDefault().QuestionType.QuestionTypeName;
                     var ExamQuestionList = from TempQuestion in db.ExamQuestionList
                                    where TempQuestion.ExamQuestionID == ExamQ.ExamQuestionID
