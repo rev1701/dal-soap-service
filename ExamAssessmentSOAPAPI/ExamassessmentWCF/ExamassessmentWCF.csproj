@@ -91,6 +91,7 @@
     <Compile Include="DTO\ExamQuestion.cs" />
     <Compile Include="DTO\ExamTemplate.cs" />
     <Compile Include="DTO\Examtype.cs" />
+    <Compile Include="DTO\LangiageType.cs" />
     <Compile Include="DTO\Question.cs" />
     <Compile Include="DTO\QuestionType.cs" />
     <Compile Include="DTO\Subject.cs" />
