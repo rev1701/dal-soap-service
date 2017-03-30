@@ -108,6 +108,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Question> GetAllQuestions()
         {
+            AutoMapperConfiguration.Configure();
             List<Question> result = new List<Question>();
             var first = from c in db.Question                    
                         select c;
@@ -127,6 +128,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
+            AutoMapperConfiguration.Configure();
             var Question = from c in db.QuestionAnswers
                         where c.QuestionID == Questid
                         select c.AnswerID;
@@ -136,6 +138,7 @@ namespace LMS1701.EA.SOAPAPI
                 var second = from x in db.Answer
                              where x.PKID == Question.ToArray()[k]
                              select x;
+                Answers ans = new Answers();
                 var resulter = Mapper.Map<Answers>(second);
                 i.Add(resulter);
 
@@ -193,7 +196,7 @@ namespace LMS1701.EA.SOAPAPI
                     ExamQ.ExamQuestionID = ExamQuestion.FirstOrDefault().ExamQuestionID;
                     ExamQ.ExamQuestionName = ExamQuestion.FirstOrDefault().ExamQuestionName;
                     ExamQ.PKID = ExamQuestion.FirstOrDefault().PKID;
-                    ExamQ.QuestionType.PKID = 1;//ExamQuestion.FirstOrDefault().QuestionType.PKID;
+                    ExamQ.QuestionType.PKID = ExamQuestion.FirstOrDefault().QuestionType.PKID;
                     ExamQ.QuestionType.QuestionTypeName = ExamQuestion.FirstOrDefault().QuestionType.QuestionTypeName;
                     
                     var ExamQuestionList = from TempQuestion in dbExamQuestionList
