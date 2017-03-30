@@ -68,8 +68,10 @@ namespace LMS1701.EA.SOAPAPI
                 var second = from x in db.QuestionAnswers
                              where x.QuestionID == quest.PKID
                              select x;
-                for(int j=0; j < second.Count(); j++)
+                quest.Answers.ToList().AddRange((GetAnswersQuestion(quest.PKID).ToList()));
+                /*for(int j=0; j < second.Count(); j++)
                 {
+                    
                     var temp = second.ToList().ElementAt(j).AnswerID;
                     var third = from answer in db.Answer
                                 where answer.PKID == temp
@@ -84,7 +86,8 @@ namespace LMS1701.EA.SOAPAPI
                         quest.Answers.Add(ans);
                         result.Add(quest);
                     }
-                }
+                }*/
+                result.Add(quest);
             }
             return result;
         }
