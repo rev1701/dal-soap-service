@@ -150,12 +150,10 @@ namespace LMS1701.EA.SOAPAPI
         }
        public ExamTemplate getExamTemplate(String id)
         {
-         //   List<ExamTemplate> getResults = new List<ExamTemplate>();
            var result = from TempExamTemplate in db.FullExamTemplateInfo
                          where TempExamTemplate.ExamTemplateID == id
                          select TempExamTemplate;
-           // return result.First().ExamTemplateID.First();
-           // return result.;
+
             
             var ExamTemplate = from TempExamTemplate in db.ExamTemplate
                                where TempExamTemplate.ExamTemplateID == id
@@ -181,9 +179,14 @@ namespace LMS1701.EA.SOAPAPI
             }
             else
             {
-               for(int i = 0; i < ExamQuestions.Count(); i++)
+                var dbExamQuestion = db.ExamQuestion.ToList();
+                var dbExamQuestionList = db.ExamQuestionList.ToList();
+                var dbQuestionAnswers = db.QuestionAnswers.ToList();
+                var dbquestion = db.Question.ToList();
+                var dbanswer = db.Answer.ToList();
+                for (int i = 0; i < ExamQuestions.Count(); i++)
                 {
-                    var ExamQuestion = (from TempQuest in db.ExamQuestion.ToList()
+                    var ExamQuestion = (from TempQuest in dbExamQuestion
                                         where TempQuest.ExamQuestionID == ExamQuestions.ToList().ElementAt(i)
                                         select TempQuest);
 
@@ -197,25 +200,26 @@ namespace LMS1701.EA.SOAPAPI
                     ExamQ.PKID = ExamQuestion.FirstOrDefault().PKID;
                     ExamQ.QuestionType.PKID = ExamQuestion.FirstOrDefault().QuestionType.PKID;
                     ExamQ.QuestionType.QuestionTypeName = ExamQuestion.FirstOrDefault().QuestionType.QuestionTypeName;
-                    var ExamQuestionList = from TempQuestion in db.ExamQuestionList
+                    
+                    var ExamQuestionList = from TempQuestion in dbExamQuestionList
                                    where TempQuestion.ExamQuestionID == ExamQ.ExamQuestionID
                                    select TempQuestion;
                     for(int j= 0; j < ExamQuestionList.ToList().Count(); j++)
                     {
                         int tempID = ExamQuestionList.ToList().ElementAt(j).QuestionID;
-                        var Question = from TempQuestion in db.Question
+                        var Question = from TempQuestion in dbquestion
                                        where TempQuestion.PKID == tempID
                                        select TempQuestion;
                         Question quest = new Question();
                         quest.PKID = Question.FirstOrDefault().PKID;
                         quest.Description = Question.FirstOrDefault().Description;
-                        var AnswersID = from QuestionAnswers in db.QuestionAnswers
+                        var AnswersID = from QuestionAnswers in dbQuestionAnswers
                                         where QuestionAnswers.QuestionID == quest.PKID
                                         select QuestionAnswers;
                         for(int k = 0;  k < AnswersID.ToList().Count(); k++)
                         {
                             int answer = AnswersID.ToList().ToArray()[k].AnswerID;
-                            var TheAnswer = from tempAnswer in db.Answer
+                            var TheAnswer = from tempAnswer in dbanswer
                                             where tempAnswer.PKID == answer
                                             select tempAnswer;
                             Answers ans = new Answers();
