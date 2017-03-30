@@ -71,47 +71,64 @@ namespace LMS1701.EA.SOAPAPI
         public int spAddSubtopicType(string Subtopics, string Category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
-            db.spAddSubtopicType(Subtopics, Category,myOutputParamInt);
+            db.spAddSubtopicType(Subtopics, Category, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spDeleteQuestionCategory(String Categories, String ExamID)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spDeleteQuestionCategory(Categories,ExamID,myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public  int spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spRemoveAnswerFromQuestion(QuestionID, AnswerID, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spRemoveCategory(String categoryName)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spRemoveCategory(categoryName, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spRemoveQuestionAsExamQuestion(String ExamQuestionID)
+        {
+            int result = 0;
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spRemoveQuestionAsExamQuestion(ExamQuestionID, result);
+            return result;
+        }
+        public int spRemoveQuestionFromExam(String ExamID, String ExamQuestionID)
+        {
+            
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spRemoveQuestionFromExam(ExamID,ExamQuestionID, myOutputParamInt);
             return int.Parse(myOutputParamInt.Value.ToString());
         }
         public List<Question> GetAllQuestions()
         {
+            AutoMapperConfiguration.Configure();
             List<Question> result = new List<Question>();
             var first = from c in db.Question                    
                         select c;
+            var dbQuestionAnswers = db.QuestionAnswers;
             for(int i =0; i < first.ToList().Count; i++)
             {
                 Question quest = new Question();
                 quest.PKID = first.ToList().ElementAt(i).PKID;
                 quest.Description = first.ToList().ElementAt(i).Description;
-                var second = from x in db.QuestionAnswers
+                var second = from x in dbQuestionAnswers
                              where x.QuestionID == quest.PKID
                              select x;
                 quest.Answers.ToList().AddRange((GetAnswersQuestion(quest.PKID).ToList()));
-                /*for(int j=0; j < second.Count(); j++)
-                {
-                    
-                    var temp = second.ToList().ElementAt(j).AnswerID;
-                    var third = from answer in db.Answer
-                                where answer.PKID == temp
-                                select answer;
-                    Answers ans = new Answers();
-                    if (third.Count() > 0)
-                    {
-
-
-                        ans.PKID = third.FirstOrDefault().PKID;
-                        ans.Answer1 = third.ToList().First().Answer1;
-                        quest.Answers.Add(ans);
-                        result.Add(quest);
-                    }
-                }*/
                 result.Add(quest);
             }
             return result;
         }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
+            AutoMapperConfiguration.Configure();
             var Question = from c in db.QuestionAnswers
                         where c.QuestionID == Questid
                         select c.AnswerID;
@@ -121,6 +138,7 @@ namespace LMS1701.EA.SOAPAPI
                 var second = from x in db.Answer
                              where x.PKID == Question.ToArray()[k]
                              select x;
+                Answers ans = new Answers();
                 var resulter = Mapper.Map<Answers>(second);
                 i.Add(resulter);
 
@@ -175,7 +193,7 @@ namespace LMS1701.EA.SOAPAPI
                     ExamQ.ExamQuestionID = ExamQuestion.FirstOrDefault().ExamQuestionID;
                     ExamQ.ExamQuestionName = ExamQuestion.FirstOrDefault().ExamQuestionName;
                     ExamQ.PKID = ExamQuestion.FirstOrDefault().PKID;
-                    ExamQ.QuestionType.PKID = 1;//ExamQuestion.FirstOrDefault().QuestionType.PKID;
+                    ExamQ.QuestionType.PKID = ExamQuestion.FirstOrDefault().QuestionType.PKID;
                     ExamQ.QuestionType.QuestionTypeName = ExamQuestion.FirstOrDefault().QuestionType.QuestionTypeName;
                     var ExamQuestionList = from TempQuestion in db.ExamQuestionList
                                    where TempQuestion.ExamQuestionID == ExamQ.ExamQuestionID
