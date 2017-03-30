@@ -17,7 +17,7 @@ namespace ExamAssessmentDaal
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Answer()
         {
-            this.QuestionAnswers = new HashSet<QuestionAnswer>();
+            this.QuestionAnswers = new HashSet<QuestionAnswers>();
         }
     
         public int PKID { get; set; }
@@ -25,7 +25,7 @@ namespace ExamAssessmentDaal
         public int AddLanguageTypeID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
+        public virtual ICollection<QuestionAnswers> QuestionAnswers { get; set; }
         public virtual LanguageType LanguageType { get; set; }
     }
 }

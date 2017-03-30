@@ -4,19 +4,21 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-
 namespace LMS1701.EA.SOAPAPI
 {
     [DataContract]
-    public class Answers
+    public class Examtype
     {
+        public Examtype()
+        {
+            ExamTemplates = new List<ExamTemplate>();
+        }
         [DataMember]
         public int PKID { get; set; }
         [DataMember]
-        public string Answer1 { get; set; }
+        public string ExamTypeName { get; set; }
+
         [DataMember]
-        public String AddLanguageTypeID { get; set; }
-        [DataMember]
-        public Correct correct;
+        public virtual ICollection<ExamTemplate> ExamTemplates { get; set; }
     }
 }

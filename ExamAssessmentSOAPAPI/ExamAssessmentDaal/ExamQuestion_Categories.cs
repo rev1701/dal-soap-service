@@ -18,7 +18,7 @@ namespace ExamAssessmentDaal
         public int Categories_ID { get; set; }
         public int ExamQuestion_ID { get; set; }
     
-        public virtual Category Category { get; set; }
+        public virtual Categories Categories { get; set; }
         public virtual ExamQuestion ExamQuestion { get; set; }
     }
 }

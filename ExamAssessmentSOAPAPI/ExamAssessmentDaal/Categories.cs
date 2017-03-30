@@ -12,21 +12,24 @@ namespace ExamAssessmentDaal
     using System;
     using System.Collections.Generic;
     
-    public partial class Question
+    public partial class Categories
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Question()
+        public Categories()
         {
-            this.ExamQuestionList = new HashSet<ExamQuestionList>();
-            this.QuestionAnswers = new HashSet<QuestionAnswers>();
+            this.Categories_Subtopic = new HashSet<Categories_Subtopic>();
+            this.ExamQuestion_Categories = new HashSet<ExamQuestion_Categories>();
+            this.Subject_Categories = new HashSet<Subject_Categories>();
         }
     
-        public int PKID { get; set; }
-        public string Description { get; set; }
+        public int Categories_ID { get; set; }
+        public string Categories_Name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ExamQuestionList> ExamQuestionList { get; set; }
+        public virtual ICollection<Categories_Subtopic> Categories_Subtopic { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuestionAnswers> QuestionAnswers { get; set; }
+        public virtual ICollection<ExamQuestion_Categories> ExamQuestion_Categories { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Subject_Categories> Subject_Categories { get; set; }
     }
 }

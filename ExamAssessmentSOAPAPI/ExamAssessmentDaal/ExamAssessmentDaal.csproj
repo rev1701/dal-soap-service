@@ -56,122 +56,147 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Answer.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Categories.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Categories_Subtopic.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Category.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Class1.cs" />
-    <Compile Include="ExamAssessmentDB.Context.cs">
+    <Compile Include="DatabaseModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ExamAssessmentDB.Context.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="ExamAssessmentDB.cs">
+    <Compile Include="DatabaseModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ExamAssessmentDB.Designer.cs">
+    <Compile Include="DatabaseModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>ExamAssessmentDB.edmx</DependentUpon>
+      <DependentUpon>DatabaseModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="ExamQuestion.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ExamQuestionList.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ExamQuestion_Categories.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ExamTemplate.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="ExamTemplateQuestion.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    <Compile Include="ExamTemplateQuestions.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ExamType.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FullExamTemplateInfo.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="LanguageType.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Question.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="QuestionAnswer.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
-    </Compile>
-    <Compile Include="QuestionCategory.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    <Compile Include="QuestionAnswers.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="QuestionType.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAddExistingCategory_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="spAddExistingSubtopicToCategory_Result.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="spAddNewCategoryType_Result.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAddQuestionAsExamQuestion_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAddQuestionCategories_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAddQuestionToAnswer_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spAddQuestionToExam_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="spAddSubtopicType_Result.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="spRemoveCategory_Result.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    <Compile Include="spDeleteQuestionCategory_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spRemoveAnswerFromQuestion_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spRemoveQuestionAsExamQuestion_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="spRemoveQuestionFromExam_Result.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Subject.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Subject_Categories.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Subtopic.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sysdiagram.cs">
-      <DependentUpon>ExamAssessmentDB.tt</DependentUpon>
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="ExamAssessmentDB.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ExamAssessmentDB.Designer.cs</LastGenOutput>
-    </EntityDeploy>
+    <Compile Include="vwQuestionCategories.cs">
+      <DependentUpon>DatabaseModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="ExamAssessmentDB.edmx.diagram">
-      <DependentUpon>ExamAssessmentDB.edmx</DependentUpon>
+    <EntityDeploy Include="DatabaseModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>DatabaseModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="DatabaseModel.edmx.diagram">
+      <DependentUpon>DatabaseModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ExamAssessmentDB.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ExamAssessmentDB.edmx</DependentUpon>
-      <LastGenOutput>ExamAssessmentDB.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="ExamAssessmentDB.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ExamAssessmentDB.edmx</DependentUpon>
-      <LastGenOutput>ExamAssessmentDB.cs</LastGenOutput>
-    </Content>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+    <Content Include="DatabaseModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DatabaseModel.edmx</DependentUpon>
+      <LastGenOutput>DatabaseModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="DatabaseModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DatabaseModel.edmx</DependentUpon>
+      <LastGenOutput>DatabaseModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

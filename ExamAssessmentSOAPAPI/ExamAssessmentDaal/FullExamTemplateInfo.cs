@@ -12,13 +12,15 @@ namespace ExamAssessmentDaal
     using System;
     using System.Collections.Generic;
     
-    public partial class Categories_Subtopic
+    public partial class FullExamTemplateInfo
     {
-        public int Categories_Subtopic_ID { get; set; }
-        public int Categories_ID { get; set; }
-        public int Subtopic_ID { get; set; }
-    
-        public virtual Categories Categories { get; set; }
-        public virtual Subtopic Subtopic { get; set; }
+        public string ExamTemplateName { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string ExamTemplateID { get; set; }
+        public string ExamQuestionID { get; set; }
+        public string ExamQuestionName { get; set; }
+        public string Description { get; set; }
+        public string Answer { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }

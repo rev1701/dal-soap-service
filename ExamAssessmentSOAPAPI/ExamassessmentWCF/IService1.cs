@@ -26,9 +26,32 @@ namespace LMS1701.EA.SOAPAPI
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "GetAllInfo")]
         List<Subject> GetAllSubject();
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "GetAllInfo?id={id}")]
+        ExamTemplate getExamTemplate(String id);
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "GetAllQuestion")]
+        List<Question> GetAllQuestions();
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddExistingCategory")]
+        int spAddExistingCategory(String subject, String category);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddExistingSubtopicToCategory")]
+        int spAddExistingSubtopicToCategory(String subtopic, String category);
+
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddNewCategoryType")]
+        int spAddNewCategoryType(String subject, String category);
         //     [OperationContract]
         //     CompositeType GetDataUsingDataContract(CompositeType composite);
-
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionAsExam")]
+        int spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType);
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionCategories")]
+        int spAddQuestionCategories(String ExamQuestionID, int PKID);
         // TODO: Add your service operations here
         // TODO: Add your service operations here
     }
