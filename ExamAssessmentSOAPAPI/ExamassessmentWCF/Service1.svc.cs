@@ -71,7 +71,39 @@ namespace LMS1701.EA.SOAPAPI
         public int spAddSubtopicType(string Subtopics, string Category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
-            db.spAddSubtopicType(Subtopics, Category,myOutputParamInt);
+            db.spAddSubtopicType(Subtopics, Category, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spDeleteQuestionCategory(String Categories, String ExamID)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spDeleteQuestionCategory(Categories,ExamID,myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public  int spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spRemoveAnswerFromQuestion(QuestionID, AnswerID, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spRemoveCategory(String categoryName)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spRemoveCategory(categoryName, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spRemoveQuestionAsExamQuestion(String ExamQuestionID)
+        {
+            int result = 0;
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spRemoveQuestionAsExamQuestion(ExamQuestionID, result);
+            return result;
+        }
+        public int spRemoveQuestionFromExam(String ExamID, String ExamQuestionID)
+        {
+            
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spRemoveQuestionFromExam(ExamID,ExamQuestionID, myOutputParamInt);
             return int.Parse(myOutputParamInt.Value.ToString());
         }
         public List<Question> GetAllQuestions()
