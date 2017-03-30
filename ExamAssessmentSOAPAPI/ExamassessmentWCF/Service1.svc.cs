@@ -245,15 +245,15 @@ namespace LMS1701.EA.SOAPAPI
                             for (int c = 0; c < SubtopicIDs.ToList().Count; c++)
                             {
                                 SubTopic newSub = new SubTopic();
-                                var Subtopics = from Subtopic in db.Subtopic
-                                                   where Subtopic.Subtopic_ID == SubtopicIDs.ToArray()[c]
-                                                   select Subtopic;
+                                var Subtopics = from TempSubtopic in db.Subtopic.ToList()
+                                                   where TempSubtopic.Subtopic_ID == SubtopicIDs.ToList().ElementAt(c)
+                                                   select TempSubtopic;
                                 
                                 
                                    newSub = new SubTopic();
                                 // newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
-                                newSub.Subtopic_Name = "jaja";// Subtopics.First().Subtopic_Name;
-                                newSub.Subtopic_ID = 33;//Subtopics.First().Subtopic_ID;
+                                newSub.Subtopic_Name =  Subtopics.FirstOrDefault().Subtopic_Name;
+                                newSub.Subtopic_ID = Subtopics.ToList().FirstOrDefault().Subtopic_ID;
                                     Tempcategory.subtopics.Add(newSub);
                                     
                                 
