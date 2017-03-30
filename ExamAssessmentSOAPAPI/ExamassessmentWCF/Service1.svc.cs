@@ -55,6 +55,25 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionCategories(Categories, PKID, result);
             return result;
         }
+   
+        public int spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spAddQuestionToExam(String ExamID, String ExamQuestionID, int weight)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddQuestionToExam(ExamID, ExamQuestionID, weight, myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
+        public int spAddSubtopicType(string Subtopics, string Category)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddSubtopicType(Subtopics, Category,myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
         public List<Question> GetAllQuestions()
         {
             List<Question> result = new List<Question>();
@@ -68,8 +87,10 @@ namespace LMS1701.EA.SOAPAPI
                 var second = from x in db.QuestionAnswers
                              where x.QuestionID == quest.PKID
                              select x;
-                for(int j=0; j < second.Count(); j++)
+                quest.Answers.ToList().AddRange((GetAnswersQuestion(quest.PKID).ToList()));
+                /*for(int j=0; j < second.Count(); j++)
                 {
+                    
                     var temp = second.ToList().ElementAt(j).AnswerID;
                     var third = from answer in db.Answer
                                 where answer.PKID == temp
@@ -84,7 +105,8 @@ namespace LMS1701.EA.SOAPAPI
                         quest.Answers.Add(ans);
                         result.Add(quest);
                     }
-                }
+                }*/
+                result.Add(quest);
             }
             return result;
         }
@@ -245,15 +267,15 @@ namespace LMS1701.EA.SOAPAPI
                             for (int c = 0; c < SubtopicIDs.ToList().Count; c++)
                             {
                                 SubTopic newSub = new SubTopic();
-                                var Subtopics = from Subtopic in db.Subtopic
-                                                   where Subtopic.Subtopic_ID == SubtopicIDs.ToArray()[c]
-                                                   select Subtopic;
+                                var Subtopics = from TempSubtopic in db.Subtopic.ToList()
+                                                   where TempSubtopic.Subtopic_ID == SubtopicIDs.ToList().ElementAt(c)
+                                                   select TempSubtopic;
                                 
                                 
                                    newSub = new SubTopic();
                                 // newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
-                                newSub.Subtopic_Name = "jaja";// Subtopics.First().Subtopic_Name;
-                                newSub.Subtopic_ID = 33;//Subtopics.First().Subtopic_ID;
+                                newSub.Subtopic_Name = "jaja";//Subtopics.FirstOrDefault().Subtopic_Name;
+                                newSub.Subtopic_ID = 111;//Subtopics.ToList().FirstOrDefault().Subtopic_ID;
                                     Tempcategory.subtopics.Add(newSub);
                                     
                                 
@@ -295,5 +317,7 @@ namespace LMS1701.EA.SOAPAPI
             }
             return composite;
         }
+
+      
     }
 }
