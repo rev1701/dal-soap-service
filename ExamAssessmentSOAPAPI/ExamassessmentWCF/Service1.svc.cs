@@ -111,33 +111,16 @@ namespace LMS1701.EA.SOAPAPI
             List<Question> result = new List<Question>();
             var first = from c in db.Question                    
                         select c;
+            var dbQuestionAnswers = db.QuestionAnswers;
             for(int i =0; i < first.ToList().Count; i++)
             {
                 Question quest = new Question();
                 quest.PKID = first.ToList().ElementAt(i).PKID;
                 quest.Description = first.ToList().ElementAt(i).Description;
-                var second = from x in db.QuestionAnswers
+                var second = from x in dbQuestionAnswers
                              where x.QuestionID == quest.PKID
                              select x;
                 quest.Answers.ToList().AddRange((GetAnswersQuestion(quest.PKID).ToList()));
-                /*for(int j=0; j < second.Count(); j++)
-                {
-                    
-                    var temp = second.ToList().ElementAt(j).AnswerID;
-                    var third = from answer in db.Answer
-                                where answer.PKID == temp
-                                select answer;
-                    Answers ans = new Answers();
-                    if (third.Count() > 0)
-                    {
-
-
-                        ans.PKID = third.FirstOrDefault().PKID;
-                        ans.Answer1 = third.ToList().First().Answer1;
-                        quest.Answers.Add(ans);
-                        result.Add(quest);
-                    }
-                }*/
                 result.Add(quest);
             }
             return result;
