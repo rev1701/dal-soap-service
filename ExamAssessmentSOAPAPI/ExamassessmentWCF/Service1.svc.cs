@@ -255,8 +255,8 @@ namespace LMS1701.EA.SOAPAPI
                                 
                                    newSub = new SubTopic();
                                 // newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
-                                newSub.Subtopic_Name =  Subtopics.FirstOrDefault().Subtopic_Name;
-                                newSub.Subtopic_ID = Subtopics.ToList().FirstOrDefault().Subtopic_ID;
+                                newSub.Subtopic_Name = "jaja";//Subtopics.FirstOrDefault().Subtopic_Name;
+                                newSub.Subtopic_ID = 111;//Subtopics.ToList().FirstOrDefault().Subtopic_ID;
                                     Tempcategory.subtopics.Add(newSub);
                                     
                                 
