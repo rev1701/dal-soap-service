@@ -68,6 +68,12 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionToExam(ExamID, ExamQuestionID, weight, myOutputParamInt);
             return int.Parse(myOutputParamInt.Value.ToString());
         }
+        public int spAddSubtopicType(string Subtopics, string Category)
+        {
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            db.spAddSubtopicType(Subtopics, Category,myOutputParamInt);
+            return int.Parse(myOutputParamInt.Value.ToString());
+        }
         public List<Question> GetAllQuestions()
         {
             List<Question> result = new List<Question>();
@@ -311,5 +317,7 @@ namespace LMS1701.EA.SOAPAPI
             }
             return composite;
         }
+
+      
     }
 }

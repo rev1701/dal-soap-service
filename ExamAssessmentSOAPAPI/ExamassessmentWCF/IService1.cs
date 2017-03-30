@@ -58,6 +58,9 @@ namespace LMS1701.EA.SOAPAPI
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionToExam")]
         int spAddQuestionToExam(String ExamID, String ExamQuestionID, int weight);
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionToExam")]
+        int spAddSubtopicType(String Subtopics,String Category);
         // TODO: Add your service operations here
         // TODO: Add your service operations here
     }
