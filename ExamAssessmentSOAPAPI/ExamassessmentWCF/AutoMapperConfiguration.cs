@@ -18,7 +18,10 @@ namespace LMS1701.EA.SOAPAPI
                 cfg.CreateMap<ExamAssessmentDaal.Subject, Subject>();
                 cfg.CreateMap<ExamAssessmentDaal.Categories, Category>().ForMember(dest => dest.Categories_ID, opts => opts.MapFrom(src => src.Categories_ID))
                                                                         .ForMember(dest => dest.Categories_Name, opts => opts.MapFrom(src => src.Categories_Name));
-                cfg.CreateMap<ExamAssessmentDaal.Answer, Answer>();
+                cfg.CreateMap<ExamAssessmentDaal.Answer, Answer>().ForMember(dest => dest.PKID, opt => opt.MapFrom(src => src.PKID))
+                                                                  .ForMember(dest => dest.Answer1, opt => opt.MapFrom(src => src.Answer1))
+                                                                  .ForMember(dest => dest.LanguageType.PKID, opt => opt.MapFrom(src => src.LanguageType.PKID))
+                                                                  .ForMember(dest => dest.LanguageType.LanguageName,opt => opt.MapFrom(src => src.LanguageType.LanguageName));
                 cfg.CreateMap<ExamAssessmentDaal.ExamTemplate, ExamTemplate>();
 
             });

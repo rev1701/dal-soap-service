@@ -4,23 +4,20 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-
 namespace LMS1701.EA.SOAPAPI
 {
     [DataContract]
-    public class Answers
+    public class LanguageType
     {
-        public Answers()
+        public LanguageType()
         {
-            LanguageType = new LanguageType();
+
         }
         [DataMember]
         public int PKID { get; set; }
         [DataMember]
-        public string Answer1 { get; set; }
-        [DataMember]
-        public LanguageType LanguageType { get; set; }
-        [DataMember]
-        public Correct correct;
+        public string LanguageName { get; set; }
+
+       
     }
 }

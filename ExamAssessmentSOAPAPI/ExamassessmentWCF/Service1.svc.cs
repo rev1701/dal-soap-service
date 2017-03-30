@@ -25,86 +25,87 @@ namespace LMS1701.EA.SOAPAPI
             return string.Format("You entered: {0}", value);
         }
         
-        public int spAddExistingCategory(String subject, String category)
+        public void spAddExistingCategory(String subject, String category)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spAddExistingCategory(subject, category, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+          //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spAddExistingSubtopicToCategory(String subtopic, String category)
+        public void spAddExistingSubtopicToCategory(String subtopic, String category)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spAddExistingSubtopicToCategory(subtopic, category, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+          //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spAddNewCategoryType(String subject, String category)
+        public void spAddNewCategoryType(String subject, String category)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+          //   return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType)
+        public void spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
-            db.spAddQuestionAsExamQuestion(ExamQuestionID, QuestionID,name,QuestionID, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+            ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
+          //  myOutputParamInt.Value = 15;
+            db.spAddQuestionAsExamQuestion(ExamQuestionID, QuestionID,name,QuestionType, myOutputParamInt);
+          //  return 1;//int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spAddQuestionCategories(String Categories, int PKID)
+        public void spAddQuestionCategories(String Categories, int PKID)
         {
             int result = 0;
             db.spAddQuestionCategories(Categories, PKID, result);
-            return result;
+           // return result;
         }
    
-        public int spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect)
+        public void spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+        //    return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spAddQuestionToExam(String ExamID, String ExamQuestionID, int weight)
+        public void spAddQuestionToExam(String ExamID, String ExamQuestionID, int weight)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spAddQuestionToExam(ExamID, ExamQuestionID, weight, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+          //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spAddSubtopicType(string Subtopics, string Category)
+        public void spAddSubtopicType(string Subtopics, string Category)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spAddSubtopicType(Subtopics, Category, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+            //return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spDeleteQuestionCategory(String Categories, String ExamID)
+        public void spDeleteQuestionCategory(String Categories, String ExamID)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spDeleteQuestionCategory(Categories,ExamID,myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+           // return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public  int spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
+        public  void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spRemoveAnswerFromQuestion(QuestionID, AnswerID, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+          //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spRemoveCategory(String categoryName)
+        public void spRemoveCategory(String categoryName)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spRemoveCategory(categoryName, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+            //return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public int spRemoveQuestionAsExamQuestion(String ExamQuestionID)
+        public void spRemoveQuestionAsExamQuestion(String ExamQuestionID)
         {
             int result = 0;
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spRemoveQuestionAsExamQuestion(ExamQuestionID, result);
-            return result;
+          //  return result;
         }
-        public int spRemoveQuestionFromExam(String ExamID, String ExamQuestionID)
+        public void spRemoveQuestionFromExam(String ExamID, String ExamQuestionID)
         {
             
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(Int32));
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spRemoveQuestionFromExam(ExamID,ExamQuestionID, myOutputParamInt);
-            return int.Parse(myOutputParamInt.Value.ToString());
+            //return int.Parse(myOutputParamInt.Value.ToString());
         }
         public List<Question> GetAllQuestions()
         {
@@ -139,8 +140,9 @@ namespace LMS1701.EA.SOAPAPI
                              where x.PKID == Question.ToArray()[k]
                              select x;
                 Answers ans = new Answers();
-                var resulter = Mapper.Map<Answers>(second);
-                i.Add(resulter);
+                ans = Mapper.Map<Answers>(second);
+        
+                i.Add(ans);
 
             }
             return i;

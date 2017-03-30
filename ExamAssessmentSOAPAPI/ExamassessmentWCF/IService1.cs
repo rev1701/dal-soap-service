@@ -34,51 +34,51 @@ namespace LMS1701.EA.SOAPAPI
         List<Question> GetAllQuestions();
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddExistingCategory")]
-        int spAddExistingCategory(String subject, String category);
+        void spAddExistingCategory(String subject, String category);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddExistingSubtopicToCategory")]
-        int spAddExistingSubtopicToCategory(String subtopic, String category);
+        void spAddExistingSubtopicToCategory(String subtopic, String category);
 
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddNewCategoryType")]
-        int spAddNewCategoryType(String subject, String category);
+        void spAddNewCategoryType(String subject, String category);
         //     [OperationContract]
         //     CompositeType GetDataUsingDataContract(CompositeType composite);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionAsExam")]
-        int spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType);
+        void spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionCategories")]
-        int spAddQuestionCategories(String ExamQuestionID, int PKID);
+        void spAddQuestionCategories(String ExamQuestionID, int PKID);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionToAnswer")]
-        int spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect);
+        void spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionToExam")]
-        int spAddQuestionToExam(String ExamID, String ExamQuestionID, int weight);
+        void spAddQuestionToExam(String ExamID, String ExamQuestionID, int weight);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddSubtopicType")]
-        int spAddSubtopicType(String Subtopics,String Category);
+        void spAddSubtopicType(String Subtopics,String Category);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteQuestionCategory")]
-        int spDeleteQuestionCategory(String Categories, String ExamID);
+        void spDeleteQuestionCategory(String Categories, String ExamID);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveAnswerQuestion")]
-        int spRemoveAnswerFromQuestion(int QuestionID, int AnswerID);
+        void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveCategory")]
-        int spRemoveCategory(String CategoryName);
+        void spRemoveCategory(String CategoryName);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveQuestionAsExamQuestion")]
-        int spRemoveQuestionAsExamQuestion(String ExamQuestionID);
+        void spRemoveQuestionAsExamQuestion(String ExamQuestionID);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveQuestionFromExam")]
-        int spRemoveQuestionFromExam(String ExamQuestionID,String QuestionID);
+        void spRemoveQuestionFromExam(String ExamQuestionID,String QuestionID);
 
 
         // TODO: Add your service operations here
