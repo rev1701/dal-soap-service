@@ -267,18 +267,25 @@ namespace LMS1701.EA.SOAPAPI
         {
             AutoMapperConfiguration.Configure();
             List<Subject> result = new List<Subject>();
-            var subjects = from tempSubjects in db.Subject
-                    select tempSubjects;
+            #region
+            /* var subjects = from tempSubjects in db.Subject
+                     select tempSubjects; */
+            #endregion
+            List<EAD.Subject> subjects = db.Subject.ToList();
+            
             for (int i = 0; i < subjects.ToList().Count; i++)
             {
                 Subject newSubject = new Subject();
-                newSubject = Mapper.Map<Subject>(subjects.ToArray()[i]);
-               /* newSubject.Subject_ID = subjects.ToList().ToArray()[i].Subject_ID;
-                newSubject.Subject_Name = subjects.ToList().ToArray()[i].Subject_Name;*/
-                var categories = (from c in db.Subject_Categories
+                newSubject = Mapper.Map<Subject>(subjects.ElementAt(i));
+                #region
+                /* newSubject.Subject_ID = subjects.ToList().ToArray()[i].Subject_ID;
+                 newSubject.Subject_Name = subjects.ToList().ToArray()[i].Subject_Name;*/
+                /*var categories = (from c in db.Subject_Categories
                          where c.Subject_ID == newSubject.Subject_ID
-                         select c).ToList();
-        
+                         select c).ToList();*/
+                #endregion
+
+                List<EAD.Subject_Categories> categories = db.Subject_Categories.Where(c => c.Subject_ID == newSubject.Subject_ID).ToList();  
                 if(categories.Count < 1)
                 {
                     result.Add(newSubject);
@@ -287,20 +294,25 @@ namespace LMS1701.EA.SOAPAPI
                 {
                     for (int b = 0; b < categories.Count; b++)
                     {
-
+                        List<EAD.Categories> categoriesL = db.Categories.Where(c => c.Categories_ID == categories.ElementAt(b).Categories_ID).ToList();
                         Category Tempcategory = new Category();
-                        var Category = (from tempCat in db.Categories
-                                       where tempCat.Categories_ID == categories.ElementAt(b).Categories_ID
-                                       select tempCat).ToList();
+                        #region
+                        /* var Category = (from tempCat in db.Categories
+                                        where tempCat.Categories_ID == categories.ElementAt(b).Categories_ID
+                                        select tempCat).ToList();*/
+                        #endregion
+                        Tempcategory = new Category();
 
+
+                        #region
                         //  Tempcategory = Mapper.Map<Category>(categories.ToArray()[b]);
                         /* var category = from c in db.Categories_Subtopic
                                           where c.Categories_ID == categories.ElementAt(b).Categories_ID
                                           select c;*/
+                        #endregion
 
-                        Tempcategory.Categories_ID = Category.ElementAt(0).Categories_ID;
-                      
-                        Tempcategory.Categories_Name = Category.ElementAt(0).Categories_Name;
+                        Tempcategory.Categories_ID = categoriesL.ElementAt(0).Categories_ID;                     
+                        Tempcategory.Categories_Name = categoriesL.ElementAt(0).Categories_Name;
                         var SubtopicIDs = from TempID in db.Categories_Subtopic
                                           where TempID.Categories_ID == Tempcategory.Categories_ID
                                           select TempID.Subtopic_ID;
@@ -314,15 +326,17 @@ namespace LMS1701.EA.SOAPAPI
                             for (int c = 0; c < SubtopicIDs.ToList().Count; c++)
                             {
                                 SubTopic newSub = new SubTopic();
-                                var Subtopics = from TempSubtopic in db.Subtopic.ToList()
+                                /*var Subtopics = from TempSubtopic in db.Subtopic.ToList()
                                                    where TempSubtopic.Subtopic_ID == SubtopicIDs.ToList().ElementAt(c)
-                                                   select TempSubtopic;
-                                
-                                
-                                   newSub = new SubTopic();
+                                                   select TempSubtopic;*/
+
+                                List<EAD.Subtopic> Subtopics = db.Subtopic.Where(s => s.Subtopic_ID == SubtopicIDs.ToList().ElementAt(c)).ToList();
+                                newSub = new SubTopic();
                                 newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
-                               // newSub.Subtopic_Name = Subtopics.ElementAt(0).Subtopic_Name;
+                                #region
+                                // newSub.Subtopic_Name = Subtopics.ElementAt(0).Subtopic_Name;
                                 //newSub.Subtopic_ID = Subtopics.ToList().ElementAt(0).Subtopic_ID;
+                                #endregion
                                 Tempcategory.subtopics.Add(newSub);
                                     
                                 
