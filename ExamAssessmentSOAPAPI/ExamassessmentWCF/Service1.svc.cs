@@ -143,7 +143,8 @@ namespace LMS1701.EA.SOAPAPI
                                  where x.PKID == Question.ToArray()[k]
                                  select x;
                     Answers ans = new Answers();
-                   // ans.PKID = second.First().PKID;
+                    ans.PKID = second.ElementAt(0).PKID;
+                    ans.Answer1 = second.ElementAt(0).Answer1;
                     i.Add(ans);
 
                 }
