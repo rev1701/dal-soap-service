@@ -19,7 +19,7 @@ namespace LMS1701.EA.SOAPAPI
     public class Service1 : IService1
     {
         private EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
-
+       
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
@@ -129,6 +129,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
+            
             AutoMapperConfiguration.Configure();
             var Question = from c in db.QuestionAnswers
                         where c.QuestionID == Questid
