@@ -12,6 +12,7 @@ namespace LMS1701.EA.SOAPAPI
         public ExamTemplate()
         {
             ExamQuestions = new List<ExamQuestion>();
+            ExamType = new Examtype();
         }
         [DataMember]
         public int PKID { get; set; }
