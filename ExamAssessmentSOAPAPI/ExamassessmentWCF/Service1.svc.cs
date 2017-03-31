@@ -342,6 +342,32 @@ namespace LMS1701.EA.SOAPAPI
             }
             return result.ToList();
         }
+
+        #region Devonte's Edits
+        public List<Subject> GetExamSubject(string id)
+        {
+            //Database needs a view that has the exam template and subject connected
+
+         /*   var s = db.FullExamTemplateInfo;
+            var slist = from TempSubject in s.ToList()
+                        where TempSubject.ExamTemplateID.Equals(id)
+                        select TempSubject;
+            slist = slist.ToList();
+            AutoMapperConfiguration.Configure();
+            List <Subject> result = new List<Subject>();
+            foreach (var item in slist)
+            {
+                Mapper.Map<Subject>();
+                result.Add(item);
+            }
+            */
+            return null;
+        }
+        public List<Answers> GetQuestionAnswers(int sqid)
+        {
+            return null;
+        }
+        #endregion
         public List<SubTopic> GetSubtopicList()
         {
             var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j));

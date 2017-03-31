@@ -45,7 +45,9 @@ namespace ExamAssessmentDaal
         public virtual DbSet<Subtopic> Subtopic { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<FullExamTemplateInfo> FullExamTemplateInfo { get; set; }
-        public virtual DbSet<vwQuestionCategories> vwQuestionCategories { get; set; }
+        public virtual DbSet<VWFullQuestionInfo> VWFullQuestionInfo { get; set; }
+        public virtual DbSet<VWQuestionCategories> VWQuestionCategories { get; set; }
+        public virtual DbSet<VWSubjectInfo> VWSubjectInfo { get; set; }
     
         public virtual int sp_alterdiagram(string diagramname, Nullable<int> owner_id, Nullable<int> version, byte[] definition)
         {

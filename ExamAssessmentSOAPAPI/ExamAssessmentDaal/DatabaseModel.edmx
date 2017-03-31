@@ -160,25 +160,73 @@ warning 6002: The table/view 'ExamAssessment.dbo.FullExamTemplateInfo' does not 
           <Property Name="IsCorrect" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
-warning 6002: The table/view 'ExamAssessment.dbo.vwQuestionCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="vwQuestionCategories">
+warning 6002: The table/view 'ExamAssessment.dbo.VWFullQuestionInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VWFullQuestionInfo">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+            <PropertyRef Name="AnswerID" />
+            <PropertyRef Name="IsCorrect" />
+            <PropertyRef Name="Answer" />
+            <PropertyRef Name="LangaugeTypeId" />
+            <PropertyRef Name="LanguageName" />
+            <PropertyRef Name="PKID" />
+            <PropertyRef Name="ExamQuestionName" />
+            <PropertyRef Name="QuestionTypeID" />
+            <PropertyRef Name="QuestionTypeName" />
+          </Key>
+          <Property Name="QuestionID" Type="int" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="AnswerID" Type="int" Nullable="false" />
+          <Property Name="IsCorrect" Type="bit" Nullable="false" />
+          <Property Name="Answer" Type="varchar(max)" Nullable="false" />
+          <Property Name="LangaugeTypeId" Type="int" Nullable="false" />
+          <Property Name="LanguageName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="PKID" Type="int" Nullable="false" />
+          <Property Name="ExamQuestionName" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="QuestionTypeID" Type="int" Nullable="false" />
+          <Property Name="QuestionTypeName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="ExamQuestionID" Type="varchar" MaxLength="100" />
+          <Property Name="Subject_ID" Type="int" />
+          <Property Name="Subject_Name" Type="nvarchar" MaxLength="45" />
+          <Property Name="Categories_ID" Type="int" />
+          <Property Name="Categories_Name" Type="nvarchar" MaxLength="45" />
+          <Property Name="Subtopic_ID" Type="int" />
+          <Property Name="Subtopic_Name" Type="nvarchar" MaxLength="45" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ExamAssessment.dbo.VWQuestionCategories' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VWQuestionCategories">
           <Key>
             <PropertyRef Name="PKID" />
             <PropertyRef Name="ExamQuestionName" />
             <PropertyRef Name="QuestionTypeID" />
-            <PropertyRef Name="Subject_Name" />
-            <PropertyRef Name="Categories_Name" />
-            <PropertyRef Name="Subtopic_Name" />
-            <PropertyRef Name="Answer" />
+            <PropertyRef Name="QuestionTypeName" />
           </Key>
           <Property Name="PKID" Type="int" Nullable="false" />
           <Property Name="ExamQuestionName" Type="varchar" MaxLength="45" Nullable="false" />
           <Property Name="QuestionTypeID" Type="int" Nullable="false" />
+          <Property Name="QuestionTypeName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="ExamQuestionID" Type="varchar" MaxLength="100" />
+          <Property Name="Subject_ID" Type="int" />
+          <Property Name="Subject_Name" Type="nvarchar" MaxLength="45" />
+          <Property Name="Categories_ID" Type="int" />
+          <Property Name="Categories_Name" Type="nvarchar" MaxLength="45" />
+          <Property Name="Subtopic_ID" Type="int" />
+          <Property Name="Subtopic_Name" Type="nvarchar" MaxLength="45" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ExamAssessment.dbo.VWSubjectInfo' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="VWSubjectInfo">
+          <Key>
+            <PropertyRef Name="Subject_ID" />
+            <PropertyRef Name="Subject_Name" />
+          </Key>
+          <Property Name="Subject_ID" Type="int" Nullable="false" />
           <Property Name="Subject_Name" Type="nvarchar" MaxLength="45" Nullable="false" />
-          <Property Name="Categories_Name" Type="nvarchar" MaxLength="45" Nullable="false" />
-          <Property Name="Subtopic_Name" Type="nvarchar" MaxLength="45" Nullable="false" />
-          <Property Name="Answer" Type="varchar(max)" Nullable="false" />
+          <Property Name="Categories_ID" Type="int" />
+          <Property Name="Categories_Name" Type="nvarchar" MaxLength="45" />
+          <Property Name="Subtopic_ID" Type="int" />
+          <Property Name="Subtopic_Name" Type="nvarchar" MaxLength="45" />
         </EntityType>
         <Association Name="FK_AnswerID">
           <End Role="Answer" Type="Self.Answer" Multiplicity="1">
@@ -467,17 +515,52 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
     [FullExamTemplateInfo].[IsCorrect] AS [IsCorrect]
     FROM [dbo].[FullExamTemplateInfo] AS [FullExamTemplateInfo]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="vwQuestionCategories" EntityType="Self.vwQuestionCategories" store:Type="Views" store:Schema="dbo">
+          <EntitySet Name="VWFullQuestionInfo" EntityType="Self.VWFullQuestionInfo" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [vwQuestionCategories].[PKID] AS [PKID], 
-    [vwQuestionCategories].[ExamQuestionName] AS [ExamQuestionName], 
-    [vwQuestionCategories].[QuestionTypeID] AS [QuestionTypeID], 
-    [vwQuestionCategories].[ExamQuestionID] AS [ExamQuestionID], 
-    [vwQuestionCategories].[Subject_Name] AS [Subject_Name], 
-    [vwQuestionCategories].[Categories_Name] AS [Categories_Name], 
-    [vwQuestionCategories].[Subtopic_Name] AS [Subtopic_Name], 
-    [vwQuestionCategories].[Answer] AS [Answer]
-    FROM [dbo].[vwQuestionCategories] AS [vwQuestionCategories]</DefiningQuery>
+    [VWFullQuestionInfo].[QuestionID] AS [QuestionID], 
+    [VWFullQuestionInfo].[Description] AS [Description], 
+    [VWFullQuestionInfo].[AnswerID] AS [AnswerID], 
+    [VWFullQuestionInfo].[IsCorrect] AS [IsCorrect], 
+    [VWFullQuestionInfo].[Answer] AS [Answer], 
+    [VWFullQuestionInfo].[LangaugeTypeId] AS [LangaugeTypeId], 
+    [VWFullQuestionInfo].[LanguageName] AS [LanguageName], 
+    [VWFullQuestionInfo].[PKID] AS [PKID], 
+    [VWFullQuestionInfo].[ExamQuestionName] AS [ExamQuestionName], 
+    [VWFullQuestionInfo].[QuestionTypeID] AS [QuestionTypeID], 
+    [VWFullQuestionInfo].[QuestionTypeName] AS [QuestionTypeName], 
+    [VWFullQuestionInfo].[ExamQuestionID] AS [ExamQuestionID], 
+    [VWFullQuestionInfo].[Subject_ID] AS [Subject_ID], 
+    [VWFullQuestionInfo].[Subject_Name] AS [Subject_Name], 
+    [VWFullQuestionInfo].[Categories_ID] AS [Categories_ID], 
+    [VWFullQuestionInfo].[Categories_Name] AS [Categories_Name], 
+    [VWFullQuestionInfo].[Subtopic_ID] AS [Subtopic_ID], 
+    [VWFullQuestionInfo].[Subtopic_Name] AS [Subtopic_Name]
+    FROM [dbo].[VWFullQuestionInfo] AS [VWFullQuestionInfo]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VWQuestionCategories" EntityType="Self.VWQuestionCategories" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VWQuestionCategories].[PKID] AS [PKID], 
+    [VWQuestionCategories].[ExamQuestionName] AS [ExamQuestionName], 
+    [VWQuestionCategories].[QuestionTypeID] AS [QuestionTypeID], 
+    [VWQuestionCategories].[QuestionTypeName] AS [QuestionTypeName], 
+    [VWQuestionCategories].[ExamQuestionID] AS [ExamQuestionID], 
+    [VWQuestionCategories].[Subject_ID] AS [Subject_ID], 
+    [VWQuestionCategories].[Subject_Name] AS [Subject_Name], 
+    [VWQuestionCategories].[Categories_ID] AS [Categories_ID], 
+    [VWQuestionCategories].[Categories_Name] AS [Categories_Name], 
+    [VWQuestionCategories].[Subtopic_ID] AS [Subtopic_ID], 
+    [VWQuestionCategories].[Subtopic_Name] AS [Subtopic_Name]
+    FROM [dbo].[VWQuestionCategories] AS [VWQuestionCategories]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="VWSubjectInfo" EntityType="Self.VWSubjectInfo" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [VWSubjectInfo].[Subject_ID] AS [Subject_ID], 
+    [VWSubjectInfo].[Subject_Name] AS [Subject_Name], 
+    [VWSubjectInfo].[Categories_ID] AS [Categories_ID], 
+    [VWSubjectInfo].[Categories_Name] AS [Categories_Name], 
+    [VWSubjectInfo].[Subtopic_ID] AS [Subtopic_ID], 
+    [VWSubjectInfo].[Subtopic_Name] AS [Subtopic_Name]
+    FROM [dbo].[VWSubjectInfo] AS [VWSubjectInfo]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_AnswerID" Association="Self.FK_AnswerID">
             <End Role="Answer" EntitySet="Answer" />
@@ -709,24 +792,68 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="IsCorrect" Type="Boolean" Nullable="false" />
         </EntityType>
-        <EntityType Name="vwQuestionCategories">
+        <EntityType Name="VWFullQuestionInfo">
+          <Key>
+            <PropertyRef Name="QuestionID" />
+            <PropertyRef Name="AnswerID" />
+            <PropertyRef Name="IsCorrect" />
+            <PropertyRef Name="Answer" />
+            <PropertyRef Name="LangaugeTypeId" />
+            <PropertyRef Name="LanguageName" />
+            <PropertyRef Name="PKID" />
+            <PropertyRef Name="ExamQuestionName" />
+            <PropertyRef Name="QuestionTypeID" />
+            <PropertyRef Name="QuestionTypeName" />
+          </Key>
+          <Property Name="QuestionID" Type="Int32" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="AnswerID" Type="Int32" Nullable="false" />
+          <Property Name="IsCorrect" Type="Boolean" Nullable="false" />
+          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="LangaugeTypeId" Type="Int32" Nullable="false" />
+          <Property Name="LanguageName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PKID" Type="Int32" Nullable="false" />
+          <Property Name="ExamQuestionName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="QuestionTypeID" Type="Int32" Nullable="false" />
+          <Property Name="QuestionTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ExamQuestionID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Subject_ID" Type="Int32" />
+          <Property Name="Subject_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="Categories_ID" Type="Int32" />
+          <Property Name="Categories_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="Subtopic_ID" Type="Int32" />
+          <Property Name="Subtopic_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="VWQuestionCategories">
           <Key>
             <PropertyRef Name="PKID" />
             <PropertyRef Name="ExamQuestionName" />
             <PropertyRef Name="QuestionTypeID" />
-            <PropertyRef Name="Subject_Name" />
-            <PropertyRef Name="Categories_Name" />
-            <PropertyRef Name="Subtopic_Name" />
-            <PropertyRef Name="Answer" />
+            <PropertyRef Name="QuestionTypeName" />
           </Key>
           <Property Name="PKID" Type="Int32" Nullable="false" />
           <Property Name="ExamQuestionName" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="QuestionTypeID" Type="Int32" Nullable="false" />
+          <Property Name="QuestionTypeName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="ExamQuestionID" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Subject_ID" Type="Int32" />
+          <Property Name="Subject_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="Categories_ID" Type="Int32" />
+          <Property Name="Categories_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="Subtopic_ID" Type="Int32" />
+          <Property Name="Subtopic_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="VWSubjectInfo">
+          <Key>
+            <PropertyRef Name="Subject_ID" />
+            <PropertyRef Name="Subject_Name" />
+          </Key>
+          <Property Name="Subject_ID" Type="Int32" Nullable="false" />
           <Property Name="Subject_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Categories_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Subtopic_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Answer" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Categories_ID" Type="Int32" />
+          <Property Name="Categories_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
+          <Property Name="Subtopic_ID" Type="Int32" />
+          <Property Name="Subtopic_Name" Type="String" MaxLength="45" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_AnswerID">
           <End Role="Answer" Type="Self.Answer" Multiplicity="1">
@@ -897,7 +1024,9 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
           <EntitySet Name="Subtopic" EntityType="Self.Subtopic" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="FullExamTemplateInfo" EntityType="Self.FullExamTemplateInfo" />
-          <EntitySet Name="vwQuestionCategories" EntityType="Self.vwQuestionCategories" />
+          <EntitySet Name="VWFullQuestionInfo" EntityType="Self.VWFullQuestionInfo" />
+          <EntitySet Name="VWQuestionCategories" EntityType="Self.VWQuestionCategories" />
+          <EntitySet Name="VWSubjectInfo" EntityType="Self.VWSubjectInfo" />
           <AssociationSet Name="FK_AnswerID" Association="Self.FK_AnswerID">
             <End Role="Answer" EntitySet="Answer" />
             <End Role="QuestionAnswers" EntitySet="QuestionAnswers" />
@@ -1289,17 +1418,56 @@ warning 6035: The relationship 'FK_ExamTemplateID' has columns that are not part
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="vwQuestionCategories">
-            <EntityTypeMapping TypeName="ExamAssessmentModel.vwQuestionCategories">
-              <MappingFragment StoreEntitySet="vwQuestionCategories">
+          <EntitySetMapping Name="VWFullQuestionInfo">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.VWFullQuestionInfo">
+              <MappingFragment StoreEntitySet="VWFullQuestionInfo">
+                <ScalarProperty Name="QuestionID" ColumnName="QuestionID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="AnswerID" ColumnName="AnswerID" />
+                <ScalarProperty Name="IsCorrect" ColumnName="IsCorrect" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="LangaugeTypeId" ColumnName="LangaugeTypeId" />
+                <ScalarProperty Name="LanguageName" ColumnName="LanguageName" />
                 <ScalarProperty Name="PKID" ColumnName="PKID" />
                 <ScalarProperty Name="ExamQuestionName" ColumnName="ExamQuestionName" />
                 <ScalarProperty Name="QuestionTypeID" ColumnName="QuestionTypeID" />
+                <ScalarProperty Name="QuestionTypeName" ColumnName="QuestionTypeName" />
                 <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
+                <ScalarProperty Name="Subject_ID" ColumnName="Subject_ID" />
                 <ScalarProperty Name="Subject_Name" ColumnName="Subject_Name" />
+                <ScalarProperty Name="Categories_ID" ColumnName="Categories_ID" />
                 <ScalarProperty Name="Categories_Name" ColumnName="Categories_Name" />
+                <ScalarProperty Name="Subtopic_ID" ColumnName="Subtopic_ID" />
                 <ScalarProperty Name="Subtopic_Name" ColumnName="Subtopic_Name" />
-                <ScalarProperty Name="Answer" ColumnName="Answer" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VWQuestionCategories">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.VWQuestionCategories">
+              <MappingFragment StoreEntitySet="VWQuestionCategories">
+                <ScalarProperty Name="PKID" ColumnName="PKID" />
+                <ScalarProperty Name="ExamQuestionName" ColumnName="ExamQuestionName" />
+                <ScalarProperty Name="QuestionTypeID" ColumnName="QuestionTypeID" />
+                <ScalarProperty Name="QuestionTypeName" ColumnName="QuestionTypeName" />
+                <ScalarProperty Name="ExamQuestionID" ColumnName="ExamQuestionID" />
+                <ScalarProperty Name="Subject_ID" ColumnName="Subject_ID" />
+                <ScalarProperty Name="Subject_Name" ColumnName="Subject_Name" />
+                <ScalarProperty Name="Categories_ID" ColumnName="Categories_ID" />
+                <ScalarProperty Name="Categories_Name" ColumnName="Categories_Name" />
+                <ScalarProperty Name="Subtopic_ID" ColumnName="Subtopic_ID" />
+                <ScalarProperty Name="Subtopic_Name" ColumnName="Subtopic_Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="VWSubjectInfo">
+            <EntityTypeMapping TypeName="ExamAssessmentModel.VWSubjectInfo">
+              <MappingFragment StoreEntitySet="VWSubjectInfo">
+                <ScalarProperty Name="Subject_ID" ColumnName="Subject_ID" />
+                <ScalarProperty Name="Subject_Name" ColumnName="Subject_Name" />
+                <ScalarProperty Name="Categories_ID" ColumnName="Categories_ID" />
+                <ScalarProperty Name="Categories_Name" ColumnName="Categories_Name" />
+                <ScalarProperty Name="Subtopic_ID" ColumnName="Subtopic_ID" />
+                <ScalarProperty Name="Subtopic_Name" ColumnName="Subtopic_Name" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

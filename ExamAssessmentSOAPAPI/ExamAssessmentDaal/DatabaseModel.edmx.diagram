@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="cb99054350f24f5f84bfdff91cbe4759" Name="Diagram1">
+      <Diagram DiagramId="239c643eb1ba4e2faedcd6452c279f32" Name="Diagram1">
         <EntityTypeShape EntityType="ExamAssessmentModel.Answer" Width="1.5" PointX="5.75" PointY="14.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.Categories" Width="1.5" PointX="0.75" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.Categories_Subtopic" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
@@ -23,7 +23,9 @@
         <EntityTypeShape EntityType="ExamAssessmentModel.Subtopic" Width="1.5" PointX="0.75" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.FullExamTemplateInfo" Width="1.5" PointX="7.75" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ExamAssessmentModel.vwQuestionCategories" Width="1.5" PointX="9.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamAssessmentModel.VWFullQuestionInfo" Width="1.5" PointX="9.75" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamAssessmentModel.VWQuestionCategories" Width="1.5" PointX="10.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamAssessmentModel.VWSubjectInfo" Width="1.5" PointX="10.75" PointY="6.25" IsExpanded="true" />
         <AssociationConnector Association="ExamAssessmentModel.FK_AnswerID" ManuallyRouted="false" />
         <AssociationConnector Association="ExamAssessmentModel.FK_AnswerLanguageType" ManuallyRouted="false" />
         <AssociationConnector Association="ExamAssessmentModel.FK_CategoriesSubtopic_CategoriesID" ManuallyRouted="false" />
