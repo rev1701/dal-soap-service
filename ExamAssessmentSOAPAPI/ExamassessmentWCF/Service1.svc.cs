@@ -142,7 +142,7 @@ namespace LMS1701.EA.SOAPAPI
                                  where x.PKID == Question.ToArray()[k]
                                  select x;
                     Answers ans = new Answers();
-                    ans.PKID = second.First().PKID;
+                   // ans.PKID = second.First().PKID;
                     i.Add(ans);
 
                 }
@@ -164,16 +164,14 @@ namespace LMS1701.EA.SOAPAPI
             exam.CreatedDate = ExamTemplate.First().CreatedDate;
             exam.ExamTemplateName = ExamTemplate.First().ExamTemplateName;
             exam.ExamTemplateID = ExamTemplate.FirstOrDefault().ExamTemplateID;
+            exam.ExamType.PKID = ExamTemplate.FirstOrDefault().ExamType.PKID;
+            exam.ExamType.ExamTypeName = ExamTemplate.FirstOrDefault().ExamType.ExamTypeName;
             #region
             /*var ExamTypes = from TempExamType in db.ExamType
                            where TempExamType.PKID == ExamTemplate.First().ExamTypeID
                            select TempExamType;*/
             #endregion
-            IEnumerable<EAD.ExamType> ExamTypes = db.ExamType.Where(s => s.PKID == ExamTemplate.First().ExamType.PKID).AsEnumerable();              
-            Examtype type = new Examtype();
-            type.PKID = ExamTypes.FirstOrDefault().PKID;
-            type.ExamTypeName = ExamTypes.FirstOrDefault().ExamTypeName;
-            exam.ExamType = type;
+       
             #region
             /* var ExamQuestions = from TempExamQuestions in db.ExamTemplateQuestions
                                 where TempExamQuestions.ExamTemplateID == exam.ExamTemplateID
