@@ -170,7 +170,7 @@ namespace LMS1701.EA.SOAPAPI
                            where TempExamType.PKID == ExamTemplate.First().ExamTypeID
                            select TempExamType;*/
             #endregion
-            IEnumerable<EAD.ExamType> ExamTypes = db.ExamType.Where(s => s.PKID == ExamTemplate.First().ExamType.PKID).AsEnumerable();              
+            IEnumerable<EAD.ExamType> ExamTypes = db.ExamType.Where(s => s.PKID == ExamTemplate.First().ExamType.PKID).AsEnumerable();
             Examtype type = new Examtype();
             type.PKID = ExamTypes.FirstOrDefault().PKID;
             type.ExamTypeName = ExamTypes.FirstOrDefault().ExamTypeName;
