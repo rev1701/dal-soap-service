@@ -19,7 +19,7 @@ namespace LMS1701.EA.SOAPAPI
     public class Service1 : IService1
     {
         private EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
-
+       
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
@@ -129,6 +129,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
+            
             AutoMapperConfiguration.Configure();
             var Question = from c in db.QuestionAnswers
                         where c.QuestionID == Questid
@@ -142,7 +143,8 @@ namespace LMS1701.EA.SOAPAPI
                                  where x.PKID == Question.ToArray()[k]
                                  select x;
                     Answers ans = new Answers();
-                    ans.PKID = second.First().PKID;
+                    ans.PKID = second.ElementAt(0).PKID;
+                    ans.Answer1 = second.ElementAt(0).Answer1;
                     i.Add(ans);
 
                 }
@@ -164,16 +166,14 @@ namespace LMS1701.EA.SOAPAPI
             exam.CreatedDate = ExamTemplate.First().CreatedDate;
             exam.ExamTemplateName = ExamTemplate.First().ExamTemplateName;
             exam.ExamTemplateID = ExamTemplate.FirstOrDefault().ExamTemplateID;
+            exam.ExamType.PKID = ExamTemplate.FirstOrDefault().ExamType.PKID;
+            exam.ExamType.ExamTypeName = ExamTemplate.FirstOrDefault().ExamType.ExamTypeName;
             #region
             /*var ExamTypes = from TempExamType in db.ExamType
                            where TempExamType.PKID == ExamTemplate.First().ExamTypeID
                            select TempExamType;*/
             #endregion
-            List<EAD.ExamType> ExamTypes = db.ExamType.Where(s => s.PKID == ExamTemplate.First().ExamType.PKID).ToList();              
-            Examtype type = new Examtype();
-            type.PKID = ExamTypes.FirstOrDefault().PKID;
-            type.ExamTypeName = ExamTypes.FirstOrDefault().ExamTypeName;
-            exam.ExamType = type;
+       
             #region
             /* var ExamQuestions = from TempExamQuestions in db.ExamTemplateQuestions
                                 where TempExamQuestions.ExamTemplateID == exam.ExamTemplateID
@@ -226,7 +226,7 @@ namespace LMS1701.EA.SOAPAPI
                                        where TempQuestion.PKID == tempID
                                        select TempQuestion;*/
                         #endregion
-                        List<EAD.Question> Question = db.Question.Where(s => s.PKID == tempID).ToList();
+                        List<EAD.Question> Question = dbquestion.Where(s => s.PKID == tempID).ToList();
                         Question quest = new Question();
                         quest.PKID = Question.ElementAt(0).PKID;
                         quest.Description = Question.ElementAt(0).Description;
