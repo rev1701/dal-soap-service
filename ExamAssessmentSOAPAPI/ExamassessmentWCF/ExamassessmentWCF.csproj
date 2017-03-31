@@ -30,7 +30,8 @@
     <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
+    <CodeAnalysisRuleSet>MixedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -91,7 +92,7 @@
     <Compile Include="DTO\ExamQuestion.cs" />
     <Compile Include="DTO\ExamTemplate.cs" />
     <Compile Include="DTO\Examtype.cs" />
-    <Compile Include="DTO\LangiageType.cs" />
+    <Compile Include="DTO\LanguageType.cs" />
     <Compile Include="DTO\Question.cs" />
     <Compile Include="DTO\QuestionType.cs" />
     <Compile Include="DTO\Subject.cs" />

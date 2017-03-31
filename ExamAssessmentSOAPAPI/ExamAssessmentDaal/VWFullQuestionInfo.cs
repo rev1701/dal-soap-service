@@ -12,8 +12,15 @@ namespace ExamAssessmentDaal
     using System;
     using System.Collections.Generic;
     
-    public partial class VWQuestionCategories
+    public partial class VWFullQuestionInfo
     {
+        public int QuestionID { get; set; }
+        public string Description { get; set; }
+        public int AnswerID { get; set; }
+        public bool IsCorrect { get; set; }
+        public string Answer { get; set; }
+        public int LangaugeTypeId { get; set; }
+        public string LanguageName { get; set; }
         public int PKID { get; set; }
         public string ExamQuestionName { get; set; }
         public int QuestionTypeID { get; set; }

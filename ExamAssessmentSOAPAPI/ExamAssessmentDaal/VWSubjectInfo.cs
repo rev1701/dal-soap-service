@@ -12,14 +12,9 @@ namespace ExamAssessmentDaal
     using System;
     using System.Collections.Generic;
     
-    public partial class VWQuestionCategories
+    public partial class VWSubjectInfo
     {
-        public int PKID { get; set; }
-        public string ExamQuestionName { get; set; }
-        public int QuestionTypeID { get; set; }
-        public string QuestionTypeName { get; set; }
-        public string ExamQuestionID { get; set; }
-        public Nullable<int> Subject_ID { get; set; }
+        public int Subject_ID { get; set; }
         public string Subject_Name { get; set; }
         public Nullable<int> Categories_ID { get; set; }
         public string Categories_Name { get; set; }
