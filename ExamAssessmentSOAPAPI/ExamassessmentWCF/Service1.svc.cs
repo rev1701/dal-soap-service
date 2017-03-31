@@ -146,7 +146,7 @@ namespace LMS1701.EA.SOAPAPI
                     ans.PKID = second.ElementAt(0).PKID;
                     ans.Answer1 = second.ElementAt(0).Answer1;
                     i.Add(ans);
-
+                    
                 }
             }
             return i;
@@ -320,10 +320,10 @@ namespace LMS1701.EA.SOAPAPI
                                 
                                 
                                    newSub = new SubTopic();
-                                // newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
-                                newSub.Subtopic_Name = "jaja";//Subtopics.FirstOrDefault().Subtopic_Name;
-                                newSub.Subtopic_ID = 111;//Subtopics.ToList().FirstOrDefault().Subtopic_ID;
-                                    Tempcategory.subtopics.Add(newSub);
+                                newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
+                               // newSub.Subtopic_Name = Subtopics.ElementAt(0).Subtopic_Name;
+                                //newSub.Subtopic_ID = Subtopics.ToList().ElementAt(0).Subtopic_ID;
+                                Tempcategory.subtopics.Add(newSub);
                                     
                                 
 
