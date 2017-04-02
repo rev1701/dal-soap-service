@@ -126,11 +126,20 @@ namespace LMS1701.EA.SOAPAPI
                 {         
                     Category cat =  Mapper.Map<Category> (dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID));
                     List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
-
+                    for(int k= 0; k < listofSub.Count(); k++)
+                    {
+                        var subtopic = dbSubtopic.Where(s => s.Subtopic_ID == listofSub.ElementAt(k));
+                        SubTopic sub = new SubTopic();
+                        sub.Subtopic_ID = subtopic.ElementAt(0).Subtopic_ID;
+                        sub.Subtopic_Name = subtopic.ElementAt(0).Subtopic_Name;
+                        cat.subtopics.Add(sub);
+                    }
                     question.ExamQuestion_Categories.Add(cat);
                 }
-                         
+
+                result.Add(question);
             }
+            return result;
      
         }
         public List<Question> GetAllQuestions()
