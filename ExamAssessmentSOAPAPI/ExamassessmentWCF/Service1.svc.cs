@@ -124,6 +124,7 @@ namespace LMS1701.EA.SOAPAPI
                              select x;
                 quest.Answers.ToList().AddRange((GetAnswersQuestion(quest.PKID).ToList()));
                 result.Add(quest);
+               
             }
             return result;
         }
