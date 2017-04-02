@@ -107,6 +107,32 @@ namespace LMS1701.EA.SOAPAPI
             db.spRemoveQuestionFromExam(ExamID,ExamQuestionID, myOutputParamInt);
             //return int.Parse(myOutputParamInt.Value.ToString());
         }
+        public List<ExamQuestion> GetAllExamQuestion()
+        {
+            AutoMapperConfiguration.Configure();
+            List<ExamQuestion> result = new List<ExamQuestion>();
+            var dbExamQuestion = db.ExamQuestion;
+            var dbCategories = db.Categories;
+            var dbSubtopic = db.Subtopic;
+            var dbCatSub = db.Categories_Subtopic;
+          //  var dbQuestionID = db.ExamQuestionList.Select(s => s.QuestionID);
+            for (int i = 0; i < dbExamQuestion.Count(); i++)
+            {
+                ExamQuestion question = new ExamQuestion();
+                question.ExamQuestionID = dbExamQuestion.ElementAt(i).ExamQuestionID;
+                question.ExamQuestionName = dbExamQuestion.ElementAt(i).ExamQuestionName;
+                question.PKID = db.ExamQuestion.ElementAt(i).PKID;
+                for(int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count();j++)
+                {         
+                    Category cat =  Mapper.Map<Category> (dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID));
+                    List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
+
+                    question.ExamQuestion_Categories.Add(cat);
+                }
+                         
+            }
+     
+        }
         public List<Question> GetAllQuestions()
         {
             AutoMapperConfiguration.Configure();
@@ -313,6 +339,7 @@ namespace LMS1701.EA.SOAPAPI
 
                         Tempcategory.Categories_ID = categoriesL.ElementAt(0).Categories_ID;                     
                         Tempcategory.Categories_Name = categoriesL.ElementAt(0).Categories_Name;
+
                         var SubtopicIDs = from TempID in db.Categories_Subtopic
                                           where TempID.Categories_ID == Tempcategory.Categories_ID
                                           select TempID.Subtopic_ID;
