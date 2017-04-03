@@ -557,6 +557,13 @@ namespace LMS1701.EA.SOAPAPI
             db.Categories.Remove(removedCategory); // removes the category from the subtopic table.
             db.SaveChanges();
         }
+        public void AddSubject(string SubjectName)
+        {
+            ExamAssessmentDaal.Subject addedSubject = new ExamAssessmentDaal.Subject(); //Object to be passed into Subject Table
+            addedSubject.Subject_Name = SubjectName; //Only Needs Name property
+            db.Subject.Add(addedSubject); //adds object to database
+            db.SaveChanges();
+        }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
