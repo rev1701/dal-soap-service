@@ -424,11 +424,11 @@ namespace LMS1701.EA.SOAPAPI
         }
 
         #region Devonte's Edits
-        public List<Subject> GetExamSubject(string id)
+        /* public List<Subject> GetExamSubject(string id)
         {
-            //Database needs a view that has the exam template and subject connected
+            Database needs a view that has the exam template and subject connected
 
-         /*   var s = db.FullExamTemplateInfo;
+           var s = db.FullExamTemplateInfo;
             var slist = from TempSubject in s.ToList()
                         where TempSubject.ExamTemplateID.Equals(id)
                         select TempSubject;
@@ -440,10 +440,10 @@ namespace LMS1701.EA.SOAPAPI
                 Mapper.Map<Subject>();
                 result.Add(item);
             }
-            */
+           
             return null;
         }
-
+        */
         public List<Answers> GetQuestionAnswers(int sqid)
         {
             return null;
