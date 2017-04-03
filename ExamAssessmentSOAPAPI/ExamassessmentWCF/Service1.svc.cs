@@ -354,7 +354,8 @@ namespace LMS1701.EA.SOAPAPI
                 {
                     for (int b = 0; b < categories.Count; b++)
                     {
-                        List<EAD.Categories> categoriesL = db.Categories.Where(c => c.Categories_ID == categories.ElementAt(b).Categories_ID).ToList();
+                        int tempID = categories.ElementAt(b).Categories_ID;
+                        List<EAD.Categories> categoriesL = db.Categories.Where(c => c.Categories_ID == tempID).ToList();
                         Category Tempcategory = new Category();
                         #region
                         /* var Category = (from tempCat in db.Categories
@@ -390,8 +391,8 @@ namespace LMS1701.EA.SOAPAPI
                                 /*var Subtopics = from TempSubtopic in db.Subtopic.ToList()
                                                    where TempSubtopic.Subtopic_ID == SubtopicIDs.ToList().ElementAt(c)
                                                    select TempSubtopic;*/
-
-                                List<EAD.Subtopic> Subtopics = db.Subtopic.Where(s => s.Subtopic_ID == SubtopicIDs.ToList().ElementAt(c)).ToList();
+                                int id = SubtopicIDs.ToList().ElementAt(c);
+                                List<EAD.Subtopic> Subtopics = db.Subtopic.Where(s => s.Subtopic_ID == id).ToList();
                                 newSub = new SubTopic();
                                 newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
                                 #region
