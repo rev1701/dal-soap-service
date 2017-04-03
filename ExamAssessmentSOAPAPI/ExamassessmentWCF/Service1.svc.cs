@@ -153,7 +153,7 @@ namespace LMS1701.EA.SOAPAPI
                     Question newQuest = new Question();
                     newQuest.PKID = tempQuestion.PKID;
                     newQuest.Description = tempQuestion.Description;
-                   // newQuest.Answers = newQuest.Answers.ToList().AddRange(GetAnswersQuestion(newQuest.PKID));
+                    newQuest.Answers = GetAnswersQuestion(newQuest.PKID);
                     question.quest.Add(newQuest);
                     
                 }
@@ -177,7 +177,7 @@ namespace LMS1701.EA.SOAPAPI
                 var second = from x in dbQuestionAnswers
                              where x.QuestionID == quest.PKID
                              select x;
-                quest.Answers.ToList().AddRange((GetAnswersQuestion(quest.PKID).ToList()));
+                quest.Answers = GetAnswersQuestion(quest.PKID);
                 result.Add(quest);
                
             }
@@ -189,7 +189,7 @@ namespace LMS1701.EA.SOAPAPI
             AutoMapperConfiguration.Configure();
             List<int> AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
             List < EAD.Answer >AnswerDB = db.Answer.ToList();
-                        
+            List < EAD.QuestionAnswers > dbQuestionAns = db.QuestionAnswers.ToList();            
             List<Answers> ListOfAnswers = new List<Answers>();
             if (AnswerID.Count() > 0)
             {
@@ -200,7 +200,14 @@ namespace LMS1701.EA.SOAPAPI
                                  select tempanswer).First();
 
                     Answers answer = Mapper.Map<Answers>(ans);
-
+                    if(dbQuestionAns.Where(s => s.QuestionID == Questid && s.AnswerID == answer.PKID).Select(s => s.IsCorrect).First() == true)
+                    {
+                        answer.correct.isCorrect = true;
+                    }
+                    else
+                    {
+                        answer.correct.isCorrect = false;
+                    }
 
                    // ans.Answer1 = second.First().Answer1;
                     ListOfAnswers.Add(answer);
