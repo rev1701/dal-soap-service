@@ -112,20 +112,25 @@ namespace LMS1701.EA.SOAPAPI
         {
             AutoMapperConfiguration.Configure();
             List<ExamQuestion> result = new List<ExamQuestion>();
-            var dbExamQuestion = db.ExamQuestion;
-            var dbCategories = db.Categories;
-            var dbSubtopic = db.Subtopic;
-            var dbCatSub = db.Categories_Subtopic;
+            var dbExamQuestion = db.ExamQuestion.ToList();
+            var dbCategories = db.Categories.ToList();
+            var dbSubtopic = db.Subtopic.ToList();
+            var dbCatSub = db.Categories_Subtopic.ToList();
           //  var dbQuestionID = db.ExamQuestionList.Select(s => s.QuestionID);
             for (int i = 0; i < dbExamQuestion.Count(); i++)
             {
                 ExamQuestion question = new ExamQuestion();
                 question.ExamQuestionID = dbExamQuestion.ElementAt(i).ExamQuestionID;
                 question.ExamQuestionName = dbExamQuestion.ElementAt(i).ExamQuestionName;
-                question.PKID = db.ExamQuestion.ElementAt(i).PKID;
+                question.PKID = dbExamQuestion.ElementAt(i).PKID;
                 for(int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count();j++)
-                {         
-                    Category cat =  Mapper.Map<Category> (dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID));
+                {
+                    Category cat = new Category();
+                   
+
+                    cat.Categories_ID = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_ID;
+                    cat.Categories_Name = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_Name;
+                    // Category cat =  Mapper.Map<Category> (dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID));
                     List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
                     for(int k= 0; k < listofSub.Count(); k++)
                     {
