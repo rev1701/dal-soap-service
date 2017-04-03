@@ -70,9 +70,6 @@ namespace LMS1701.EA.SOAPAPI
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveAnswerQuestion")]
         void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID);
-        [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveCategory")]
-        void spRemoveCategory(String CategoryName);
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveQuestionAsExamQuestion")]
@@ -98,7 +95,14 @@ namespace LMS1701.EA.SOAPAPI
 
         [OperationContract]
         [WebInvoke(Method = "Delete", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteAnswer")]
-        void DeleteAnswer(string Answerdesc)
+        void DeleteAnswer(string Answerdesc);
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveCategoryFromSubject")]
+        void RemoveCategoryFromSubject(string CategoryName, string SubjectName);
+
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteSubject")]
+        void DeleteSubject(string SubjectName);
 
         // TODO: Add your service operations here
     }
