@@ -691,7 +691,7 @@ namespace LMS1701.EA.SOAPAPI
         public void DeleteSubject(string SubjectName)
         {
             int subjectID = 0;
-            ExamAssessmentDaal.Subject removedSubject = new ExamAssessmentDaal.Subject();
+            EAD.Subject removedSubject = new EAD.Subject();
             foreach (var item in db.Subject) //Gets the subjectID which will be needed so it can be removed
             {
                 if (item.Subject_Name == SubjectName)
