@@ -469,7 +469,7 @@ namespace LMS1701.EA.SOAPAPI
             }
 
             db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
-
+            db.SaveChanges();
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
