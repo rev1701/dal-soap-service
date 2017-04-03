@@ -88,12 +88,7 @@ namespace LMS1701.EA.SOAPAPI
             db.spRemoveAnswerFromQuestion(QuestionID, AnswerID, myOutputParamInt);
           //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spRemoveCategory(String categoryName)
-        {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spRemoveCategory(categoryName, myOutputParamInt);
-            //return int.Parse(myOutputParamInt.Value.ToString());
-        }
+   
         public void spRemoveQuestionAsExamQuestion(String ExamQuestionID)
         {
             int result = 0;
@@ -424,11 +419,12 @@ namespace LMS1701.EA.SOAPAPI
         }
 
         #region Devonte's Edits
-        public List<Subject> GetExamSubject(string id)
+        #region Devonte Commented out code
+        /* public List<Subject> GetExamSubject(string id)
         {
-            //Database needs a view that has the exam template and subject connected
+            Database needs a view that has the exam template and subject connected
 
-         /*   var s = db.FullExamTemplateInfo;
+           var s = db.FullExamTemplateInfo;
             var slist = from TempSubject in s.ToList()
                         where TempSubject.ExamTemplateID.Equals(id)
                         select TempSubject;
@@ -440,9 +436,11 @@ namespace LMS1701.EA.SOAPAPI
                 Mapper.Map<Subject>();
                 result.Add(item);
             }
-            */
+           
             return null;
         }
+        */
+        #endregion
         public List<Answers> GetQuestionAnswers(int sqid)
         {
             return null;
@@ -454,17 +452,105 @@ namespace LMS1701.EA.SOAPAPI
             ans.Answer1 = Answer;
             try
             {
-                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First();
-                var tempPKID1 = ans.PKID;
                 db.Answer.Add(ans);
                 db.SaveChanges();
-                spAddQuestionToAnswer(QuestionID, ans.PKID, IC);
+                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First();
+                int NewAnswerID = tempPKID.PKID;
+                spAddQuestionToAnswer(QuestionID, NewAnswerID, IC);
             }
             catch (Exception ex)
             {
             }
         }
+
+        public void DeleteAnswer(string Answerdesc)
+        {
+            int answerID = 0;
+            EAD.Answer removedAnswer = new EAD.Answer();
+            foreach (var item in db.Answer) //Gets the Answer which will be needed so it can be removed
+            {
+                if (item.Answer1 == Answerdesc)
+                {
+                    answerID = item.PKID;
+                    removedAnswer = item; //keeps a reference to the subtopic that will be removed
+                }
+            }
+            foreach (var item in db.QuestionAnswers) //Removes all references to the Answer in the database
+            {
+                if (item.AnswerID == answerID)
+                {
+                    db.QuestionAnswers.Remove(item);
+                }
+            }
+            db.Answer.Remove(removedAnswer); // removes the Answer from the Answer table.
+            db.SaveChanges();
+        }
+
+        public void DeleteExam(string ExamTID)
+        {
+            
+            EAD.ExamTemplate removedExam = new EAD.ExamTemplate();
+            foreach (var item in db.ExamTemplate) //Gets the Exam which will be needed so it can be removed
+            {
+                if (item.ExamTemplateID.Equals(ExamTID))
+                {
+                    
+                    removedExam = item; //keeps a reference to the Exam that will be removed
+                }
+            }
+            foreach (var item in db.ExamTemplateQuestions) //Removes all references to the Exam in the database
+            {
+                if (item.ExamTemplateID == ExamTID)
+                {
+                    db.ExamTemplateQuestions.Remove(item);
+                }
+            }
+            db.ExamTemplate.Remove(removedExam); // removes the ExamTemplate from the ExamTemplate table.
+            db.SaveChanges();
+        }
+        
+        
+        public void AddNewExam(string exName, string exTID, string ExamType)
+        {
+            EAD.ExamTemplate newExt = new EAD.ExamTemplate();
+            newExt.ExamTemplateName = exName;
+            newExt.ExamTemplateID = exTID;
+
+            foreach (var item in db.ExamType)
+            {
+                if (item.ExamTypeName.Equals(ExamType))
+                {
+                    newExt.ExamType.PKID = item.PKID;
+                    newExt.ExamType.ExamTypeName = ExamType;
+                }
+            }
+                       
+            try
+            {
+                db.ExamTemplate.Add(newExt);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        //Check this out to see if logic works but i believe it works -Devonte
+        public void EditExam(string exName, string ExamTemplateID)
+        {
+            foreach(var item in db.ExamTemplate)
+            {
+                if (item.ExamTemplateID.Equals(ExamTemplateID))
+                {
+                    item.ExamTemplateName = exName;
+                    db.SaveChanges();
+                }
+            }
+        }
+
         #endregion
+
+
         public List<SubTopic> GetSubtopicList()
         {
             var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j));
@@ -474,7 +560,7 @@ namespace LMS1701.EA.SOAPAPI
         public void DeleteSubtopic(string SubtopicName)
         {
             int subtopicID = 0;
-            ExamAssessmentDaal.Subtopic removedTopic = new ExamAssessmentDaal.Subtopic();
+           EAD.Subtopic removedTopic = new EAD.Subtopic();
             foreach(var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
             {
                 if (item.Subtopic_Name==SubtopicName)
@@ -496,6 +582,132 @@ namespace LMS1701.EA.SOAPAPI
             db.SaveChanges();
         }
 
+        public void RemoveSubtopicFromCategory(string SubtopicName, string CategoryName)
+        {
+            int subtopicID = 0;
+            int categoryID = 0;
+
+            EAD.Subtopic removedTopic = new EAD.Subtopic();
+            foreach (var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
+            {
+                if (item.Subtopic_Name == SubtopicName)
+                {
+                    subtopicID = item.Subtopic_ID;
+                }
+            }
+
+            foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
+            {
+                if (item.Categories_Name == CategoryName)
+                {
+                    categoryID = item.Categories_ID;
+                }
+            }
+            foreach (var item in db.Categories_Subtopic) //Finds the row on the junction table that contains the pair of values and removes it
+            {
+                if (item.Subtopic_ID == subtopicID && item.Categories_ID == categoryID)
+                {
+                    db.Categories_Subtopic.Remove(item);
+                }
+            }
+            db.SaveChanges();
+        }
+
+        public void DeleteCategory(string CategoryName)
+        {
+            int categoryID = 0;
+            EAD.Categories removedCategory = new EAD.Categories();
+            foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
+            {
+                if (item.Categories_Name == CategoryName)
+                {
+                    categoryID = item.Categories_ID;
+                    removedCategory = item; //keeps a reference to the category that will be removed
+                }
+            }
+
+            foreach (var item in db.Subject_Categories) //Removes all references to the category from subjects
+            {
+                if (item.Categories_ID == categoryID)
+                {
+                    db.Subject_Categories.Remove(item);
+                }
+            }
+            foreach (var item in db.ExamQuestion_Categories) //Removes all references to the category from subjects
+            {
+                if (item.Categories_ID == categoryID)
+                {
+                    db.ExamQuestion_Categories.Remove(item);
+                }
+            }
+            db.Categories.Remove(removedCategory); // removes the category from the subtopic table.
+            db.SaveChanges();
+        }
+
+        public void AddSubject(string SubjectName)
+        {
+            EAD.Subject addedSubject = new EAD.Subject(); //Object to be passed into Subject Table
+            addedSubject.Subject_Name = SubjectName; //Only Needs Name property
+            db.Subject.Add(addedSubject); //adds object to database
+            db.SaveChanges();
+        }
+
+
+        public void RemoveCategoryFromSubject(string CategoryName, string SubjectName)
+        {
+
+            int subjectID = 0;
+            int categoryID = 0;
+
+            foreach (var item in db.Subject) //Gets the subjectID which will be needed so it can be removed
+            {
+                if (item.Subject_Name == SubjectName)
+                {
+                    subjectID = item.Subject_ID;
+                }
+            }
+
+            foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
+            {
+                if (item.Categories_Name == CategoryName)
+                {
+                    categoryID = item.Categories_ID;
+                }
+            }
+            foreach (var item in db.Subject_Categories) //Finds the row on the junction table that contains the pair of values and removes it
+            {
+                if (item.Subject_ID == subjectID && item.Categories_ID == categoryID)
+                {
+                    db.Subject_Categories.Remove(item);
+                }
+            }
+            db.SaveChanges();
+        }
+        public void DeleteSubject(string SubjectName)
+        {
+            int subjectID = 0;
+            EAD.Subject removedSubject = new EAD.Subject();
+            foreach (var item in db.Subject) //Gets the subjectID which will be needed so it can be removed
+            {
+                if (item.Subject_Name == SubjectName)
+                {
+                    subjectID = item.Subject_ID;
+                    removedSubject = item; //keeps a reference to the subject that will be removed
+                }
+            }
+
+            foreach (var item in db.Subject_Categories) //Removes all references to the subject in the database
+            {
+                if (item.Subject_ID == subjectID)
+                {
+                    db.Subject_Categories.Remove(item);
+                }
+            }
+
+            db.Subject.Remove(removedSubject); // removes the subject from the subtopic table.
+            db.SaveChanges();
+        }
+
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
             EAD.Subtopic test = new EAD.Subtopic();
@@ -512,7 +724,6 @@ namespace LMS1701.EA.SOAPAPI
             }
             return composite;
         }
-
       
     }
 }
