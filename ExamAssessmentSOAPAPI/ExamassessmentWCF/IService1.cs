@@ -94,6 +94,10 @@ namespace LMS1701.EA.SOAPAPI
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddAnswer")]
         void AddAnswer(int QuestionID, string Answer, bool IC);
 
+        [OperationContract]
+        [WebInvoke(Method = "Delete", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteAnswer")]
+        void DeleteAnswer(string Answerdesc)
+
         // TODO: Add your service operations here
     }
 
