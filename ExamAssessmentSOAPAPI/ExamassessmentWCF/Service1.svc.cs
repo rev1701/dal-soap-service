@@ -88,12 +88,7 @@ namespace LMS1701.EA.SOAPAPI
             db.spRemoveAnswerFromQuestion(QuestionID, AnswerID, myOutputParamInt);
           //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spRemoveCategory(String categoryName)
-        {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spRemoveCategory(categoryName, myOutputParamInt);
-            //return int.Parse(myOutputParamInt.Value.ToString());
-        }
+   
         public void spRemoveQuestionAsExamQuestion(String ExamQuestionID)
         {
             int result = 0;
