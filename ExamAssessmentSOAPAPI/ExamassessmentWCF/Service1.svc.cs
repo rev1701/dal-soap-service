@@ -153,7 +153,7 @@ namespace LMS1701.EA.SOAPAPI
                     Question newQuest = new Question();
                     newQuest.PKID = tempQuestion.PKID;
                     newQuest.Description = tempQuestion.Description;
-                    newQuest.Answers.ToList().AddRange(GetAnswersQuestion(newQuest.PKID));
+                   // newQuest.Answers = newQuest.Answers.ToList().AddRange(GetAnswersQuestion(newQuest.PKID));
                     question.quest.Add(newQuest);
                     
                 }
@@ -187,21 +187,23 @@ namespace LMS1701.EA.SOAPAPI
         {
             
             AutoMapperConfiguration.Configure();
-            var AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
+            List<int> AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
+            List < EAD.Answer >AnswerDB = db.Answer.ToList();
                         
             List<Answers> i = new List<Answers>();
             if (AnswerID.Count() > 0)
             {
                 for (int k = 0; k < AnswerID.ToList().Count; k++)
                 {
-                    var second = from x in db.Answer
-                                 where x.PKID == Question.ElementAt(k)
-                                 select x;
-                    Answers ans = new Answers();
-                   
-                  
-                    ans.Answer1 = 
-                    i.Add(ans);
+                    EAD.Answer ans =( from tempanswer in AnswerDB
+                                 where tempanswer.PKID == AnswerID.ElementAt(k)
+                                 select tempanswer).First();
+
+                    Answers answer = Mapper.Map<Answers>(ans);
+
+
+                   // ans.Answer1 = second.First().Answer1;
+                    i.Add(answer);
                     
                 }
             }
