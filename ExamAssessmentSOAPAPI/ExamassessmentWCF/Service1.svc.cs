@@ -209,7 +209,7 @@ namespace LMS1701.EA.SOAPAPI
                         answer.correct.isCorrect = false;
                     }
 
-                   // ans.Answer1 = second.First().Answer1;
+                   
                     ListOfAnswers.Add(answer);
                     
                 }
