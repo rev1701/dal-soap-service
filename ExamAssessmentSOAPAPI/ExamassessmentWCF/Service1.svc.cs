@@ -443,6 +443,7 @@ namespace LMS1701.EA.SOAPAPI
             */
             return null;
         }
+
         public List<Answers> GetQuestionAnswers(int sqid)
         {
             return null;
@@ -484,8 +485,32 @@ namespace LMS1701.EA.SOAPAPI
                     db.QuestionAnswers.Remove(item);
                 }
             }
+            db.Answer.Remove(removedAnswer); // removes the Answer from the Answer table.
+            db.SaveChanges();
         }
 
+        public void DeleteExam(string ExamTID)
+        {
+            
+            EAD.ExamTemplate removedExam = new EAD.ExamTemplate();
+            foreach (var item in db.ExamTemplate) //Gets the Exam which will be needed so it can be removed
+            {
+                if (item.ExamTemplateID.Equals(ExamTID))
+                {
+                    
+                    removedExam = item; //keeps a reference to the Exam that will be removed
+                }
+            }
+            foreach (var item in db.ExamTemplateQuestions) //Removes all references to the Exam in the database
+            {
+                if (item.ExamTemplateID == ExamTID)
+                {
+                    db.ExamTemplateQuestions.Remove(item);
+                }
+            }
+            db.ExamTemplate.Remove(removedExam); // removes the ExamTemplate from the ExamTemplate table.
+            db.SaveChanges();
+        }
 
         #endregion
 
@@ -520,6 +545,7 @@ namespace LMS1701.EA.SOAPAPI
             db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
             db.SaveChanges();
         }
+
         public void RemoveSubtopicFromCategory(string SubtopicName, string CategoryName)
         {
             int subtopicID = 0;
@@ -550,6 +576,7 @@ namespace LMS1701.EA.SOAPAPI
             }
             db.SaveChanges();
         }
+
         public void DeleteCategory(string CategoryName)
         {
             int categoryID = 0;
@@ -577,8 +604,6 @@ namespace LMS1701.EA.SOAPAPI
                     db.ExamQuestion_Categories.Remove(item);
                 }
             }
-
-
             db.Categories.Remove(removedCategory); // removes the category from the subtopic table.
             db.SaveChanges();
         }
@@ -599,7 +624,6 @@ namespace LMS1701.EA.SOAPAPI
             }
             return composite;
         }
-
       
     }
 }
