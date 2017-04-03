@@ -464,7 +464,32 @@ namespace LMS1701.EA.SOAPAPI
             {
             }
         }
+
+        public void DeleteAnswer(string Answerdesc)
+        {
+            int answerID = 0;
+            EAD.Answer removedAnswer = new EAD.Answer();
+            foreach (var item in db.Answer) //Gets the Answer which will be needed so it can be removed
+            {
+                if (item.Answer1 == Answerdesc)
+                {
+                    answerID = item.PKID;
+                    removedAnswer = item; //keeps a reference to the subtopic that will be removed
+                }
+            }
+            foreach (var item in db.QuestionAnswers) //Removes all references to the Answer in the database
+            {
+                if (item.AnswerID == answerID)
+                {
+                    db.QuestionAnswers.Remove(item);
+                }
+            }
+        }
+
+
         #endregion
+
+
         public List<SubTopic> GetSubtopicList()
         {
             var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j));
