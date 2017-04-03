@@ -9,7 +9,7 @@ using AutoMapper;
 using EAD = ExamAssessmentDaal;
 using LMS1701.EA.SOAPAPI;
 using System.Data.Entity.Core.Objects;
-
+using NLog;
 namespace LMS1701.EA.SOAPAPI
 {
 
@@ -180,9 +180,11 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
-            
+
+            NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "GetAnswersQuestion Started"));
             AutoMapperConfiguration.Configure();
             List<int> AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
+            NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "Got AnswerID's"));
             List < EAD.Answer >AnswerDB = db.Answer.ToList();
             List < EAD.QuestionAnswers > dbQuestionAns = db.QuestionAnswers.ToList();            
             List<Answers> ListOfAnswers = new List<Answers>();
@@ -193,14 +195,16 @@ namespace LMS1701.EA.SOAPAPI
                     EAD.Answer ans =( from tempanswer in AnswerDB
                                  where tempanswer.PKID == AnswerID.ElementAt(k)
                                  select tempanswer).First();
-
+                    NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"Got Answers for Specified Question {Questid}"));
                     Answers answer = Mapper.Map<Answers>(ans);
                     if(dbQuestionAns.Where(s => s.QuestionID == Questid && s.AnswerID == answer.PKID).Select(s => s.IsCorrect).First() == true)
                     {
+                        NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"Set correct answer for question with id {Questid}"));
                         answer.correct.isCorrect = true;
                     }
                     else
                     {
+                        NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"Assigned answer {answer.PKID} to false for question {Questid}"));
                         answer.correct.isCorrect = false;
                     }
 
@@ -209,6 +213,7 @@ namespace LMS1701.EA.SOAPAPI
                     
                 }
             }
+            NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"returned a list of answes for question {Questid}"));
             return ListOfAnswers;
 
         }
