@@ -657,6 +657,62 @@ namespace LMS1701.EA.SOAPAPI
             db.SaveChanges();
         }
 
+
+        public void RemoveCategoryFromSubject(string CategoryName, string SubjectName)
+        {
+
+            int subjectID = 0;
+            int categoryID = 0;
+
+            foreach (var item in db.Subject) //Gets the subjectID which will be needed so it can be removed
+            {
+                if (item.Subject_Name == SubjectName)
+                {
+                    subjectID = item.Subject_ID;
+                }
+            }
+
+            foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
+            {
+                if (item.Categories_Name == CategoryName)
+                {
+                    categoryID = item.Categories_ID;
+                }
+            }
+            foreach (var item in db.Subject_Categories) //Finds the row on the junction table that contains the pair of values and removes it
+            {
+                if (item.Subject_ID == subjectID && item.Categories_ID == categoryID)
+                {
+                    db.Subject_Categories.Remove(item);
+                }
+            }
+            db.SaveChanges();
+        }
+        public void DeleteSubject(string SubjectName)
+        {
+            int subjectID = 0;
+            ExamAssessmentDaal.Subject removedSubject = new ExamAssessmentDaal.Subject();
+            foreach (var item in db.Subject) //Gets the subjectID which will be needed so it can be removed
+            {
+                if (item.Subject_Name == SubjectName)
+                {
+                    subjectID = item.Subject_ID;
+                    removedSubject = item; //keeps a reference to the subject that will be removed
+                }
+            }
+
+            foreach (var item in db.Subject_Categories) //Removes all references to the subject in the database
+            {
+                if (item.Subject_ID == subjectID)
+                {
+                    db.Subject_Categories.Remove(item);
+                }
+            }
+
+            db.Subject.Remove(removedSubject); // removes the subject from the subtopic table.
+            db.SaveChanges();
+        }
+
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
             EAD.Subtopic test = new EAD.Subtopic();
