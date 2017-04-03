@@ -190,7 +190,7 @@ namespace LMS1701.EA.SOAPAPI
             List<int> AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
             List < EAD.Answer >AnswerDB = db.Answer.ToList();
                         
-            List<Answers> i = new List<Answers>();
+            List<Answers> ListOfAnswers = new List<Answers>();
             if (AnswerID.Count() > 0)
             {
                 for (int k = 0; k < AnswerID.ToList().Count; k++)
@@ -203,11 +203,11 @@ namespace LMS1701.EA.SOAPAPI
 
 
                    // ans.Answer1 = second.First().Answer1;
-                    i.Add(answer);
+                    ListOfAnswers.Add(answer);
                     
                 }
             }
-            return i;
+            return ListOfAnswers;
 
         }
        public ExamTemplate getExamTemplate(String id)
