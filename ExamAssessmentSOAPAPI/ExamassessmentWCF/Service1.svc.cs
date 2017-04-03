@@ -525,6 +525,38 @@ namespace LMS1701.EA.SOAPAPI
             }
             db.SaveChanges();
         }
+        public void DeleteCategory(string CategoryName)
+        {
+            int categoryID = 0;
+            ExamAssessmentDaal.Categories removedCategory = new ExamAssessmentDaal.Categories();
+            foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
+            {
+                if (item.Categories_Name == CategoryName)
+                {
+                    categoryID = item.Categories_ID;
+                    removedCategory = item; //keeps a reference to the category that will be removed
+                }
+            }
+
+            foreach (var item in db.Subject_Categories) //Removes all references to the category from subjects
+            {
+                if (item.Categories_ID == categoryID)
+                {
+                    db.Subject_Categories.Remove(item);
+                }
+            }
+            foreach (var item in db.ExamQuestion_Categories) //Removes all references to the category from subjects
+            {
+                if (item.Categories_ID == categoryID)
+                {
+                    db.ExamQuestion_Categories.Remove(item);
+                }
+            }
+
+
+            db.Categories.Remove(removedCategory); // removes the category from the subtopic table.
+            db.SaveChanges();
+        }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
