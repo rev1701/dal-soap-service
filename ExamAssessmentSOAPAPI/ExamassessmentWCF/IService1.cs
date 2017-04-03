@@ -88,7 +88,9 @@ namespace LMS1701.EA.SOAPAPI
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveSubtopicFromCategory")]
         void RemoveSubtopicFromCategory(string SubtopicName, string CategoryName);
 
-
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddAnswer")]
+        void AddAnswer(int QuestionID, string Answer, bool IC);
         // TODO: Add your service operations here
         // TODO: Add your service operations here
     }
