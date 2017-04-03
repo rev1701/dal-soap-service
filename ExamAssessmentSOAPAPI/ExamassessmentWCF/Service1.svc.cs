@@ -180,6 +180,18 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
+            if(db == null)
+            {
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The Database is null"));
+            }
+            else if (db.Database == null)
+            {
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The Database is null"));
+            }
+            else
+            {
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "Nothing is Null"));
+            }
 
             NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "GetAnswersQuestion Started"));
             try
