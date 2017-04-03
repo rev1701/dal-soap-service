@@ -200,8 +200,7 @@ namespace LMS1701.EA.SOAPAPI
                     Answers ans = new Answers();
                    
                   
-                    ans.Answer1 = 
-                    i.Add(ans);
+                    ans.Answer1 = i.Add(ans);
                     
                 }
             }
@@ -467,7 +466,7 @@ namespace LMS1701.EA.SOAPAPI
             }
 
             db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
-
+            db.SaveChanges();
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
