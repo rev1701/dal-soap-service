@@ -221,7 +221,7 @@ namespace LMS1701.EA.SOAPAPI
             }
             catch(Exception e)
             {
-                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", e.Message));
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", e.StackTrace));
                 return null;
             }
 
