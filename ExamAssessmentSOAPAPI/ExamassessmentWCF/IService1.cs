@@ -20,7 +20,7 @@ namespace LMS1701.EA.SOAPAPI
         List<SubTopic> GetSubtopicList();
 
         [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "TestThisagain?QuestID={QuestID}")]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "GetAnswersQuestionQuestID={QuestID}")]
         List<Answers> GetAnswersQuestion(int Questid);
 
         [OperationContract]
