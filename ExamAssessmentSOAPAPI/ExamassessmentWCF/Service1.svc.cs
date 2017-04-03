@@ -455,11 +455,11 @@ namespace LMS1701.EA.SOAPAPI
             ans.Answer1 = Answer;
             try
             {
-                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First();
-                var tempPKID1 = ans.PKID;
                 db.Answer.Add(ans);
                 db.SaveChanges();
-                spAddQuestionToAnswer(QuestionID, ans.PKID, IC);
+                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First();
+                int NewAnswerID = tempPKID.PKID;
+                spAddQuestionToAnswer(QuestionID, NewAnswerID, IC);
             }
             catch (Exception ex)
             {
@@ -511,6 +511,19 @@ namespace LMS1701.EA.SOAPAPI
             db.ExamTemplate.Remove(removedExam); // removes the ExamTemplate from the ExamTemplate table.
             db.SaveChanges();
         }
+        
+        
+        public void AddNewExam(string exName, string exTID, string ExamType)
+        {
+            EAD.ExamTemplate newExt = new EAD.ExamTemplate();
+            newExt.ExamTemplateName = exName;
+            newExt.ExamTemplateID = exTID;
+            newExt.ExamType.ExamTypeName = ExamType;
+            try
+            {
+                d
+            }
+        }
 
         #endregion
 
@@ -524,7 +537,7 @@ namespace LMS1701.EA.SOAPAPI
         public void DeleteSubtopic(string SubtopicName)
         {
             int subtopicID = 0;
-            ExamAssessmentDaal.Subtopic removedTopic = new ExamAssessmentDaal.Subtopic();
+           EAD.Subtopic removedTopic = new EAD.Subtopic();
             foreach(var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
             {
                 if (item.Subtopic_Name==SubtopicName)
@@ -551,7 +564,7 @@ namespace LMS1701.EA.SOAPAPI
             int subtopicID = 0;
             int categoryID = 0;
 
-            ExamAssessmentDaal.Subtopic removedTopic = new ExamAssessmentDaal.Subtopic();
+            EAD.Subtopic removedTopic = new EAD.Subtopic();
             foreach (var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
             {
                 if (item.Subtopic_Name == SubtopicName)
@@ -580,7 +593,7 @@ namespace LMS1701.EA.SOAPAPI
         public void DeleteCategory(string CategoryName)
         {
             int categoryID = 0;
-            ExamAssessmentDaal.Categories removedCategory = new ExamAssessmentDaal.Categories();
+            EAD.Categories removedCategory = new EAD.Categories();
             foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
             {
                 if (item.Categories_Name == CategoryName)
@@ -607,9 +620,10 @@ namespace LMS1701.EA.SOAPAPI
             db.Categories.Remove(removedCategory); // removes the category from the subtopic table.
             db.SaveChanges();
         }
+
         public void AddSubject(string SubjectName)
         {
-            ExamAssessmentDaal.Subject addedSubject = new ExamAssessmentDaal.Subject(); //Object to be passed into Subject Table
+            EAD.Subject addedSubject = new EAD.Subject(); //Object to be passed into Subject Table
             addedSubject.Subject_Name = SubjectName; //Only Needs Name property
             db.Subject.Add(addedSubject); //adds object to database
             db.SaveChanges();
