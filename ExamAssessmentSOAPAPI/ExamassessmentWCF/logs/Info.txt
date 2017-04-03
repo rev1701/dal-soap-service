@@ -11,3 +11,15 @@
    at System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
    at System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
    at LMS1701.EA.SOAPAPI.Service1.GetAnswersQuestion(Int32 Questid) in C:\Users\pstan\Documents\Visual Studio 2015\Projects\EaxAssessmentWCF\ExamAssessmentSOAPAPI\ExamassessmentWCF\Service1.svc.cs:line 201
+2017-04-03 16:05:11.9108 INFO Nothing is Null
+2017-04-03 16:05:11.9506 INFO GetAnswersQuestion Started
+2017-04-03 16:05:13.3332 INFO Got AnswerID's
+2017-04-03 16:05:13.5566 INFO Got Answers for Specified Question 1
+2017-04-03 16:05:13.5810 INFO Assigned answer 3 to false for question 1
+2017-04-03 16:05:13.5810 INFO Got Answers for Specified Question 1
+2017-04-03 16:05:13.5810 INFO Assigned answer 4 to false for question 1
+2017-04-03 16:05:13.6020 INFO Got Answers for Specified Question 1
+2017-04-03 16:05:13.6020 INFO Set correct answer for question with id 1
+2017-04-03 16:05:13.6175 INFO Got Answers for Specified Question 1
+2017-04-03 16:05:13.6175 INFO Assigned answer 6 to false for question 1
+2017-04-03 16:05:13.6295 INFO returned a list of answes for question 1
