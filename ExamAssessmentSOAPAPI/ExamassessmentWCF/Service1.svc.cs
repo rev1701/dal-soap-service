@@ -424,6 +424,7 @@ namespace LMS1701.EA.SOAPAPI
         }
 
         #region Devonte's Edits
+        #region Devonte Commented out code
         /* public List<Subject> GetExamSubject(string id)
         {
             Database needs a view that has the exam template and subject connected
@@ -444,6 +445,7 @@ namespace LMS1701.EA.SOAPAPI
             return null;
         }
         */
+        #endregion
         public List<Answers> GetQuestionAnswers(int sqid)
         {
             return null;
@@ -518,10 +520,36 @@ namespace LMS1701.EA.SOAPAPI
             EAD.ExamTemplate newExt = new EAD.ExamTemplate();
             newExt.ExamTemplateName = exName;
             newExt.ExamTemplateID = exTID;
-            newExt.ExamType.ExamTypeName = ExamType;
+
+            foreach (var item in db.ExamType)
+            {
+                if (item.ExamTypeName.Equals(ExamType))
+                {
+                    newExt.ExamType.PKID = item.PKID;
+                    newExt.ExamType.ExamTypeName = ExamType;
+                }
+            }
+                       
             try
             {
-                d
+                db.ExamTemplate.Add(newExt);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        //Check this out to see if logic works but i believe it works -Devonte
+        public void EditExam(string exName, string ExamTemplateID)
+        {
+            foreach(var item in db.ExamTemplate)
+            {
+                if (item.ExamTemplateID.Equals(ExamTemplateID))
+                {
+                    item.ExamTemplateName = exName;
+                    db.SaveChanges();
+                }
             }
         }
 
