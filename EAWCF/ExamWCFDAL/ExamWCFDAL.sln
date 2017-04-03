@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamWCFDAL", "ExamWCFDAL\ExamWCFDAL.csproj", "{1E9833D5-E54F-47FF-A2FA-94766AEA9E31}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamAssessmentDAL", "..\..\..\ExamAssessmentSOAPAPI\ExamWCFDAL\ExamAssessmentDAL\ExamAssessmentDAL.csproj", "{4FB78842-4217-4FFC-B74C-B05277FAACD6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExamAssessmentDAL", "ExamAssessmentDAL\ExamAssessmentDAL.csproj", "{06F2CA9A-EB62-404A-BEEB-FA58CD9E3768}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{1E9833D5-E54F-47FF-A2FA-94766AEA9E31}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E9833D5-E54F-47FF-A2FA-94766AEA9E31}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E9833D5-E54F-47FF-A2FA-94766AEA9E31}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4FB78842-4217-4FFC-B74C-B05277FAACD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4FB78842-4217-4FFC-B74C-B05277FAACD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4FB78842-4217-4FFC-B74C-B05277FAACD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4FB78842-4217-4FFC-B74C-B05277FAACD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06F2CA9A-EB62-404A-BEEB-FA58CD9E3768}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06F2CA9A-EB62-404A-BEEB-FA58CD9E3768}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06F2CA9A-EB62-404A-BEEB-FA58CD9E3768}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06F2CA9A-EB62-404A-BEEB-FA58CD9E3768}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

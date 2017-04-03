@@ -109,8 +109,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\ExamAssessmentSOAPAPI\ExamWCFDAL\ExamAssessmentDAL\ExamAssessmentDAL.csproj">
-      <Project>{4fb78842-4217-4ffc-b74c-b05277faacd6}</Project>
+    <ProjectReference Include="..\ExamAssessmentDAL\ExamAssessmentDAL.csproj">
+      <Project>{06f2ca9a-eb62-404a-beeb-fa58cd9e3768}</Project>
       <Name>ExamAssessmentDAL</Name>
     </ProjectReference>
   </ItemGroup>
