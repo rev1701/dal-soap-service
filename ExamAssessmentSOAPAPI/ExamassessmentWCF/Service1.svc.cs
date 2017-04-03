@@ -25,22 +25,22 @@ namespace LMS1701.EA.SOAPAPI
             return string.Format("You entered: {0}", value);
         }
         
-        public void spAddExistingCategory(String subject, String category)
+        public void spAddExistingCategory(string subjectname, String category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddExistingCategory(subject, category, myOutputParamInt);
+            db.spAddExistingCategory(subjectname, category, myOutputParamInt);
           //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spAddExistingSubtopicToCategory(String subtopic, String category)
+        public void spAddExistingSubtopicToCategory(String subtopicname, String categoryname)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddExistingSubtopicToCategory(subtopic, category, myOutputParamInt);
+            db.spAddExistingSubtopicToCategory(subtopicname, categoryname, myOutputParamInt);
           //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spAddNewCategoryType(String subject, String category)
+        public void spAddNewCategoryType(String subjectname, String categoryname)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
+            db.spAddExistingSubtopicToCategory(subjectname, categoryname, myOutputParamInt);
           //   return int.Parse(myOutputParamInt.Value.ToString());
         }
         public void spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType)
@@ -50,10 +50,10 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionAsExamQuestion(ExamQuestionID, QuestionID,name,QuestionType, myOutputParamInt);
           //  return 1;//int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spAddQuestionCategories(String Categories, int PKID)
+        public void spAddQuestionCategories(String Categoryname, int QuestionPKID)
         {
             int result = 0;
-            db.spAddQuestionCategories(Categories, PKID, result);
+            db.spAddQuestionCategories(Categoryname, QuestionPKID, result);
            // return result;
         }
    
@@ -69,16 +69,16 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionToExam(ExamID, ExamQuestionID, weight, myOutputParamInt);
           //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spAddSubtopicType(string Subtopics, string Category)
+        public void spAddSubtopicType(string Subtopicname, string Categoryname)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddSubtopicType(Subtopics, Category, myOutputParamInt);
+            db.spAddSubtopicType(Subtopicname, Categoryname, myOutputParamInt);
             //return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spDeleteQuestionCategory(String Categories, String ExamID)
+        public void spDeleteQuestionCategory(String Categoryname, String ExamID)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spDeleteQuestionCategory(Categories,ExamID,myOutputParamInt);
+            db.spDeleteQuestionCategory(Categoryname,ExamID,myOutputParamInt);
            // return int.Parse(myOutputParamInt.Value.ToString());
         }
         public  void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
@@ -366,6 +366,29 @@ namespace LMS1701.EA.SOAPAPI
         public List<Answers> GetQuestionAnswers(int sqid)
         {
             return null;
+        }
+
+        public void AddAnswer(int QuestionID, string Answer, bool IC)
+        {
+            EAD.Answer ans = new EAD.Answer();
+            ans.Answer1 = Answer;
+            try
+            {
+                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First();
+                var tempPKID1 = ans.PKID;
+                db.Answer.Add(ans);
+                db.SaveChanges();
+                spAddQuestionToAnswer(QuestionID, ans.PKID, IC);
+            }
+            catch(Exception ex)
+            {
+            }
+        }
+
+        public void DeleteAnswer(int QuestionID, string Answer, bool IC)
+        {
+            
+
         }
         #endregion
         public List<SubTopic> GetSubtopicList()
