@@ -25,22 +25,23 @@ namespace LMS1701.EA.SOAPAPI
             return string.Format("You entered: {0}", value);
         }
         
-        public void spAddExistingCategory(string subjectname, String category)
+        public void spAddExistingCategory(String subject, String category)
+
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddExistingCategory(subjectname, category, myOutputParamInt);
+            db.spAddExistingCategory(subject, category, myOutputParamInt);
           //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spAddExistingSubtopicToCategory(String subtopicname, String categoryname)
+        public void spAddExistingSubtopicToCategory(String subtopic, String category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddExistingSubtopicToCategory(subtopicname, categoryname, myOutputParamInt);
+            db.spAddExistingSubtopicToCategory(subtopic, category, myOutputParamInt);
           //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spAddNewCategoryType(String subjectname, String categoryname)
+        public void spAddNewCategoryType(String subject, String category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddExistingSubtopicToCategory(subjectname, categoryname, myOutputParamInt);
+            db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
           //   return int.Parse(myOutputParamInt.Value.ToString());
         }
         public void spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType)
@@ -50,10 +51,10 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionAsExamQuestion(ExamQuestionID, QuestionID,name,QuestionType, myOutputParamInt);
           //  return 1;//int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spAddQuestionCategories(String Categoryname, int QuestionPKID)
+        public void spAddQuestionCategories(String Categories, int PKID)
         {
             int result = 0;
-            db.spAddQuestionCategories(Categoryname, QuestionPKID, result);
+            db.spAddQuestionCategories(Categories, PKID, result);
            // return result;
         }
    
@@ -69,16 +70,16 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionToExam(ExamID, ExamQuestionID, weight, myOutputParamInt);
           //  return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spAddSubtopicType(string Subtopicname, string Categoryname)
+        public void spAddSubtopicType(string Subtopics, string Category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddSubtopicType(Subtopicname, Categoryname, myOutputParamInt);
+            db.spAddSubtopicType(Subtopics, Category, myOutputParamInt);
             //return int.Parse(myOutputParamInt.Value.ToString());
         }
-        public void spDeleteQuestionCategory(String Categoryname, String ExamID)
+        public void spDeleteQuestionCategory(String Categories, String ExamID)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spDeleteQuestionCategory(Categoryname,ExamID,myOutputParamInt);
+            db.spDeleteQuestionCategory(Categories,ExamID,myOutputParamInt);
            // return int.Parse(myOutputParamInt.Value.ToString());
         }
         public  void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
@@ -107,6 +108,60 @@ namespace LMS1701.EA.SOAPAPI
             db.spRemoveQuestionFromExam(ExamID,ExamQuestionID, myOutputParamInt);
             //return int.Parse(myOutputParamInt.Value.ToString());
         }
+        public List<ExamQuestion> GetAllExamQuestion()
+        {
+            AutoMapperConfiguration.Configure();
+            List<ExamQuestion> result = new List<ExamQuestion>();
+            var dbExamQuestion = db.ExamQuestion.ToList();
+            var dbCategories = db.Categories.ToList();
+            var dbSubtopic = db.Subtopic.ToList();
+            var dbCatSub = db.Categories_Subtopic.ToList();
+            var dbQuestExam = db.ExamQuestionList.ToList();
+            var dbQuestion = db.Question.ToList();
+          //  var dbQuestionID = db.ExamQuestionList.Select(s => s.QuestionID);
+            for (int i = 0; i < dbExamQuestion.Count(); i++)
+            {
+                ExamQuestion question = new ExamQuestion();
+                question.ExamQuestionID = dbExamQuestion.ElementAt(i).ExamQuestionID;
+                question.ExamQuestionName = dbExamQuestion.ElementAt(i).ExamQuestionName;
+                question.PKID = dbExamQuestion.ElementAt(i).PKID;
+                for(int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count();j++)
+                {
+                    Category cat = new Category();
+                   
+
+                    cat.Categories_ID = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_ID;
+                    cat.Categories_Name = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_Name;
+                    // Category cat =  Mapper.Map<Category> (dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID));
+                    List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
+                    for(int k= 0; k < listofSub.Count(); k++)
+                    {
+                        var subtopic = dbSubtopic.Where(s => s.Subtopic_ID == listofSub.ElementAt(k));
+                        SubTopic sub = new SubTopic();
+                        sub.Subtopic_ID = subtopic.ElementAt(0).Subtopic_ID;
+                        sub.Subtopic_Name = subtopic.ElementAt(0).Subtopic_Name;
+                        cat.subtopics.Add(sub);
+                    }
+                    question.ExamQuestion_Categories.Add(cat);
+                }
+
+                List<int> QuestionIDs = dbQuestExam.Where(s => s.ExamQuestionID == question.ExamQuestionID).Select(c => c.QuestionID).ToList();
+                EAD.Question tempQuestion;
+                for (int j = 0; j < QuestionIDs.Count; j++)
+                {
+                    tempQuestion = dbQuestion.Where(s => s.PKID == QuestionIDs.ElementAt(j)).First();
+                    Question newQuest = new Question();
+                    newQuest.PKID = tempQuestion.PKID;
+                    newQuest.Description = tempQuestion.Description;
+                   // newQuest.Answers = newQuest.Answers.ToList().AddRange(GetAnswersQuestion(newQuest.PKID));
+                    question.quest.Add(newQuest);
+                    
+                }
+                result.Add(question);
+            }
+            return result;
+     
+        }
         public List<Question> GetAllQuestions()
         {
             AutoMapperConfiguration.Configure();
@@ -124,6 +179,7 @@ namespace LMS1701.EA.SOAPAPI
                              select x;
                 quest.Answers.ToList().AddRange((GetAnswersQuestion(quest.PKID).ToList()));
                 result.Add(quest);
+               
             }
             return result;
         }
@@ -131,25 +187,27 @@ namespace LMS1701.EA.SOAPAPI
         {
             
             AutoMapperConfiguration.Configure();
-            var Question = from c in db.QuestionAnswers
-                        where c.QuestionID == Questid
-                        select c.AnswerID;
-            List<Answers> i = new List<Answers>();
-            if (Question.Count() > 0)
+            List<int> AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
+            List < EAD.Answer >AnswerDB = db.Answer.ToList();
+                        
+            List<Answers> ListOfAnswers = new List<Answers>();
+            if (AnswerID.Count() > 0)
             {
-                for (int k = 0; k < Question.ToList().Count; k++)
+                for (int k = 0; k < AnswerID.ToList().Count; k++)
                 {
-                    var second = from x in db.Answer
-                                 where x.PKID == Question.ToArray()[k]
-                                 select x;
-                    Answers ans = new Answers();
-                    ans.PKID = second.ElementAt(0).PKID;
-                    ans.Answer1 = second.ElementAt(0).Answer1;
-                    i.Add(ans);
+                    EAD.Answer ans =( from tempanswer in AnswerDB
+                                 where tempanswer.PKID == AnswerID.ElementAt(k)
+                                 select tempanswer).First();
 
+                    Answers answer = Mapper.Map<Answers>(ans);
+
+
+                   // ans.Answer1 = second.First().Answer1;
+                    ListOfAnswers.Add(answer);
+                    
                 }
             }
-            return i;
+            return ListOfAnswers;
 
         }
        public ExamTemplate getExamTemplate(String id)
@@ -267,18 +325,25 @@ namespace LMS1701.EA.SOAPAPI
         {
             AutoMapperConfiguration.Configure();
             List<Subject> result = new List<Subject>();
-            var subjects = from tempSubjects in db.Subject
-                    select tempSubjects;
+            #region
+            /* var subjects = from tempSubjects in db.Subject
+                     select tempSubjects; */
+            #endregion
+            List<EAD.Subject> subjects = db.Subject.ToList();
+            
             for (int i = 0; i < subjects.ToList().Count; i++)
             {
                 Subject newSubject = new Subject();
-                newSubject = Mapper.Map<Subject>(subjects.ToArray()[i]);
-               /* newSubject.Subject_ID = subjects.ToList().ToArray()[i].Subject_ID;
-                newSubject.Subject_Name = subjects.ToList().ToArray()[i].Subject_Name;*/
-                var categories = (from c in db.Subject_Categories
+                newSubject = Mapper.Map<Subject>(subjects.ElementAt(i));
+                #region
+                /* newSubject.Subject_ID = subjects.ToList().ToArray()[i].Subject_ID;
+                 newSubject.Subject_Name = subjects.ToList().ToArray()[i].Subject_Name;*/
+                /*var categories = (from c in db.Subject_Categories
                          where c.Subject_ID == newSubject.Subject_ID
-                         select c).ToList();
-        
+                         select c).ToList();*/
+                #endregion
+
+                List<EAD.Subject_Categories> categories = db.Subject_Categories.Where(c => c.Subject_ID == newSubject.Subject_ID).ToList();  
                 if(categories.Count < 1)
                 {
                     result.Add(newSubject);
@@ -287,20 +352,26 @@ namespace LMS1701.EA.SOAPAPI
                 {
                     for (int b = 0; b < categories.Count; b++)
                     {
-
+                        List<EAD.Categories> categoriesL = db.Categories.Where(c => c.Categories_ID == categories.ElementAt(b).Categories_ID).ToList();
                         Category Tempcategory = new Category();
-                        var Category = (from tempCat in db.Categories
-                                       where tempCat.Categories_ID == categories.ElementAt(b).Categories_ID
-                                       select tempCat).ToList();
+                        #region
+                        /* var Category = (from tempCat in db.Categories
+                                        where tempCat.Categories_ID == categories.ElementAt(b).Categories_ID
+                                        select tempCat).ToList();*/
+                        #endregion
+                        Tempcategory = new Category();
 
+
+                        #region
                         //  Tempcategory = Mapper.Map<Category>(categories.ToArray()[b]);
                         /* var category = from c in db.Categories_Subtopic
                                           where c.Categories_ID == categories.ElementAt(b).Categories_ID
                                           select c;*/
+                        #endregion
 
-                        Tempcategory.Categories_ID = Category.ElementAt(0).Categories_ID;
-                      
-                        Tempcategory.Categories_Name = Category.ElementAt(0).Categories_Name;
+                        Tempcategory.Categories_ID = categoriesL.ElementAt(0).Categories_ID;                     
+                        Tempcategory.Categories_Name = categoriesL.ElementAt(0).Categories_Name;
+
                         var SubtopicIDs = from TempID in db.Categories_Subtopic
                                           where TempID.Categories_ID == Tempcategory.Categories_ID
                                           select TempID.Subtopic_ID;
@@ -314,16 +385,18 @@ namespace LMS1701.EA.SOAPAPI
                             for (int c = 0; c < SubtopicIDs.ToList().Count; c++)
                             {
                                 SubTopic newSub = new SubTopic();
-                                var Subtopics = from TempSubtopic in db.Subtopic.ToList()
+                                /*var Subtopics = from TempSubtopic in db.Subtopic.ToList()
                                                    where TempSubtopic.Subtopic_ID == SubtopicIDs.ToList().ElementAt(c)
-                                                   select TempSubtopic;
-                                
-                                
-                                   newSub = new SubTopic();
-                                // newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
-                                newSub.Subtopic_Name = "jaja";//Subtopics.FirstOrDefault().Subtopic_Name;
-                                newSub.Subtopic_ID = 111;//Subtopics.ToList().FirstOrDefault().Subtopic_ID;
-                                    Tempcategory.subtopics.Add(newSub);
+                                                   select TempSubtopic;*/
+
+                                List<EAD.Subtopic> Subtopics = db.Subtopic.Where(s => s.Subtopic_ID == SubtopicIDs.ToList().ElementAt(c)).ToList();
+                                newSub = new SubTopic();
+                                newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
+                                #region
+                                // newSub.Subtopic_Name = Subtopics.ElementAt(0).Subtopic_Name;
+                                //newSub.Subtopic_ID = Subtopics.ToList().ElementAt(0).Subtopic_ID;
+                                #endregion
+                                Tempcategory.subtopics.Add(newSub);
                                     
                                 
 
@@ -367,34 +440,36 @@ namespace LMS1701.EA.SOAPAPI
         {
             return null;
         }
-
-        public void AddAnswer(int QuestionID, string Answer, bool IC)
-        {
-            EAD.Answer ans = new EAD.Answer();
-            ans.Answer1 = Answer;
-            try
-            {
-                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First();
-                var tempPKID1 = ans.PKID;
-                db.Answer.Add(ans);
-                db.SaveChanges();
-                spAddQuestionToAnswer(QuestionID, ans.PKID, IC);
-            }
-            catch(Exception ex)
-            {
-            }
-        }
-
-        public void DeleteAnswer(int QuestionID, string Answer, bool IC)
-        {
-            
-
-        }
         #endregion
         public List<SubTopic> GetSubtopicList()
         {
             var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j));
             return x.ToList();
+        }
+
+        public void DeleteSubtopic(string SubtopicName)
+        {
+            int subtopicID = 0;
+            ExamAssessmentDaal.Subtopic removedTopic = new ExamAssessmentDaal.Subtopic();
+            foreach(var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
+            {
+                if (item.Subtopic_Name==SubtopicName)
+                {
+                    subtopicID = item.Subtopic_ID;
+                    removedTopic = item; //keeps a reference to the subtopic that will be removed
+                }
+            }
+
+            foreach(var item in db.Categories_Subtopic) //Removes all references to the subtopic in the database
+            {
+                if (item.Subtopic_ID==subtopicID)
+                {
+                    db.Categories_Subtopic.Remove(item);
+                }
+            }
+
+            db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
+            db.SaveChanges();
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
