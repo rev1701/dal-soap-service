@@ -471,6 +471,36 @@ namespace LMS1701.EA.SOAPAPI
             db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
             db.SaveChanges();
         }
+        public void RemoveSubtopicFromCategory(string SubtopicName, string CategoryName)
+        {
+            int subtopicID = 0;
+            int categoryID = 0;
+
+            ExamAssessmentDaal.Subtopic removedTopic = new ExamAssessmentDaal.Subtopic();
+            foreach (var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
+            {
+                if (item.Subtopic_Name == SubtopicName)
+                {
+                    subtopicID = item.Subtopic_ID;
+                }
+            }
+
+            foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
+            {
+                if (item.Categories_Name == CategoryName)
+                {
+                    categoryID = item.Categories_ID;
+                }
+            }
+            foreach (var item in db.Categories_Subtopic) //Finds the row on the junction table that contains the pair of values and removes it
+            {
+                if (item.Subtopic_ID == subtopicID && item.Categories_ID == categoryID)
+                {
+                    db.Categories_Subtopic.Remove(item);
+                }
+            }
+            db.SaveChanges();
+        }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
