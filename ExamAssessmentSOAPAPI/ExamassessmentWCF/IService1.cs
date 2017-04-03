@@ -81,7 +81,9 @@ namespace LMS1701.EA.SOAPAPI
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveQuestionFromExam")]
         void spRemoveQuestionFromExam(String ExamQuestionID,String QuestionID);
-
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteSubtopic"]
+        void DeleteSubtopic(string SubtopicName);
 
 
 

@@ -26,6 +26,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         
         public void spAddExistingCategory(String subject, String category)
+
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spAddExistingCategory(subject, category, myOutputParamInt);
@@ -442,6 +443,31 @@ namespace LMS1701.EA.SOAPAPI
         {
             var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j));
             return x.ToList();
+        }
+
+        public void DeleteSubtopic(string SubtopicName)
+        {
+            int subtopicID = 0;
+            ExamAssessmentDaal.Subtopic removedTopic = new ExamAssessmentDaal.Subtopic();
+            foreach(var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
+            {
+                if (item.Subtopic_Name==SubtopicName)
+                {
+                    subtopicID = item.Subtopic_ID;
+                    removedTopic = item; //keeps a reference to the subtopic that will be removed
+                }
+            }
+
+            foreach(var item in db.Categories_Subtopic) //Removes all references to the subtopic in the database
+            {
+                if (item.Subtopic_ID==subtopicID)
+                {
+                    db.Categories_Subtopic.Remove(item);
+                }
+            }
+
+            db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
+
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
