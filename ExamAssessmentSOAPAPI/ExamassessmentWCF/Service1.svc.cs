@@ -447,6 +447,23 @@ namespace LMS1701.EA.SOAPAPI
         {
             return null;
         }
+
+        public void AddAnswer(int QuestionID, string Answer, bool IC)
+        {
+            EAD.Answer ans = new EAD.Answer();
+            ans.Answer1 = Answer;
+            try
+            {
+                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First();
+                var tempPKID1 = ans.PKID;
+                db.Answer.Add(ans);
+                db.SaveChanges();
+                spAddQuestionToAnswer(QuestionID, ans.PKID, IC);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
         #endregion
         public List<SubTopic> GetSubtopicList()
         {
@@ -476,7 +493,7 @@ namespace LMS1701.EA.SOAPAPI
             }
 
             db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
-
+            db.SaveChanges();
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
