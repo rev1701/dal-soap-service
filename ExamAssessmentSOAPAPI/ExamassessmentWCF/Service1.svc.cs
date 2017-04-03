@@ -115,6 +115,8 @@ namespace LMS1701.EA.SOAPAPI
             var dbCategories = db.Categories.ToList();
             var dbSubtopic = db.Subtopic.ToList();
             var dbCatSub = db.Categories_Subtopic.ToList();
+            var dbQuestExam = db.ExamQuestionList.ToList();
+            var dbQuestion = db.Question.ToList();
           //  var dbQuestionID = db.ExamQuestionList.Select(s => s.QuestionID);
             for (int i = 0; i < dbExamQuestion.Count(); i++)
             {
@@ -142,6 +144,18 @@ namespace LMS1701.EA.SOAPAPI
                     question.ExamQuestion_Categories.Add(cat);
                 }
 
+                List<int> QuestionIDs = dbQuestExam.Where(s => s.ExamQuestionID == question.ExamQuestionID).Select(c => c.QuestionID).ToList();
+                EAD.Question tempQuestion;
+                for (int j = 0; j < QuestionIDs.Count; j++)
+                {
+                    tempQuestion = dbQuestion.Where(s => s.PKID == QuestionIDs.ElementAt(j)).First();
+                    Question newQuest = new Question();
+                    newQuest.PKID = tempQuestion.PKID;
+                    newQuest.Description = tempQuestion.Description;
+                    newQuest.Answers.ToList().AddRange(GetAnswersQuestion(newQuest.PKID));
+                    question.quest.Add(newQuest);
+                    
+                }
                 result.Add(question);
             }
             return result;
@@ -172,20 +186,20 @@ namespace LMS1701.EA.SOAPAPI
         {
             
             AutoMapperConfiguration.Configure();
-            var Question = from c in db.QuestionAnswers
-                        where c.QuestionID == Questid
-                        select c.AnswerID;
+            var AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
+                        
             List<Answers> i = new List<Answers>();
-            if (Question.Count() > 0)
+            if (AnswerID.Count() > 0)
             {
-                for (int k = 0; k < Question.ToList().Count; k++)
+                for (int k = 0; k < AnswerID.ToList().Count; k++)
                 {
                     var second = from x in db.Answer
-                                 where x.PKID == Question.ToArray()[k]
+                                 where x.PKID == Question.ElementAt(k)
                                  select x;
                     Answers ans = new Answers();
-                    ans.PKID = second.ElementAt(0).PKID;
-                    ans.Answer1 = second.ElementAt(0).Answer1;
+                   
+                  
+                    ans.Answer1 = 
                     i.Add(ans);
                     
                 }
