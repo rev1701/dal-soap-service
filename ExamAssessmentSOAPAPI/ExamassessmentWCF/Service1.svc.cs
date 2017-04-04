@@ -184,7 +184,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
-            if(db == null)
+            if (db == null)
             {
                 NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The Database is null"));
             }
@@ -211,12 +211,6 @@ namespace LMS1701.EA.SOAPAPI
                 {
                     for (int k = 0; k < AnswerID.ToList().Count; k++)
                     {
-
-                        answer.correct.isCorrect = false;
-                    }
-                 
-                    ListOfAnswers.Add(answer);                  
-
                         EAD.Answer ans = (from tempanswer in AnswerDB
                                           where tempanswer.PKID == AnswerID.ElementAt(k)
                                           select tempanswer).First();
@@ -237,12 +231,11 @@ namespace LMS1701.EA.SOAPAPI
                         ListOfAnswers.Add(answer);
 
                     }
-
                 }
                 NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"returned a list of answes for question {Questid}"));
                 return ListOfAnswers;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", e.StackTrace));
                 return null;
@@ -250,12 +243,12 @@ namespace LMS1701.EA.SOAPAPI
 
         }
 
-       //public void DeleteExamQuestion(ExamQuestion examQuestion)
-       //{
-            
-       //}
+        //public void DeleteExamQuestion(ExamQuestion examQuestion)
+        //{
 
-       public ExamTemplate getExamTemplate(String id)
+        //}
+
+        public ExamTemplate getExamTemplate(String id)
         {
 
             #region 
