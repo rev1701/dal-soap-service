@@ -419,6 +419,7 @@ namespace LMS1701.EA.SOAPAPI
                 }
                 else
                 {
+                    NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "temp PKID"));
                     NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The answer PKID has been received"));
                 }
                 
@@ -427,6 +428,7 @@ namespace LMS1701.EA.SOAPAPI
             }
             catch (Exception ex)
             {
+                // to do
             }
         }
 
@@ -445,9 +447,9 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                // to do
             }
 
             try
@@ -462,8 +464,9 @@ namespace LMS1701.EA.SOAPAPI
                 db.Answer.Remove(removedAnswer); // removes the Answer from the Answer table.
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
+                // to do
             }
         }
 
@@ -512,8 +515,9 @@ namespace LMS1701.EA.SOAPAPI
                 db.ExamTemplate.Add(newExt);
                 db.SaveChanges();
             }
-            catch
+            catch (Exception ex)
             {
+                // to do
             }
         }
 
@@ -530,10 +534,11 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                // to do
             }
-            }
+        }
 
         #endregion
 
@@ -559,9 +564,9 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                // to do
             }
 
             try
@@ -576,7 +581,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                // to do
+            }
             db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
             db.SaveChanges();
         }
@@ -597,7 +605,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                // to do
+            }
 
             try
             {
@@ -609,7 +620,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                // to do
+            }
             try
             {
                 foreach (var item in db.Categories_Subtopic) //Finds the row on the junction table that contains the pair of values and removes it
@@ -620,7 +634,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do 
+            }
                 db.SaveChanges();
         }
 
@@ -639,7 +656,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do 
+            }
             try
             {
                 foreach (var item in db.Subject_Categories) //Removes all references to the category from subjects
@@ -650,7 +670,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do
+            }
 
             try
             {
@@ -662,13 +685,19 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                // to do
+            }
 
             try
             {
                 db.Categories.Remove(removedCategory); // removes the category from the subtopic table.
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do
+            }
             db.SaveChanges();
         }
 
@@ -680,7 +709,10 @@ namespace LMS1701.EA.SOAPAPI
             {
                 db.Subject.Add(addedSubject); //adds object to database
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do 
+            }
             db.SaveChanges();
         }
 
@@ -701,7 +733,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do
+            }
 
             try
             {
@@ -713,7 +748,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do 
+            }
 
             try
             {
@@ -725,7 +763,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do
+            }
             db.SaveChanges();
         }
 
@@ -745,7 +786,10 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                // to do 
+            }
 
             try
             {
@@ -757,13 +801,19 @@ namespace LMS1701.EA.SOAPAPI
                     }
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do
+            }
 
             try
             {
                 db.Subject.Remove(removedSubject); // removes the subject from the subtopic table.
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do
+            }
             db.SaveChanges();
         }
 
@@ -775,7 +825,10 @@ namespace LMS1701.EA.SOAPAPI
                 var answer = db.Answer.Where(x => x.PKID == answerid);
                 answer.First().Answer1 = oldanswer;
             }
-            catch { }
+            catch (Exception ex)
+            { 
+                // to do
+            }
             db.SaveChanges();
         }
 
@@ -788,7 +841,10 @@ namespace LMS1701.EA.SOAPAPI
             {
                 test2 = Mapper.Map<SubTopic>(test);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                // to do 
+            }
 
             try
             {
@@ -801,7 +857,10 @@ namespace LMS1701.EA.SOAPAPI
                     composite.StringValue += "Suffix";
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                //to do
+            }
             return composite;
         }
 
