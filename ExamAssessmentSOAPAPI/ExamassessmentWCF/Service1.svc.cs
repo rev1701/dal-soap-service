@@ -734,10 +734,10 @@ namespace LMS1701.EA.SOAPAPI
             db.Subject.Remove(removedSubject); // removes the subject from the subtopic table.
             db.SaveChanges();
         }
-        public void UpdateAnswer(int answerid, string newdesc)
+        public void UpdateAnswer(int answerid, string oldanswer)
         {
             var answer = db.Answer.Where(x => x.PKID == answerid);
-            answer.First().Answer1 = newdesc;
+            answer.First().Answer1 = oldanswer;
             db.SaveChanges();
         }
 
