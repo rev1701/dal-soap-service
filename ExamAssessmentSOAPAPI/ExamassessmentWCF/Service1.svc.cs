@@ -170,14 +170,14 @@ namespace LMS1701.EA.SOAPAPI
         {
             AutoMapperConfiguration.Configure();
             List<Question> result = new List<Question>();
-            var first = from c in db.Question                    
-                        select c;
-            var dbQuestionAnswers = db.QuestionAnswers;
+            var first = (from c in db.Question                    
+                        select c).ToList();
+            var dbQuestionAnswers = db.QuestionAnswers.ToList();
             for(int i = 0; i < first.ToList().Count; i++)
             {
                 Question quest = new Question();
-                quest.PKID = first.ToList().ElementAt(i).PKID;
-                quest.Description = first.ToList().ElementAt(i).Description;
+                quest.PKID = first.ElementAt(i).PKID;
+                quest.Description = first.ElementAt(i).Description;
                 var second = from x in dbQuestionAnswers
                              where x.QuestionID == quest.PKID
                              select x;
