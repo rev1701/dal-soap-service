@@ -131,7 +131,7 @@ namespace LMS1701.EA.SOAPAPI
                     Category cat = new Category();
                    
 
-                    cat.Categories_ID = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_ID;
+                    cat.Categories_ID = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).Categories_ID;
                     cat.Categories_Name = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_Name;
                     
                     List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
@@ -178,9 +178,7 @@ namespace LMS1701.EA.SOAPAPI
                 Question quest = new Question();
                 quest.PKID = first.ElementAt(i).PKID;
                 quest.Description = first.ElementAt(i).Description;
-                var second = from x in dbQuestionAnswers
-                             where x.QuestionID == quest.PKID
-                             select x;
+              
                 quest.Answers = GetAnswersQuestion(quest.PKID);
                 result.Add(quest);
                
@@ -212,9 +210,9 @@ namespace LMS1701.EA.SOAPAPI
                 List<EAD.Answer> AnswerDB = db.Answer.ToList();
                 List<EAD.QuestionAnswers> dbQuestionAns = db.QuestionAnswers.ToList();
                 List<Answers> ListOfAnswers = new List<Answers>();
-                if (AnswerID.Count() > 0)
+                if (AnswerID.Count > 0)
                 {
-                    for (int k = 0; k < AnswerID.ToList().Count; k++)
+                    for (int k = 0; k < AnswerID.Count; k++)
                     {
                         EAD.Answer ans = (from tempanswer in AnswerDB
                                           where tempanswer.PKID == AnswerID.ElementAt(k)
@@ -301,7 +299,7 @@ namespace LMS1701.EA.SOAPAPI
                         quest.Description = Question.ElementAt(0).Description;
                       
                         List<EAD.QuestionAnswers> AnswersID = db.QuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
-                        for(int k = 0;  k < AnswersID.Count(); k++)
+                        for(int k = 0;  k < AnswersID.Count; k++)
                         {
                             int answer = AnswersID.ElementAt(k).AnswerID;
                             var TheAnswer = from tempAnswer in dbanswer
@@ -349,12 +347,6 @@ namespace LMS1701.EA.SOAPAPI
                         int tempID = categories.ElementAt(b).Categories_ID;
                         List<EAD.Categories> categoriesL = db.Categories.Where(c => c.Categories_ID == tempID).ToList();
                         Category Tempcategory = new Category();
-                       
-                        Tempcategory = new Category();
-
-
-                        
-
                         Tempcategory.Categories_ID = categoriesL.ElementAt(0).Categories_ID;                     
                         Tempcategory.Categories_Name = categoriesL.ElementAt(0).Categories_Name;
 
