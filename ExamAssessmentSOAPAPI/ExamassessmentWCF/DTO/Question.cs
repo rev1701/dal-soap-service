@@ -21,8 +21,6 @@ namespace LMS1701.EA.SOAPAPI
         public int PKID { get; set; }
         [DataMember]
         public string Description { get; set; }
-        [DataMember]
-        public Correct correct { get; set; }
 
         //[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         //  public virtual ICollection<ExamQuestionList> ExamQuestionLists { get; set; }
