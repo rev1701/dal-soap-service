@@ -29,6 +29,6 @@ namespace LMS1701.EA.SOAPAPI
         public List<Question> quest { get; set; }
         [DataMember]
         public virtual ICollection<Category> ExamQuestion_Categories { get; set; }
-    //    public virtual QuestionType QuestionType { get; set; }
+
     }
 }
