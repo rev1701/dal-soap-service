@@ -298,7 +298,7 @@ namespace LMS1701.EA.SOAPAPI
                         quest.PKID = Question.ElementAt(0).PKID;
                         quest.Description = Question.ElementAt(0).Description;
                       
-                        List<EAD.QuestionAnswers> AnswersID = db.QuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
+                        List<EAD.QuestionAnswers> AnswersID = dbQuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
                         for(int k = 0;  k < AnswersID.Count; k++)
                         {
                             int answer = AnswersID.ElementAt(k).AnswerID;
@@ -331,8 +331,7 @@ namespace LMS1701.EA.SOAPAPI
             
             for (int i = 0; i < subjects.ToList().Count; i++)
             {
-                Subject newSubject = new Subject();
-                newSubject = Mapper.Map<Subject>(subjects.ElementAt(i));
+                Subject newSubject = Mapper.Map<Subject>(subjects.ElementAt(i));
                
 
                 List<EAD.Subject_Categories> categories = db.Subject_Categories.Where(c => c.Subject_ID == newSubject.Subject_ID).ToList();  
@@ -823,7 +822,7 @@ namespace LMS1701.EA.SOAPAPI
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
-            EAD.Subtopic test = new EAD.Subtopic();
+            
             AutoMapperConfiguration.Configure();
             SubTopic test2 = new SubTopic();
             try
