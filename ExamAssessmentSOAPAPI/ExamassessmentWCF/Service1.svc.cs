@@ -129,9 +129,9 @@ namespace LMS1701.EA.SOAPAPI
                 for(int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count;j++)
                 {
                     Category cat = new Category();
-                   
 
-                    cat.Categories_ID = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_ID;
+
+                    cat.Categories_ID = dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID;
                     cat.Categories_Name = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_Name;
                     
                     List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
@@ -178,9 +178,7 @@ namespace LMS1701.EA.SOAPAPI
                 Question quest = new Question();
                 quest.PKID = first.ElementAt(i).PKID;
                 quest.Description = first.ElementAt(i).Description;
-                var second = from x in dbQuestionAnswers
-                             where x.QuestionID == quest.PKID
-                             select x;
+              
                 quest.Answers = GetAnswersQuestion(quest.PKID);
                 result.Add(quest);
                
@@ -212,9 +210,9 @@ namespace LMS1701.EA.SOAPAPI
                 List<EAD.Answer> AnswerDB = db.Answer.ToList();
                 List<EAD.QuestionAnswers> dbQuestionAns = db.QuestionAnswers.ToList();
                 List<Answers> ListOfAnswers = new List<Answers>();
-                if (AnswerID.Count() > 0)
+                if (AnswerID.Count > 0)
                 {
-                    for (int k = 0; k < AnswerID.ToList().Count; k++)
+                    for (int k = 0; k < AnswerID.Count; k++)
                     {
                         EAD.Answer ans = (from tempanswer in AnswerDB
                                           where tempanswer.PKID == AnswerID.ElementAt(k)
@@ -300,8 +298,8 @@ namespace LMS1701.EA.SOAPAPI
                         quest.PKID = Question.ElementAt(0).PKID;
                         quest.Description = Question.ElementAt(0).Description;
                       
-                        List<EAD.QuestionAnswers> AnswersID = db.QuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
-                        for(int k = 0;  k < AnswersID.Count(); k++)
+                        List<EAD.QuestionAnswers> AnswersID = dbQuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
+                        for(int k = 0;  k < AnswersID.Count; k++)
                         {
                             int answer = AnswersID.ElementAt(k).AnswerID;
                             var TheAnswer = from tempAnswer in dbanswer
@@ -333,8 +331,7 @@ namespace LMS1701.EA.SOAPAPI
             
             for (int i = 0; i < subjects.ToList().Count; i++)
             {
-                Subject newSubject = new Subject();
-                newSubject = Mapper.Map<Subject>(subjects.ElementAt(i));
+                Subject newSubject = Mapper.Map<Subject>(subjects.ElementAt(i));
                
 
                 List<EAD.Subject_Categories> categories = db.Subject_Categories.Where(c => c.Subject_ID == newSubject.Subject_ID).ToList();  
@@ -349,12 +346,6 @@ namespace LMS1701.EA.SOAPAPI
                         int tempID = categories.ElementAt(b).Categories_ID;
                         List<EAD.Categories> categoriesL = db.Categories.Where(c => c.Categories_ID == tempID).ToList();
                         Category Tempcategory = new Category();
-                       
-                        Tempcategory = new Category();
-
-
-                        
-
                         Tempcategory.Categories_ID = categoriesL.ElementAt(0).Categories_ID;                     
                         Tempcategory.Categories_Name = categoriesL.ElementAt(0).Categories_Name;
 
@@ -831,12 +822,12 @@ namespace LMS1701.EA.SOAPAPI
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
-            EAD.Subtopic test = new EAD.Subtopic();
+            
             AutoMapperConfiguration.Configure();
             SubTopic test2 = new SubTopic();
             try
             {
-                test2 = Mapper.Map<SubTopic>(test);
+               // test2 = Mapper.Map<SubTopic>(test2);
             }
             catch (Exception ex)
             {
