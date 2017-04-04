@@ -214,6 +214,12 @@ namespace LMS1701.EA.SOAPAPI
             return ListOfAnswers;
 
         }
+
+       //public void DeleteExamQuestion(ExamQuestion examQuestion)
+       //{
+            
+       //}
+
        public ExamTemplate getExamTemplate(String id)
         {
 
