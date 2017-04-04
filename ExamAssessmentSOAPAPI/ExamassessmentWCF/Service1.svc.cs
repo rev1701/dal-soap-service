@@ -9,7 +9,7 @@ using AutoMapper;
 using EAD = ExamAssessmentDaal;
 using LMS1701.EA.SOAPAPI;
 using System.Data.Entity.Core.Objects;
-
+using NLog;
 namespace LMS1701.EA.SOAPAPI
 {
 
@@ -184,34 +184,69 @@ namespace LMS1701.EA.SOAPAPI
         }
         public List<Answers> GetAnswersQuestion(int Questid)
         {
-            
-            AutoMapperConfiguration.Configure();
-            List<int> AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
-            List < EAD.Answer >AnswerDB = db.Answer.ToList();
-            List < EAD.QuestionAnswers > dbQuestionAns = db.QuestionAnswers.ToList();            
-            List<Answers> ListOfAnswers = new List<Answers>();
-            if (AnswerID.Count() > 0)
+            if(db == null)
             {
-                for (int k = 0; k < AnswerID.ToList().Count; k++)
-                {
-                    EAD.Answer ans =( from tempanswer in AnswerDB
-                                 where tempanswer.PKID == AnswerID.ElementAt(k)
-                                 select tempanswer).First();
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The Database is null"));
+            }
+            else if (db.Database == null)
+            {
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The Database is null"));
+            }
+            else
+            {
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "Nothing is Null"));
+            }
 
-                    Answers answer = Mapper.Map<Answers>(ans);
-                    if(dbQuestionAns.Where(s => s.QuestionID == Questid && s.AnswerID == answer.PKID).Select(s => s.IsCorrect).First() == true)
+            NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "GetAnswersQuestion Started"));
+            try
+            {
+
+                AutoMapperConfiguration.Configure();
+                List<int> AnswerID = db.QuestionAnswers.Where(c => c.QuestionID == Questid).Select(x => x.AnswerID).ToList();
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "Got AnswerID's"));
+                List<EAD.Answer> AnswerDB = db.Answer.ToList();
+                List<EAD.QuestionAnswers> dbQuestionAns = db.QuestionAnswers.ToList();
+                List<Answers> ListOfAnswers = new List<Answers>();
+                if (AnswerID.Count() > 0)
+                {
+                    for (int k = 0; k < AnswerID.ToList().Count; k++)
                     {
-                        answer.correct.isCorrect = true;
-                    }
-                    else
-                    {
+
                         answer.correct.isCorrect = false;
                     }
                  
                     ListOfAnswers.Add(answer);                  
+
+                        EAD.Answer ans = (from tempanswer in AnswerDB
+                                          where tempanswer.PKID == AnswerID.ElementAt(k)
+                                          select tempanswer).First();
+                        NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"Got Answers for Specified Question {Questid}"));
+                        Answers answer = Mapper.Map<Answers>(ans);
+                        if (dbQuestionAns.Where(s => s.QuestionID == Questid && s.AnswerID == answer.PKID).Select(s => s.IsCorrect).First() == true)
+                        {
+                            NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"Set correct answer for question with id {Questid}"));
+                            answer.correct.isCorrect = true;
+                        }
+                        else
+                        {
+                            NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"Assigned answer {answer.PKID} to false for question {Questid}"));
+                            answer.correct.isCorrect = false;
+                        }
+
+
+                        ListOfAnswers.Add(answer);
+
+                    }
+
                 }
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", $"returned a list of answes for question {Questid}"));
+                return ListOfAnswers;
             }
-            return ListOfAnswers;
+            catch(Exception e)
+            {
+                NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", e.StackTrace));
+                return null;
+            }
 
         }
 
@@ -710,6 +745,12 @@ namespace LMS1701.EA.SOAPAPI
             }
 
             db.Subject.Remove(removedSubject); // removes the subject from the subtopic table.
+            db.SaveChanges();
+        }
+        public void UpdateAnswer(int answerid, string newdesc)
+        {
+            var answer = db.Answer.Where(x => x.PKID == answerid);
+            answer.First().Answer1 = newdesc;
             db.SaveChanges();
         }
 

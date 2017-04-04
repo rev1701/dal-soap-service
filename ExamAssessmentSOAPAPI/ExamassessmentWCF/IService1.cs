@@ -20,7 +20,7 @@ namespace LMS1701.EA.SOAPAPI
         List<SubTopic> GetSubtopicList();
 
         [OperationContract]
-        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "TestThisagain?QuestID={QuestID}")]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "GetAnswersQuestionQuestID={QuestID}")]
         List<Answers> GetAnswersQuestion(int Questid);
 
         [OperationContract]
@@ -111,9 +111,16 @@ namespace LMS1701.EA.SOAPAPI
         void RemoveCategoryFromSubject(string CategoryName, string SubjectName);
 
         [OperationContract]
-        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteSubject")]
+        [WebInvoke(Method = "DELETE", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteSubject")]
         void DeleteSubject(string SubjectName);
 
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "UpdateAnswer")]
+        void UpdateAnswer(int answerid, string newdesc );
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteSubject")]
+        void DeleteExam(string SubjectName);
         // TODO: Add your service operations here
     }
 
