@@ -289,7 +289,7 @@ namespace LMS1701.EA.SOAPAPI
                     ExamQ.PKID = ExamQuestion.ElementAt(0).PKID;
                     ExamQ.QuestionType.PKID = ExamQuestion.ElementAt(0).QuestionType.PKID;
                     ExamQ.QuestionType.QuestionTypeName = ExamQuestion.ElementAt(0).QuestionType.QuestionTypeName;
-                   
+                    
                     var ExamQuestionList = dbExamQuestionList.Where(s => s.ExamQuestionID == ExamQ.ExamQuestionID).ToList();
                     for(int j= 0; j < ExamQuestionList.Count; j++)
                     {
@@ -299,7 +299,7 @@ namespace LMS1701.EA.SOAPAPI
                         Question quest = new Question();
                         quest.PKID = Question.ElementAt(0).PKID;
                         quest.Description = Question.ElementAt(0).Description;
-                       
+                      
                         List<EAD.QuestionAnswers> AnswersID = db.QuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
                         for(int k = 0;  k < AnswersID.Count(); k++)
                         {
