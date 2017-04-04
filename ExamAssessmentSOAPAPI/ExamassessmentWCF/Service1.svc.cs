@@ -91,7 +91,7 @@ namespace LMS1701.EA.SOAPAPI
    
         public void spRemoveQuestionAsExamQuestion(String ExamQuestionID)
         {
-            int result = 0;
+            int result = 0;  
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spRemoveQuestionAsExamQuestion(ExamQuestionID, result);
           //  return result;
