@@ -129,9 +129,9 @@ namespace LMS1701.EA.SOAPAPI
                 for(int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count;j++)
                 {
                     Category cat = new Category();
-                   
 
-                    cat.Categories_ID = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).Categories_ID;
+
+                    cat.Categories_ID = dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID;
                     cat.Categories_Name = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_Name;
                     
                     List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
@@ -827,7 +827,7 @@ namespace LMS1701.EA.SOAPAPI
             SubTopic test2 = new SubTopic();
             try
             {
-                test2 = Mapper.Map<SubTopic>(test);
+               // test2 = Mapper.Map<SubTopic>(test2);
             }
             catch (Exception ex)
             {
