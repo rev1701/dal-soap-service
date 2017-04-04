@@ -348,12 +348,7 @@ namespace LMS1701.EA.SOAPAPI
                     {
                         int tempID = categories.ElementAt(b).Categories_ID;
                         List<EAD.Categories> categoriesL = db.Categories.Where(c => c.Categories_ID == tempID).ToList();
-                        Category Tempcategory = new Category();
-                       
-                        Tempcategory = new Category();
-
-
-                        
+                        Category Tempcategory = new Category();                      
 
                         Tempcategory.Categories_ID = categoriesL.ElementAt(0).Categories_ID;                     
                         Tempcategory.Categories_Name = categoriesL.ElementAt(0).Categories_Name;
