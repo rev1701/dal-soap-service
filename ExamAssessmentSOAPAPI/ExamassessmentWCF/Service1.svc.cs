@@ -119,14 +119,14 @@ namespace LMS1701.EA.SOAPAPI
             
 
 
-            for (int i = 0; i < dbExamQuestion.Count(); i++)
+            for (int i = 0; i < dbExamQuestion.Count; i++)
             {
                 ExamQuestion question     = new ExamQuestion();
                 question.ExamQuestionID   = dbExamQuestion.ElementAt(i).ExamQuestionID;
                 question.ExamQuestionName = dbExamQuestion.ElementAt(i).ExamQuestionName;
                 question.PKID             = dbExamQuestion.ElementAt(i).PKID;
 
-                for(int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count();j++)
+                for(int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count;j++)
                 {
                     Category cat = new Category();
                    
@@ -170,14 +170,14 @@ namespace LMS1701.EA.SOAPAPI
         {
             AutoMapperConfiguration.Configure();
             List<Question> result = new List<Question>();
-            var first = from c in db.Question                    
-                        select c;
-            var dbQuestionAnswers = db.QuestionAnswers;
+            var first = (from c in db.Question                    
+                        select c).ToList();
+            var dbQuestionAnswers = db.QuestionAnswers.ToList();
             for(int i = 0; i < first.ToList().Count; i++)
             {
                 Question quest = new Question();
-                quest.PKID = first.ToList().ElementAt(i).PKID;
-                quest.Description = first.ToList().ElementAt(i).Description;
+                quest.PKID = first.ElementAt(i).PKID;
+                quest.Description = first.ElementAt(i).Description;
                 var second = from x in dbQuestionAnswers
                              where x.QuestionID == quest.PKID
                              select x;
@@ -265,7 +265,7 @@ namespace LMS1701.EA.SOAPAPI
        
             
             List<EAD.ExamTemplateQuestions> ExamQuestions = db.ExamTemplateQuestions.Where(s => s.ExamTemplateID == exam.ExamTemplateID).ToList();
-            if(ExamQuestions.Count() < 1)
+            if(ExamQuestions.Count < 1)
             {
                 return exam;
             }
@@ -289,9 +289,9 @@ namespace LMS1701.EA.SOAPAPI
                     ExamQ.PKID = ExamQuestion.ElementAt(0).PKID;
                     ExamQ.QuestionType.PKID = ExamQuestion.ElementAt(0).QuestionType.PKID;
                     ExamQ.QuestionType.QuestionTypeName = ExamQuestion.ElementAt(0).QuestionType.QuestionTypeName;
-                   
+                    
                     var ExamQuestionList = dbExamQuestionList.Where(s => s.ExamQuestionID == ExamQ.ExamQuestionID).ToList();
-                    for(int j= 0; j < ExamQuestionList.Count(); j++)
+                    for(int j= 0; j < ExamQuestionList.Count; j++)
                     {
                         int tempID = ExamQuestionList.ElementAt(j).QuestionID;
                         
@@ -299,7 +299,7 @@ namespace LMS1701.EA.SOAPAPI
                         Question quest = new Question();
                         quest.PKID = Question.ElementAt(0).PKID;
                         quest.Description = Question.ElementAt(0).Description;
-                       
+                      
                         List<EAD.QuestionAnswers> AnswersID = db.QuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
                         for(int k = 0;  k < AnswersID.Count(); k++)
                         {
@@ -310,9 +310,8 @@ namespace LMS1701.EA.SOAPAPI
                             Answers ans = new Answers();
                             ans.PKID = TheAnswer.ToArray()[0].PKID;
                             ans.Answer1 = TheAnswer.FirstOrDefault().Answer1;
-                         
-                            bool isCorrect = AnswersID.FirstOrDefault().IsCorrect;
-                         
+                            ans.correct.isCorrect = AnswersID.ElementAt(k).IsCorrect;
+
                             quest.Answers.Add(ans);
                         }
                         ExamQ.quest.Add(quest);
@@ -372,10 +371,8 @@ namespace LMS1701.EA.SOAPAPI
                             for (int c = 0; c < SubtopicIDs.ToList().Count; c++)
                             {
                                 SubTopic newSub = new SubTopic();
-                               
                                 int id = SubtopicIDs.ToList().ElementAt(c);
                                 List<EAD.Subtopic> Subtopics = db.Subtopic.Where(s => s.Subtopic_ID == id).ToList();
-                                newSub = new SubTopic();
                                 newSub = Mapper.Map<SubTopic>(Subtopics.ElementAt(0));
                               
                                 Tempcategory.subtopics.Add(newSub);
