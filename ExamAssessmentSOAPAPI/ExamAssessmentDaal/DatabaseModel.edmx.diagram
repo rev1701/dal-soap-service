@@ -10,7 +10,7 @@
         <EntityTypeShape EntityType="ExamAssessmentModel.Categories_Subtopic" Width="1.5" PointX="3" PointY="5.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.ExamQuestion" Width="1.5" PointX="0.75" PointY="2.375" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.ExamQuestion_Categories" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="ExamAssessmentModel.ExamQuestionList" Width="1.5" PointX="8" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="ExamAssessmentModel.ExamQuestionList" Width="1.5" PointX="8" PointY="4.125" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.ExamTemplate" Width="1.5" PointX="8" PointY="7.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.ExamTemplateQuestions" Width="1.5" PointX="3.75" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="ExamAssessmentModel.ExamType" Width="1.5" PointX="5.75" PointY="7.75" IsExpanded="true" />
