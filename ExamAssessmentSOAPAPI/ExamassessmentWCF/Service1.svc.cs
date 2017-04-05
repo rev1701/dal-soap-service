@@ -28,21 +28,21 @@ namespace LMS1701.EA.SOAPAPI
         public void spAddExistingCategory(String subject, String category)
 
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
+            ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
 
             db.spAddExistingCategory(subject, category, myOutputParamInt);
 
         }
         public void spAddExistingSubtopicToCategory(String subtopic, String category)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
+            ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spAddExistingSubtopicToCategory(subtopic, category, myOutputParamInt);
 
         }
         public void spAddNewCategoryType(String subject, String category)
         {
             
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", (int)0);
+            ObjectParameter myOutputParamInt = new ObjectParameter("result", (int)0);
             db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
 
         }
@@ -62,8 +62,8 @@ namespace LMS1701.EA.SOAPAPI
 
         public void spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, myOutputParamInt);
+            ObjectParameter result = new ObjectParameter("result", typeof(int));
+            db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, result);
 
         }
         public void spAddQuestionToExam(string ExamID, string ExamQuestionID, int weight)
@@ -79,19 +79,19 @@ namespace LMS1701.EA.SOAPAPI
         }
         public void spAddSubtopicType(string Subtopics, string Category)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
+            ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spAddSubtopicType(Subtopics, Category, myOutputParamInt);
 
         }
         public void spDeleteQuestionCategory(String Categories, String ExamID)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
+            ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spDeleteQuestionCategory(Categories, ExamID, myOutputParamInt);
 
         }
         public void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
+            ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spRemoveAnswerFromQuestion(QuestionID, AnswerID, myOutputParamInt);
 
         }
@@ -105,7 +105,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public void spRemoveQuestionFromExam(String ExamID, String ExamQuestionID)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
+            ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spRemoveQuestionFromExam(ExamID, ExamQuestionID, myOutputParamInt);
 
         }
@@ -132,7 +132,8 @@ namespace LMS1701.EA.SOAPAPI
                 question.ExamQuestionID = dbExamQuestion.ElementAt(i).ExamQuestionID;
                 question.ExamQuestionName = dbExamQuestion.ElementAt(i).ExamQuestionName;
                 question.PKID = dbExamQuestion.ElementAt(i).PKID;
-
+                question.QuestionType.PKID = dbExamQuestion.ElementAt(i).QuestionTypeID;
+                question.QuestionType.QuestionTypeName = dbExamQuestion.ElementAt(i).QuestionType.QuestionTypeName;
                 for (int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count; j++)
                 {
                     Category cat = new Category();
@@ -890,17 +891,13 @@ namespace LMS1701.EA.SOAPAPI
                 throw new ArgumentNullException("Exam Question");
             }
 
-            try
-            {
-                AutoMapperConfiguration.Configure();
-                EAD.ExamQuestion DALExamQuestion = Mapper.Map<EAD.ExamQuestion>(examQuestion);
+                EAD.ExamQuestion DALExamQuestion = new EAD.ExamQuestion();
+                DALExamQuestion.ExamQuestionID = examQuestion.ExamQuestionID;
+                DALExamQuestion.ExamQuestionName = examQuestion.ExamQuestionName;
+                DALExamQuestion.QuestionTypeID = examQuestion.QuestionType.PKID;
                 db.ExamQuestion.Add(DALExamQuestion);
                 db.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                //to-do add a fault contract
-            }
+
 
         }
     }
