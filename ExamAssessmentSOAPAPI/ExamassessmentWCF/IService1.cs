@@ -119,8 +119,15 @@ namespace LMS1701.EA.SOAPAPI
         void UpdateAnswer(int answerid, string newdesc );
 
         [OperationContract]
-        [WebInvoke(Method = "DELETE", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteSubject")]
+        [WebInvoke(Method = "DELETE", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteExam")]
         void DeleteExam(string SubjectName);
+        [OperationContract]
+        [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddNewExamTemplate")]
+        void AddNewExam(string ExamTemplateName, string ExamTemplateID, string ExamTypeName);
+
+        [OperationContract]
+        [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "GetExamIDList")]
+        List<string> GetExamIDList();
         // TODO: Add your service operations here
     }
 

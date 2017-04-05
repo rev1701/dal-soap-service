@@ -580,23 +580,18 @@ namespace LMS1701.EA.SOAPAPI
             EAD.ExamTemplate newExt = new EAD.ExamTemplate();
             newExt.ExamTemplateName = exName;
             newExt.ExamTemplateID = exTID;
-
-            foreach (var item in db.ExamType)
-            {
-                if (item.ExamTypeName.Equals(ExamType))
-                {
-                    newExt.ExamType.PKID = item.PKID;
-                    newExt.ExamType.ExamTypeName = ExamType;
-                }
-            }
+            newExt.CreatedDate = DateTime.Now;
+            var examtypeid = db.ExamType.Where(x => x.ExamTypeName == ExamType);
+            newExt.ExamTypeID = examtypeid.First().PKID;
                        
             try
             {
                 db.ExamTemplate.Add(newExt);
                 db.SaveChanges();
             }
-            catch
+            catch(Exception e)
             {
+
             }
         }
 
@@ -887,7 +882,18 @@ namespace LMS1701.EA.SOAPAPI
             catch { }
             return composite;
         }
+        public List<string> GetExamIDList()
+        {
+            List<string> IDList = new List<string>();
+            var examIDS = from exam in db.ExamTemplate
+                                  select exam.ExamTemplateID;
 
+            foreach(var item in examIDS)
+            {
+                IDList.Add(item);
+            }
+            return IDList;
+        }
         public void AddExamQuestion(ExamQuestion examQuestion)
         {
             
