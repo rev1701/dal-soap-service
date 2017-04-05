@@ -922,8 +922,7 @@ namespace LMS1701.EA.SOAPAPI
 
             foreach (var subquestion in examQuestion.quest)
             {
-                using (db)
-                {
+                
                     EAD.Question questiontoAdd = new EAD.Question();
                     EAD.ExamQuestionList questioncombination = new EAD.ExamQuestionList();
                     db.Question.Add(questiontoAdd);
@@ -936,7 +935,7 @@ namespace LMS1701.EA.SOAPAPI
                     //adds to subquestion table
 
                     db.ExamQuestionList.Add(questioncombination); //adds to subquestion/examquestion junction table
-                }
+                
                 foreach(var answer in subquestion.Answers)
                 {
                     EAD.Answer answertoAdd = Mapper.Map<EAD.Answer>(answer);
