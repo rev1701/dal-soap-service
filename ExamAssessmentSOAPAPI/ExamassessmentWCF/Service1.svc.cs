@@ -89,9 +89,15 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, result);
 
         }
+        public void RemoveQuestionFromExam(string ExamID, string ExamQuestionID)
+        {
+            var itemtoRemove = db.ExamTemplateQuestions.First(x => x.ExamTemplateID == ExamID && x.ExamQuestionID == ExamQuestionID);
+            db.ExamTemplateQuestions.Remove(itemtoRemove);
+            db.SaveChanges();
+        }
         public void spAddQuestionToExam(string ExamID, string ExamQuestionID, int weight)
         {
-
+            
             EAD.ExamTemplateQuestions toadd = new EAD.ExamTemplateQuestions();
             toadd.ExamTemplateID = ExamID;
             toadd.ExamQuestionID = ExamQuestionID;
