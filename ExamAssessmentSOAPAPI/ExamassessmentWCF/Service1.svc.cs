@@ -697,12 +697,12 @@ namespace LMS1701.EA.SOAPAPI
             try
             {
                 db.Subject.Add(addedSubject); //adds object to database
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
-                //to do 
+                //to do
             }
-            db.SaveChanges();
         }
 
 
@@ -813,12 +813,13 @@ namespace LMS1701.EA.SOAPAPI
             {
                 var answer = db.Answer.Where(x => x.PKID == answerid);
                 answer.First().Answer1 = oldanswer;
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
                 // to do
             }
-            db.SaveChanges();
+            
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
