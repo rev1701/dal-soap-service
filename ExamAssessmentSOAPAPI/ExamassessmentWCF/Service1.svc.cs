@@ -30,6 +30,7 @@ namespace LMS1701.EA.SOAPAPI
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
             db.spAddExistingCategory(subject, category, myOutputParamInt);
+            
 
         }
         public void spAddExistingSubtopicToCategory(String subtopic, String category)
@@ -93,13 +94,13 @@ namespace LMS1701.EA.SOAPAPI
         {
             int result = 0;
 
-            db.spRemoveQuestionAsExamQuestion(ExamQuestionID, result);
+            db.spRemoveQuestionAsExamQuestion(ExamQuestionID, result); //Refactor
 
         }
         public void spRemoveQuestionFromExam(String ExamID, String ExamQuestionID)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spRemoveQuestionFromExam(ExamID, ExamQuestionID, myOutputParamInt);
+            db.spRemoveQuestionFromExam(ExamID, ExamQuestionID, myOutputParamInt); 
 
         }
         public List<ExamQuestion> GetAllExamQuestion()
@@ -114,10 +115,6 @@ namespace LMS1701.EA.SOAPAPI
             var dbCatSub = db.Categories_Subtopic.ToList();
             var dbQuestExam = db.ExamQuestionList.ToList();
             var dbQuestion = db.Question.ToList();
-
-
-
-
 
             for (int i = 0; i < dbExamQuestion.Count; i++)
             {
@@ -170,18 +167,24 @@ namespace LMS1701.EA.SOAPAPI
         {
             AutoMapperConfiguration.Configure();
             List<Question> result = new List<Question>();
-            var first = (from c in db.Question
-                         select c).ToList();
-            var dbQuestionAnswers = db.QuestionAnswers.ToList();
-            for (int i = 0; i < first.ToList().Count; i++)
+            try
             {
-                Question quest = new Question();
-                quest.PKID = first.ElementAt(i).PKID;
-                quest.Description = first.ElementAt(i).Description;
+                var first = (from c in db.Question
+                             select c).ToList();
+                var dbQuestionAnswers = db.QuestionAnswers.ToList();
+                for (int i = 0; i < first.ToList().Count; i++)
+                {
+                    Question quest = new Question();
+                    quest.PKID = first.ElementAt(i).PKID;
+                    quest.Description = first.ElementAt(i).Description;
 
-                quest.Answers = GetAnswersQuestion(quest.PKID);
-                result.Add(quest);
-
+                    quest.Answers = GetAnswersQuestion(quest.PKID);
+                    result.Add(quest);
+                }
+            }
+            catch (Exception ex)
+            {
+                //to do 
             }
             return result;
         }
@@ -434,14 +437,7 @@ namespace LMS1701.EA.SOAPAPI
                         removedAnswer = item; //keeps a reference to the subtopic that will be removed
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // to do
-            }
-
-            try
-            {
+         
                 foreach (var item in db.QuestionAnswers) //Removes all references to the Answer in the database
                 {
                     if (item.AnswerID == answerID)
@@ -463,23 +459,30 @@ namespace LMS1701.EA.SOAPAPI
         {
 
             EAD.ExamTemplate removedExam = new EAD.ExamTemplate();
-            foreach (var item in db.ExamTemplate) //Gets the Exam which will be needed so it can be removed
+            try
             {
-                if (item.ExamTemplateID.Equals(ExamTID))
+                foreach (var item in db.ExamTemplate) //Gets the Exam which will be needed so it can be removed
                 {
+                    if (item.ExamTemplateID.Equals(ExamTID))
+                    {
 
-                    removedExam = item; //keeps a reference to the Exam that will be removed
+                        removedExam = item; //keeps a reference to the Exam that will be removed
+                    }
                 }
-            }
-            foreach (var item in db.ExamTemplateQuestions) //Removes all references to the Exam in the database
-            {
-                if (item.ExamTemplateID == ExamTID)
+                foreach (var item in db.ExamTemplateQuestions) //Removes all references to the Exam in the database
                 {
-                    db.ExamTemplateQuestions.Remove(item);
+                    if (item.ExamTemplateID == ExamTID)
+                    {
+                        db.ExamTemplateQuestions.Remove(item);
+                    }
                 }
+                db.ExamTemplate.Remove(removedExam); // removes the ExamTemplate from the ExamTemplate table.
+                db.SaveChanges();
             }
-            db.ExamTemplate.Remove(removedExam); // removes the ExamTemplate from the ExamTemplate table.
-            db.SaveChanges();
+            catch (Exception ex)
+            {
+                //to do
+            }
         }
 
 
@@ -489,17 +492,18 @@ namespace LMS1701.EA.SOAPAPI
             newExt.ExamTemplateName = exName;
             newExt.ExamTemplateID = exTID;
 
-            foreach (var item in db.ExamType)
-            {
-                if (item.ExamTypeName.Equals(ExamType))
-                {
-                    newExt.ExamType.PKID = item.PKID;
-                    newExt.ExamType.ExamTypeName = ExamType;
-                }
-            }
-
             try
             {
+
+                foreach (var item in db.ExamType)
+                {
+                    if (item.ExamTypeName.Equals(ExamType))
+                    {
+                        newExt.ExamType.PKID = item.PKID;
+                        newExt.ExamType.ExamTypeName = ExamType;
+                    }
+                }
+
                 db.ExamTemplate.Add(newExt);
                 db.SaveChanges();
             }
@@ -552,16 +556,7 @@ namespace LMS1701.EA.SOAPAPI
                         removedTopic = item; //keeps a reference to the subtopic that will be removed
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // to do
-            }
-
-            try
-            {
-
-
+           
                 foreach (var item in db.Categories_Subtopic) //Removes all references to the subtopic in the database
                 {
                     if (item.Subtopic_ID == subtopicID)
@@ -569,13 +564,15 @@ namespace LMS1701.EA.SOAPAPI
                         db.Categories_Subtopic.Remove(item);
                     }
                 }
+
+                db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
                 // to do
             }
-            db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
-            db.SaveChanges();
+            
         }
 
         public void RemoveSubtopicFromCategory(string SubtopicName, string CategoryName)
@@ -593,14 +590,7 @@ namespace LMS1701.EA.SOAPAPI
                         subtopicID = item.Subtopic_ID;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // to do
-            }
-
-            try
-            {
+          
                 foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
                 {
                     if (item.Categories_Name == CategoryName)
@@ -608,13 +598,7 @@ namespace LMS1701.EA.SOAPAPI
                         categoryID = item.Categories_ID;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // to do
-            }
-            try
-            {
+          
                 foreach (var item in db.Categories_Subtopic) //Finds the row on the junction table that contains the pair of values and removes it
                 {
                     if (item.Subtopic_ID == subtopicID && item.Categories_ID == categoryID)
@@ -622,12 +606,13 @@ namespace LMS1701.EA.SOAPAPI
                         db.Categories_Subtopic.Remove(item);
                     }
                 }
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
                 //to do 
             }
-            db.SaveChanges();
+            
         }
 
         public void DeleteCategory(string CategoryName)
@@ -644,13 +629,7 @@ namespace LMS1701.EA.SOAPAPI
                         removedCategory = item; //keeps a reference to the category that will be removed
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                //to do 
-            }
-            try
-            {
+            
                 foreach (var item in db.Subject_Categories) //Removes all references to the category from subjects
                 {
                     if (item.Categories_ID == categoryID)
@@ -658,14 +637,7 @@ namespace LMS1701.EA.SOAPAPI
                         db.Subject_Categories.Remove(item);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                //to do
-            }
-
-            try
-            {
+                    
                 foreach (var item in db.ExamQuestion_Categories) //Removes all references to the category from subjects
                 {
                     if (item.Categories_ID == categoryID)
@@ -673,21 +645,15 @@ namespace LMS1701.EA.SOAPAPI
                         db.ExamQuestion_Categories.Remove(item);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // to do
-            }
-
-            try
-            {
+                               
                 db.Categories.Remove(removedCategory); // removes the category from the subtopic table.
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
                 //to do
             }
-            db.SaveChanges();
+            
         }
 
         public void AddSubject(string SubjectName)
@@ -721,14 +687,7 @@ namespace LMS1701.EA.SOAPAPI
                         subjectID = item.Subject_ID;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                //to do
-            }
 
-            try
-            {
                 foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
                 {
                     if (item.Categories_Name == CategoryName)
@@ -736,14 +695,6 @@ namespace LMS1701.EA.SOAPAPI
                         categoryID = item.Categories_ID;
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                //to do 
-            }
-
-            try
-            {
                 foreach (var item in db.Subject_Categories) //Finds the row on the junction table that contains the pair of values and removes it
                 {
                     if (item.Subject_ID == subjectID && item.Categories_ID == categoryID)
@@ -751,12 +702,13 @@ namespace LMS1701.EA.SOAPAPI
                         db.Subject_Categories.Remove(item);
                     }
                 }
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
                 //to do
             }
-            db.SaveChanges();
+            
         }
 
         public void DeleteSubject(string SubjectName)
@@ -774,14 +726,8 @@ namespace LMS1701.EA.SOAPAPI
                         removedSubject = item; //keeps a reference to the subject that will be removed
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                // to do 
-            }
 
-            try
-            {
+            
                 foreach (var item in db.Subject_Categories) //Removes all references to the subject in the database
                 {
                     if (item.Subject_ID == subjectID)
@@ -789,21 +735,14 @@ namespace LMS1701.EA.SOAPAPI
                         db.Subject_Categories.Remove(item);
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                //to do
-            }
-
-            try
-            {
                 db.Subject.Remove(removedSubject); // removes the subject from the subtopic table.
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
                 //to do
             }
-            db.SaveChanges();
+            
         }
 
 
