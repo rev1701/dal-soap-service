@@ -53,29 +53,33 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionAsExamQuestion(ExamQuestionID, QuestionID, name, QuestionType, myOutputParamInt);
 
         }
-        public void spAddQuestionCategories(String Categories, int PKID)
+      /*  public void spAddQuestionCategories(String Categories, int PKID)
         {
             int result = 0;
             db.spAddQuestionCategories(Categories, PKID, result);
 
-        }
-        public void spAddQuestionCategories(String Categories, String PKID, int one)
+        }*/
+        public void AddQuestionCategories(String Categories, String ExamQuestionID)
         {
-            var countCategoreis = db.Categories.Where(c => c.Categories_Name == Categories).Count();
-            if(countCategoreis > 0)
+            var Categoreis = db.Categories.Where(c => c.Categories_Name == Categories);
+            if(Categoreis.Count() > 0)
             {
-                var countQuestionID = db.ExamQuestion.Where(c => c.ExamQuestionID == PKID).Count();
-                if(countQuestionID > 0)
+                var QuestionID = db.ExamQuestion.Where(c => c.ExamQuestionID == ExamQuestionID);
+                if(QuestionID.Count() > 0)
                 {
                     EAD.ExamQuestion_Categories temp = new EAD.ExamQuestion_Categories();
-                   temp.Categories_ID = 
-                   db.ExamQuestion_Categories.Add(new EAD.ExamQuestion_Categories())
-                   // insert into ExamQuestion_Categories(Categories_ID, ExamQuestion_ID) values(@tempvalue, @othervalue);
-                   // insert into @entity(ExamQuestionCategoriesID, CategoriesID, ExamQuestionID)(SELECT * from ExamQuestion_Categories where ExamQuestion_Categories.Categories_ID = @tempvalue and ExamQuestion_Categories.ExamQuestion_ID = @othervalue);
+                    temp.Categories_ID = Categoreis.First().Categories_ID;
+                    temp.ExamQuestion_ID = db.ExamQuestion.First(s => s.ExamQuestionID == ExamQuestionID).PKID;
+                    db.ExamQuestion_Categories.Add(temp);
+                    NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.Categories_ID.ToString()));
+                    NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.ExamQuestion_ID.ToString()));
+                   
+
                 }
-                //(SELECT count([ExamQuestion].ExamQuestionID) from ExamQuestion where ExamQuestion.ExamQuestionID = @ExamQuestionID);
+                
             }
- //set @tempvalue = (SELECT count([Categories].Categories_Name)  from Categories where Categories_Name = @Categories);
+            db.SaveChanges();
+ 
 
         }
 
