@@ -174,3 +174,175 @@
 2017-04-04 15:36:25.8962 INFO Got Answers for Specified Question 4
 2017-04-04 15:36:25.8962 INFO Assigned answer 10 to false for question 4
 2017-04-04 15:36:25.8962 INFO returned a list of answes for question 4
+2017-04-05 00:20:57.7461 INFO Nothing is Null
+2017-04-05 00:20:57.7734 INFO GetAnswersQuestion Started
+2017-04-05 00:20:58.0064 INFO Got AnswerID's
+2017-04-05 00:20:58.2980 INFO Got Answers for Specified Question 4
+2017-04-05 00:20:58.3471 INFO Assigned answer 7 to false for question 4
+2017-04-05 00:20:58.3471 INFO Got Answers for Specified Question 4
+2017-04-05 00:20:58.3471 INFO Set correct answer for question with id 4
+2017-04-05 00:20:58.3691 INFO Got Answers for Specified Question 4
+2017-04-05 00:20:58.3691 INFO Assigned answer 9 to false for question 4
+2017-04-05 00:20:58.3791 INFO Got Answers for Specified Question 4
+2017-04-05 00:20:58.3791 INFO Assigned answer 10 to false for question 4
+2017-04-05 00:20:58.3791 INFO returned a list of answes for question 4
+2017-04-05 00:20:58.5142 INFO Nothing is Null
+2017-04-05 00:20:58.5237 INFO GetAnswersQuestion Started
+2017-04-05 00:20:58.6628 INFO Got AnswerID's
+2017-04-05 00:20:58.8924 INFO Got Answers for Specified Question 1
+2017-04-05 00:20:58.9319 INFO Assigned answer 3 to false for question 1
+2017-04-05 00:20:58.9319 INFO Got Answers for Specified Question 1
+2017-04-05 00:20:58.9464 INFO Assigned answer 4 to false for question 1
+2017-04-05 00:20:58.9464 INFO Got Answers for Specified Question 1
+2017-04-05 00:20:58.9614 INFO Set correct answer for question with id 1
+2017-04-05 00:20:58.9614 INFO Got Answers for Specified Question 1
+2017-04-05 00:20:58.9779 INFO Assigned answer 6 to false for question 1
+2017-04-05 00:20:58.9779 INFO returned a list of answes for question 1
+2017-04-05 00:20:59.1003 INFO Nothing is Null
+2017-04-05 00:20:59.1003 INFO GetAnswersQuestion Started
+2017-04-05 00:20:59.2296 INFO Got AnswerID's
+2017-04-05 00:20:59.4800 INFO Got Answers for Specified Question 2
+2017-04-05 00:20:59.4890 INFO Set correct answer for question with id 2
+2017-04-05 00:20:59.4890 INFO Got Answers for Specified Question 2
+2017-04-05 00:20:59.4890 INFO Assigned answer 2 to false for question 2
+2017-04-05 00:20:59.5045 INFO returned a list of answes for question 2
+2017-04-05 00:20:59.6602 INFO Nothing is Null
+2017-04-05 00:20:59.6602 INFO GetAnswersQuestion Started
+2017-04-05 00:20:59.7991 INFO Got AnswerID's
+2017-04-05 00:21:00.0308 INFO Got Answers for Specified Question 5
+2017-04-05 00:21:00.0448 INFO Assigned answer 27 to false for question 5
+2017-04-05 00:21:00.0518 INFO Got Answers for Specified Question 5
+2017-04-05 00:21:00.0518 INFO Assigned answer 28 to false for question 5
+2017-04-05 00:21:00.0663 INFO Got Answers for Specified Question 5
+2017-04-05 00:21:00.0663 INFO Assigned answer 29 to false for question 5
+2017-04-05 00:21:00.0663 INFO Got Answers for Specified Question 5
+2017-04-05 00:21:00.0838 INFO Set correct answer for question with id 5
+2017-04-05 00:21:00.0838 INFO returned a list of answes for question 5
+2017-04-05 00:21:00.1986 INFO Nothing is Null
+2017-04-05 00:21:00.1986 INFO GetAnswersQuestion Started
+2017-04-05 00:21:00.3249 INFO Got AnswerID's
+2017-04-05 00:21:00.5608 INFO Got Answers for Specified Question 6
+2017-04-05 00:21:00.5691 INFO Set correct answer for question with id 6
+2017-04-05 00:21:00.5691 INFO Got Answers for Specified Question 6
+2017-04-05 00:21:00.5691 INFO Assigned answer 2 to false for question 6
+2017-04-05 00:21:00.5832 INFO returned a list of answes for question 6
+2017-04-05 00:21:00.7210 INFO Nothing is Null
+2017-04-05 00:21:00.7255 INFO GetAnswersQuestion Started
+2017-04-05 00:21:00.9041 INFO Got AnswerID's
+2017-04-05 00:21:01.1989 INFO Got Answers for Specified Question 7
+2017-04-05 00:21:01.2074 INFO Assigned answer 19 to false for question 7
+2017-04-05 00:21:01.2074 INFO Got Answers for Specified Question 7
+2017-04-05 00:21:01.2074 INFO Assigned answer 20 to false for question 7
+2017-04-05 00:21:01.2224 INFO Got Answers for Specified Question 7
+2017-04-05 00:21:01.2224 INFO Assigned answer 21 to false for question 7
+2017-04-05 00:21:01.2224 INFO Got Answers for Specified Question 7
+2017-04-05 00:21:01.2409 INFO Set correct answer for question with id 7
+2017-04-05 00:21:01.2409 INFO returned a list of answes for question 7
+2017-04-05 00:21:01.3750 INFO Nothing is Null
+2017-04-05 00:21:01.3795 INFO GetAnswersQuestion Started
+2017-04-05 00:21:01.5310 INFO Got AnswerID's
+2017-04-05 00:21:01.8024 INFO Got Answers for Specified Question 8
+2017-04-05 00:21:01.8024 INFO Assigned answer 11 to false for question 8
+2017-04-05 00:21:01.8149 INFO Got Answers for Specified Question 8
+2017-04-05 00:21:01.8149 INFO Assigned answer 12 to false for question 8
+2017-04-05 00:21:01.8149 INFO Got Answers for Specified Question 8
+2017-04-05 00:21:01.8330 INFO Assigned answer 13 to false for question 8
+2017-04-05 00:21:01.8330 INFO Got Answers for Specified Question 8
+2017-04-05 00:21:01.8330 INFO Set correct answer for question with id 8
+2017-04-05 00:21:01.8490 INFO returned a list of answes for question 8
+2017-04-05 00:21:01.9616 INFO Nothing is Null
+2017-04-05 00:21:01.9616 INFO GetAnswersQuestion Started
+2017-04-05 00:21:02.1197 INFO Got AnswerID's
+2017-04-05 00:21:02.3329 INFO Got Answers for Specified Question 9
+2017-04-05 00:21:02.3329 INFO Assigned answer 15 to false for question 9
+2017-04-05 00:21:02.3464 INFO Got Answers for Specified Question 9
+2017-04-05 00:21:02.3464 INFO Assigned answer 16 to false for question 9
+2017-04-05 00:21:02.3464 INFO Got Answers for Specified Question 9
+2017-04-05 00:21:02.3664 INFO Assigned answer 31 to false for question 9
+2017-04-05 00:21:02.3664 INFO Got Answers for Specified Question 9
+2017-04-05 00:21:02.3809 INFO Set correct answer for question with id 9
+2017-04-05 00:21:02.3809 INFO returned a list of answes for question 9
+2017-04-05 00:21:02.5364 INFO Nothing is Null
+2017-04-05 00:21:02.5364 INFO GetAnswersQuestion Started
+2017-04-05 00:21:02.6622 INFO Got AnswerID's
+2017-04-05 00:21:02.9327 INFO Got Answers for Specified Question 10
+2017-04-05 00:21:02.9547 INFO Set correct answer for question with id 10
+2017-04-05 00:21:02.9643 INFO Got Answers for Specified Question 10
+2017-04-05 00:21:02.9738 INFO Assigned answer 17 to false for question 10
+2017-04-05 00:21:02.9738 INFO Got Answers for Specified Question 10
+2017-04-05 00:21:02.9878 INFO Assigned answer 18 to false for question 10
+2017-04-05 00:21:02.9878 INFO Got Answers for Specified Question 10
+2017-04-05 00:21:02.9878 INFO Assigned answer 32 to false for question 10
+2017-04-05 00:21:03.0078 INFO returned a list of answes for question 10
+2017-04-05 00:21:03.1341 INFO Nothing is Null
+2017-04-05 00:21:03.1341 INFO GetAnswersQuestion Started
+2017-04-05 00:21:03.2831 INFO Got AnswerID's
+2017-04-05 00:21:03.5238 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:03.5238 INFO Assigned answer 7 to false for question 4
+2017-04-05 00:21:03.5378 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:03.5378 INFO Set correct answer for question with id 4
+2017-04-05 00:21:03.5493 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:03.5493 INFO Assigned answer 9 to false for question 4
+2017-04-05 00:21:03.5493 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:03.5493 INFO Assigned answer 10 to false for question 4
+2017-04-05 00:21:03.5703 INFO returned a list of answes for question 4
+2017-04-05 00:21:03.7773 INFO Nothing is Null
+2017-04-05 00:21:03.7773 INFO GetAnswersQuestion Started
+2017-04-05 00:21:03.9899 INFO Got AnswerID's
+2017-04-05 00:21:04.2333 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:04.2414 INFO Assigned answer 7 to false for question 4
+2017-04-05 00:21:04.2414 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:04.2414 INFO Set correct answer for question with id 4
+2017-04-05 00:21:04.2554 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:04.2554 INFO Assigned answer 9 to false for question 4
+2017-04-05 00:21:04.2554 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:04.2724 INFO Assigned answer 10 to false for question 4
+2017-04-05 00:21:04.2724 INFO returned a list of answes for question 4
+2017-04-05 00:21:04.3902 INFO Nothing is Null
+2017-04-05 00:21:04.3952 INFO GetAnswersQuestion Started
+2017-04-05 00:21:04.5183 INFO Got AnswerID's
+2017-04-05 00:21:04.7940 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:04.8031 INFO Assigned answer 7 to false for question 4
+2017-04-05 00:21:04.8031 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:04.8031 INFO Set correct answer for question with id 4
+2017-04-05 00:21:04.8176 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:04.8176 INFO Assigned answer 9 to false for question 4
+2017-04-05 00:21:04.8176 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:04.8336 INFO Assigned answer 10 to false for question 4
+2017-04-05 00:21:04.8336 INFO returned a list of answes for question 4
+2017-04-05 00:21:04.9572 INFO Nothing is Null
+2017-04-05 00:21:04.9722 INFO GetAnswersQuestion Started
+2017-04-05 00:21:05.0969 INFO Got AnswerID's
+2017-04-05 00:21:05.3126 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:05.3441 INFO Assigned answer 7 to false for question 4
+2017-04-05 00:21:05.3566 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:05.3636 INFO Set correct answer for question with id 4
+2017-04-05 00:21:05.3636 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:05.3841 INFO Assigned answer 9 to false for question 4
+2017-04-05 00:21:05.3841 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:05.4007 INFO Assigned answer 10 to false for question 4
+2017-04-05 00:21:05.4007 INFO returned a list of answes for question 4
+2017-04-05 00:21:05.5129 INFO Nothing is Null
+2017-04-05 00:21:05.5129 INFO GetAnswersQuestion Started
+2017-04-05 00:21:05.6337 INFO Got AnswerID's
+2017-04-05 00:21:05.8435 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:05.8520 INFO Assigned answer 7 to false for question 4
+2017-04-05 00:21:05.8520 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:05.8520 INFO Set correct answer for question with id 4
+2017-04-05 00:21:05.8675 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:05.8675 INFO Assigned answer 9 to false for question 4
+2017-04-05 00:21:05.8785 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:05.8785 INFO Assigned answer 10 to false for question 4
+2017-04-05 00:21:05.8785 INFO returned a list of answes for question 4
+2017-04-05 00:21:06.0216 INFO Nothing is Null
+2017-04-05 00:21:06.0216 INFO GetAnswersQuestion Started
+2017-04-05 00:21:06.2366 INFO Got AnswerID's
+2017-04-05 00:21:06.4690 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:06.4815 INFO Assigned answer 7 to false for question 4
+2017-04-05 00:21:06.4885 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:06.4885 INFO Set correct answer for question with id 4
+2017-04-05 00:21:06.4885 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:06.5040 INFO Assigned answer 9 to false for question 4
+2017-04-05 00:21:06.5040 INFO Got Answers for Specified Question 4
+2017-04-05 00:21:06.5040 INFO Assigned answer 10 to false for question 4
+2017-04-05 00:21:06.5210 INFO returned a list of answes for question 4

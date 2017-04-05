@@ -29,6 +29,7 @@ namespace LMS1701.EA.SOAPAPI
 
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
+
             db.spAddExistingCategory(subject, category, myOutputParamInt);
 
         }
@@ -40,7 +41,8 @@ namespace LMS1701.EA.SOAPAPI
         }
         public void spAddNewCategoryType(String subject, String category)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
+            
+            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", (int)0);
             db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
 
         }
@@ -64,10 +66,15 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, myOutputParamInt);
 
         }
-        public void spAddQuestionToExam(String ExamID, String ExamQuestionID, int weight)
+        public void spAddQuestionToExam(string ExamID, string ExamQuestionID, int weight)
         {
-            ObjectParameter myOutputParamInt = new ObjectParameter("myOutputParamInt", typeof(int));
-            db.spAddQuestionToExam(ExamID, ExamQuestionID, weight, myOutputParamInt);
+
+            EAD.ExamTemplateQuestions toadd = new EAD.ExamTemplateQuestions();
+            toadd.ExamTemplateID = ExamID;
+            toadd.ExamQuestionID = ExamQuestionID;
+            toadd.QuestionWeight = weight;
+            db.ExamTemplateQuestions.Add(toadd);
+            db.SaveChanges();
 
         }
         public void spAddSubtopicType(string Subtopics, string Category)
@@ -506,16 +513,8 @@ namespace LMS1701.EA.SOAPAPI
             EAD.ExamTemplate newExt = new EAD.ExamTemplate();
             newExt.ExamTemplateName = exName;
             newExt.ExamTemplateID = exTID;
-
-            foreach (var item in db.ExamType)
-            {
-                if (item.ExamTypeName.Equals(ExamType))
-                {
-                    newExt.ExamType.PKID = item.PKID;
-                    newExt.ExamType.ExamTypeName = ExamType;
-                }
-            }
-
+            newExt.ExamTypeID = db.ExamType.Where(x => x.ExamTypeName == ExamType).Select(x => x.PKID).First();
+            newExt.CreatedDate = DateTime.Now;
             try
             {
                 db.ExamTemplate.Add(newExt);
