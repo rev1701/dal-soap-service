@@ -112,6 +112,27 @@ namespace LMS1701.EA.SOAPAPI
             db.spDeleteQuestionCategory(Categories, ExamID, myOutputParamInt);
 
         }
+        public void DeleteQuestionCategory(String Category, String ExamQID)
+        {
+            var Categoreis = db.Categories.Where(c => c.Categories_Name == Category);
+            if (Categoreis.Count() > 0)
+            {
+                var QuestionID = db.ExamQuestion.Where(c => c.ExamQuestionID == ExamQID);
+                if (QuestionID.Count() > 0)
+                {
+                    EAD.ExamQuestion_Categories temp = new EAD.ExamQuestion_Categories();
+                    temp.Categories_ID = Categoreis.First().Categories_ID;
+                    temp.ExamQuestion_ID = db.ExamQuestion.First(s => s.ExamQuestionID == ExamQID).PKID;
+                    db.ExamQuestion_Categories.Remove(db.ExamQuestion_Categories.Where(s => s.Categories_ID == temp.Categories_ID && s.ExamQuestion_ID == temp.ExamQuestion_ID).First());//.Where(s => s.Categories_ID == temp.Categories_ID && s.ExamQuestion_ID == temp.ExamQuestion_ID).;
+                    NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.Categories_ID.ToString()));
+                    NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.ExamQuestion_ID.ToString()));
+
+
+                }
+
+            }
+            db.SaveChanges();
+        }
         public void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));

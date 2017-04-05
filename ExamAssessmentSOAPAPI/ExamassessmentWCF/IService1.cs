@@ -68,6 +68,11 @@ namespace LMS1701.EA.SOAPAPI
         void spDeleteQuestionCategory(String Categories, String ExamID);
 
         [OperationContract]
+        [WebInvoke(Method = "DELETE", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteQuestionCategory")]
+        void DeleteQuestionCategory(String Category, String ExamQID);
+
+
+        [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveAnswerQuestion")]
         void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID);
 
