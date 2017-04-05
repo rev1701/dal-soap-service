@@ -12,15 +12,14 @@ namespace LMS1701.EA.SOAPAPI
     {
         public Answers()
         {
-            //   LanguageType = new LanguageType();
+           
             correct = new Correct();
         }
         [DataMember]
         public int PKID { get; set; }
         [DataMember]
         public string Answer1 { get; set; }
-       // [DataMember]
-        //public LanguageType LanguageType { get; set; }
+       
         [DataMember]
         public Correct correct;
     }
