@@ -44,6 +44,10 @@ namespace LMS1701.EA.SOAPAPI
         void spAddExistingSubtopicToCategory(String subtopic, String category);
 
         [OperationContract]
+        [WebInvoke(Method = "PUT", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveQuestionFromExam")]
+        void RemoveQuestionFromExam(string ExamID, string ExamQuestionID);
+
+        [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddNewCategoryType")]
         void spAddNewCategoryType(String subject, String category);
         //     [OperationContract]
