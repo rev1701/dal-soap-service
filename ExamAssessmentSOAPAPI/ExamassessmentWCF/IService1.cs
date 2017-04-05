@@ -53,7 +53,7 @@ namespace LMS1701.EA.SOAPAPI
         void spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionCategories")]
-        void spAddQuestionCategories(String Categories, string ExamQuestionID);
+        void AddQuestionCategories(String Categories, string ExamQuestionID);
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "AddQuestionToAnswer")]
         void spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect);
@@ -66,6 +66,11 @@ namespace LMS1701.EA.SOAPAPI
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteQuestionCategory")]
         void spDeleteQuestionCategory(String Categories, String ExamID);
+
+        [OperationContract]
+        [WebInvoke(Method = "DELETE", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "DeleteQuestionCategory")]
+        void DeleteQuestionCategory(String Category, String ExamQID);
+
 
         [OperationContract]
         [WebInvoke(Method = "POST", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Bare, UriTemplate = "RemoveAnswerQuestion")]
