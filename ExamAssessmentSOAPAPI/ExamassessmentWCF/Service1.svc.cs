@@ -59,6 +59,25 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionCategories(Categories, PKID, result);
 
         }
+        public void spAddQuestionCategories(String Categories, String PKID, int one)
+        {
+            var countCategoreis = db.Categories.Where(c => c.Categories_Name == Categories).Count();
+            if(countCategoreis > 0)
+            {
+                var countQuestionID = db.ExamQuestion.Where(c => c.ExamQuestionID == PKID).Count();
+                if(countQuestionID > 0)
+                {
+                    EAD.ExamQuestion_Categories temp = new EAD.ExamQuestion_Categories();
+                   temp.Categories_ID = 
+                   db.ExamQuestion_Categories.Add(new EAD.ExamQuestion_Categories())
+                   // insert into ExamQuestion_Categories(Categories_ID, ExamQuestion_ID) values(@tempvalue, @othervalue);
+                   // insert into @entity(ExamQuestionCategoriesID, CategoriesID, ExamQuestionID)(SELECT * from ExamQuestion_Categories where ExamQuestion_Categories.Categories_ID = @tempvalue and ExamQuestion_Categories.ExamQuestion_ID = @othervalue);
+                }
+                //(SELECT count([ExamQuestion].ExamQuestionID) from ExamQuestion where ExamQuestion.ExamQuestionID = @ExamQuestionID);
+            }
+ //set @tempvalue = (SELECT count([Categories].Categories_Name)  from Categories where Categories_Name = @Categories);
+
+        }
 
         public void spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect)
         {
