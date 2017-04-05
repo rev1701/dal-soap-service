@@ -909,15 +909,53 @@ namespace LMS1701.EA.SOAPAPI
             {
                 throw new ArgumentNullException("Exam Question");
             }
+            AutoMapperConfiguration.Configure();
+            EAD.ExamQuestion DALExamQuestion = new EAD.ExamQuestion();
+            DALExamQuestion.ExamQuestionID = examQuestion.ExamQuestionID;
+            DALExamQuestion.ExamQuestionName = examQuestion.ExamQuestionName;
+            DALExamQuestion.QuestionTypeID = examQuestion.QuestionType.PKID;
 
-                EAD.ExamQuestion DALExamQuestion = new EAD.ExamQuestion();
-                DALExamQuestion.ExamQuestionID = examQuestion.ExamQuestionID;
-                DALExamQuestion.ExamQuestionName = examQuestion.ExamQuestionName;
-                DALExamQuestion.QuestionTypeID = examQuestion.QuestionType.PKID;
-                db.ExamQuestion.Add(DALExamQuestion);
+
+            foreach (var subquestion in examQuestion.quest)
+            {
+                using (db)
+                {
+                    EAD.Question questiontoAdd = new EAD.Question();
+                    EAD.ExamQuestionList questioncombination = new EAD.ExamQuestionList();
+                    db.Question.Add(questiontoAdd);
+                   // await db.SaveChangesAsync();
+
+                    questioncombination.ExamQuestionID = examQuestion.ExamQuestionID;
+                    questioncombination.QuestionID = subquestion.PKID;
+                    questiontoAdd.Description = subquestion.Description;
+
+                    //adds to subquestion table
+
+                    db.ExamQuestionList.Add(questioncombination); //adds to subquestion/examquestion junction table
+                }
+                foreach(var answer in subquestion.Answers)
+                {
+                    EAD.Answer answertoAdd = Mapper.Map<EAD.Answer>(answer);
+                    EAD.QuestionAnswers answercombination = new EAD.QuestionAnswers();
+
+                    answercombination.AnswerID = answer.PKID;
+                    answercombination.QuestionID = subquestion.PKID;
+                    answercombination.IsCorrect = answer.correct.isCorrect;
+
+                    db.Answer.Add(answertoAdd); // adds answer to answer Table
+                    db.QuestionAnswers.Add(answercombination); //
+
+                }
                 db.SaveChanges();
+
+            }
+                // add new answers to table
+                // update the junction table
+                db.ExamQuestion.Add(DALExamQuestion);
+
 
 
         }
+
     }
 }
