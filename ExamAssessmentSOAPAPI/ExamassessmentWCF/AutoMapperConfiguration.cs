@@ -24,7 +24,6 @@ namespace LMS1701.EA.SOAPAPI
                 cfg.CreateMap<ExamAssessmentDaal.LanguageType, LanguageType>().ForMember(dest => dest.PKID, opt => opt.MapFrom(src => src.PKID))                                                               
                                                                  .ForMember(dest => dest.PKID, opt => opt.MapFrom(src => src.PKID))
                                                                  .ForMember(dest => dest.LanguageName, opt => opt.MapFrom(src => src.LanguageName));
-
                 cfg.CreateMap<ExamAssessmentDaal.ExamTemplate, ExamTemplate>();
 
             });
