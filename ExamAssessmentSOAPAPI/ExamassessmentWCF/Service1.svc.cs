@@ -916,17 +916,20 @@ namespace LMS1701.EA.SOAPAPI
             DALExamQuestion.QuestionTypeID = examQuestion.QuestionType.PKID;
 
             db.ExamQuestion.Add(DALExamQuestion);
+            db.SaveChanges();
             foreach (var subquestion in examQuestion.quest)
             {
             
                     EAD.Question questiontoAdd = new EAD.Question();
                     EAD.ExamQuestionList questioncombination = new EAD.ExamQuestionList();
+                    questiontoAdd.Description = subquestion.Description;
                     db.Question.Add(questiontoAdd);
                     db.SaveChanges();
+                    
 
-                    questioncombination.ExamQuestionID = examQuestion.ExamQuestionID;
-                    questioncombination.QuestionID = subquestion.PKID;
-                    questiontoAdd.Description = subquestion.Description;
+                    questioncombination.ExamQuestionID = DALExamQuestion.ExamQuestionID;
+                    questioncombination.QuestionID = questiontoAdd.PKID;
+
 
                     //adds to subquestion table
 
@@ -934,18 +937,21 @@ namespace LMS1701.EA.SOAPAPI
                 
                 foreach(var answer in subquestion.Answers)
                 {
-                    EAD.Answer answertoAdd = Mapper.Map<EAD.Answer>(answer);
+                    EAD.Answer answertoAdd = new EAD.Answer();
+                    answertoAdd.Answer1 = answer.Answer1;
+                    answertoAdd.AddLanguageTypeID = 1;
                     EAD.QuestionAnswers answercombination = new EAD.QuestionAnswers();
-
-                    answercombination.AnswerID = answer.PKID;
-                    answercombination.QuestionID = subquestion.PKID;
+                    db.Answer.Add(answertoAdd); // adds answer to answer Table
+                    db.SaveChanges();
+                    answercombination.AnswerID = answertoAdd.PKID;
+                    answercombination.QuestionID = questiontoAdd.PKID;
                     answercombination.IsCorrect = answer.correct.isCorrect;
 
-                    db.Answer.Add(answertoAdd); // adds answer to answer Table
-                    db.QuestionAnswers.Add(answercombination); //
 
+                    db.QuestionAnswers.Add(answercombination); //
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
+           
 
             }
                 // add new answers to table
