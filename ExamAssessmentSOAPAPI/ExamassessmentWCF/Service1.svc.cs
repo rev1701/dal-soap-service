@@ -896,15 +896,14 @@ namespace LMS1701.EA.SOAPAPI
             DALExamQuestion.ExamQuestionName = examQuestion.ExamQuestionName;
             DALExamQuestion.QuestionTypeID = examQuestion.QuestionType.PKID;
 
-
+            db.ExamQuestion.Add(DALExamQuestion);
             foreach (var subquestion in examQuestion.quest)
             {
-                using (db)
-                {
+            
                     EAD.Question questiontoAdd = new EAD.Question();
                     EAD.ExamQuestionList questioncombination = new EAD.ExamQuestionList();
                     db.Question.Add(questiontoAdd);
-                   // await db.SaveChangesAsync();
+                    db.SaveChanges();
 
                     questioncombination.ExamQuestionID = examQuestion.ExamQuestionID;
                     questioncombination.QuestionID = subquestion.PKID;
@@ -913,7 +912,7 @@ namespace LMS1701.EA.SOAPAPI
                     //adds to subquestion table
 
                     db.ExamQuestionList.Add(questioncombination); //adds to subquestion/examquestion junction table
-                }
+                
                 foreach(var answer in subquestion.Answers)
                 {
                     EAD.Answer answertoAdd = Mapper.Map<EAD.Answer>(answer);
