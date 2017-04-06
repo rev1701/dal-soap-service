@@ -10,7 +10,6 @@ using EAD = ExamAssessmentDaal;
 using LMS1701.EA.SOAPAPI;
 using System.Data.Entity.Core.Objects;
 using NLog;
-using ExamassessmentWCF.DTO;
 using ExamassessmentWCF;
 
 namespace LMS1701.EA.SOAPAPI
@@ -326,8 +325,7 @@ namespace LMS1701.EA.SOAPAPI
                 var dbQuestionAnswers = db.QuestionAnswers.ToList();
                 var dbquestion = db.Question.ToList();
                 var dbanswer = db.Answer.ToList();
-               // var dbCategories = db.Categories.ToList();
-                //var dbSubtopics = db.Subtopic.ToList();
+
                 
                 for (int i = 0; i < ExamQuestions.Count(); i++)
                 {

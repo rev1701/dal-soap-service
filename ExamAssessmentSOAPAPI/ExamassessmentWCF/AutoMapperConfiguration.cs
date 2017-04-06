@@ -28,6 +28,10 @@ namespace LMS1701.EA.SOAPAPI
                 cfg.CreateMap<ExamAssessmentDaal.ExamQuestion, ExamQuestion>().ForMember(dest => dest.ExamQuestionID, opt => opt.MapFrom(src => src.ExamQuestionID))
                                                                              .ForMember(dest => dest.ExamQuestionName, opt => opt.MapFrom(src => src.ExamQuestionName))
                                                                              .ForMember(dest => dest.PKID, opt => opt.MapFrom(src => src.PKID));
+                cfg.CreateMap<ExamAssessmentDaal.QuestionType, QuestionType>().ForMember(dest => dest.PKID, opt => opt.MapFrom(src => src.PKID))
+                                                                            .ForMember(dest => dest.QuestionTypeName, opt => opt.MapFrom(src => src.QuestionTypeName))
+                                                                           ;
+
 
             });
             

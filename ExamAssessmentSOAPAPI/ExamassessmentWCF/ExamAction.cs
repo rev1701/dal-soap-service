@@ -26,7 +26,9 @@ namespace LMS1701.EA.SOAPAPI
         {
             AutoMapperConfiguration.Configure();
             ExamQuestion ExamQ = new ExamQuestion();
-            ExamQ = Mapper.Map<ExamQuestion>(ExamQuestion);
+            ExamQ.ExamQuestionID = ExamQuestion.ExamQuestionID;
+            ExamQ.ExamQuestionName = ExamQuestion.ExamQuestionName;
+            ExamQ.PKID = ExamQuestion.PKID;// Mapper.Map<ExamQuestion>(ExamQuestion);
             ExamQ.QuestionType.PKID = ExamQuestion.QuestionType.PKID;
             ExamQ.QuestionType.QuestionTypeName = ExamQuestion.QuestionType.QuestionTypeName;
             return ExamQ;
