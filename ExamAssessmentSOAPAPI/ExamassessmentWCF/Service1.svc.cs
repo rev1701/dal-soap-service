@@ -89,9 +89,15 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, result);
 
         }
+        public void RemoveQuestionFromExam(string ExamID, string ExamQuestionID)
+        {
+            var itemtoRemove = db.ExamTemplateQuestions.First(x => x.ExamTemplateID == ExamID && x.ExamQuestionID == ExamQuestionID);
+            db.ExamTemplateQuestions.Remove(itemtoRemove);
+            db.SaveChanges();
+        }
         public void spAddQuestionToExam(string ExamID, string ExamQuestionID, int weight)
         {
-
+            
             EAD.ExamTemplateQuestions toadd = new EAD.ExamTemplateQuestions();
             toadd.ExamTemplateID = ExamID;
             toadd.ExamQuestionID = ExamQuestionID;
@@ -933,44 +939,45 @@ namespace LMS1701.EA.SOAPAPI
             DALExamQuestion.ExamQuestionName = examQuestion.ExamQuestionName;
             DALExamQuestion.QuestionTypeID = examQuestion.QuestionType.PKID;
 
-
+            db.ExamQuestion.Add(DALExamQuestion);
+            db.SaveChanges();
             foreach (var subquestion in examQuestion.quest)
             {
-                
-                    EAD.Question questiontoAdd = new EAD.Question();
-                    EAD.ExamQuestionList questioncombination = new EAD.ExamQuestionList();
-                    db.Question.Add(questiontoAdd);
-                   // await db.SaveChangesAsync();
 
-                    questioncombination.ExamQuestionID = examQuestion.ExamQuestionID;
-                    questioncombination.QuestionID = subquestion.PKID;
-                    questiontoAdd.Description = subquestion.Description;
-
-                    //adds to subquestion table
-
-                    db.ExamQuestionList.Add(questioncombination); //adds to subquestion/examquestion junction table
-                
-                foreach(var answer in subquestion.Answers)
-                {
-                    EAD.Answer answertoAdd = Mapper.Map<EAD.Answer>(answer);
-                    EAD.QuestionAnswers answercombination = new EAD.QuestionAnswers();
-
-                    answercombination.AnswerID = answer.PKID;
-                    answercombination.QuestionID = subquestion.PKID;
-                    answercombination.IsCorrect = answer.correct.isCorrect;
-
-                    db.Answer.Add(answertoAdd); // adds answer to answer Table
-                    db.QuestionAnswers.Add(answercombination); //
-
-                }
+                EAD.Question questiontoAdd = new EAD.Question();
+                EAD.ExamQuestionList questioncombination = new EAD.ExamQuestionList();
+                questiontoAdd.Description = subquestion.Description;
+                db.Question.Add(questiontoAdd);
                 db.SaveChanges();
 
+
+                questioncombination.ExamQuestionID = DALExamQuestion.ExamQuestionID;
+                questioncombination.QuestionID = questiontoAdd.PKID;
+
+
+                //adds to subquestion table
+
+                db.ExamQuestionList.Add(questioncombination); //adds to subquestion/examquestion junction table
+
+                foreach (var answer in subquestion.Answers)
+                {
+                    EAD.Answer answertoAdd = new EAD.Answer();
+                    answertoAdd.Answer1 = answer.Answer1;
+                    answertoAdd.AddLanguageTypeID = 1;
+                    EAD.QuestionAnswers answercombination = new EAD.QuestionAnswers();
+                    db.Answer.Add(answertoAdd); // adds answer to answer Table
+                    db.SaveChanges();
+                    answercombination.AnswerID = answertoAdd.PKID;
+                    answercombination.QuestionID = questiontoAdd.PKID;
+                    answercombination.IsCorrect = answer.correct.isCorrect;
+
+
+                    db.QuestionAnswers.Add(answercombination); //
+                    db.SaveChanges();
+                }
+
+
             }
-                // add new answers to table
-                // update the junction table
-                db.ExamQuestion.Add(DALExamQuestion);
-
-
 
         }
 
