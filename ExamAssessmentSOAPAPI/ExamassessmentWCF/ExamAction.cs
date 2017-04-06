@@ -10,6 +10,12 @@ namespace LMS1701.EA.SOAPAPI
     public class ExamAction
     {
         private static EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
+        /// <summary>
+        /// Given an id of an exam template it returns
+        /// an exam template EAD variable.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static  ExamTemplate getExam(string id)
         {
             List<EAD.ExamTemplate> ExamTemplate = db.ExamTemplate.Where(s => s.ExamTemplateID == id).ToList();
@@ -22,6 +28,12 @@ namespace LMS1701.EA.SOAPAPI
             exam.ExamType.ExamTypeName = ExamTemplate.FirstOrDefault().ExamType.ExamTypeName;
             return exam;
         }
+        /// <summary>
+        /// Given an EAD ExamQuestion it will convert the Exam Question 
+        /// into a DTO exam question.
+        /// </summary>
+        /// <param name="ExamQuestion"></param>
+        /// <returns></returns>
         public static ExamQuestion getExamQuestion(EAD.ExamQuestion ExamQuestion)
         {
             AutoMapperConfiguration.Configure();

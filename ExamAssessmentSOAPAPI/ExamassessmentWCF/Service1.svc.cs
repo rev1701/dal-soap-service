@@ -308,11 +308,8 @@ namespace LMS1701.EA.SOAPAPI
         public ExamTemplate getExamTemplate(String id)
         {
             AutoMapperConfiguration.Configure();
-
             List<EAD.ExamTemplate> ExamTemplate = db.ExamTemplate.Where(s => s.ExamTemplateID == id).ToList();
             ExamTemplate exam = ExamAction.getExam(id);
-
-
             List<EAD.ExamTemplateQuestions> ExamQuestions = db.ExamTemplateQuestions.Where(s => s.ExamTemplateID == exam.ExamTemplateID).ToList();
             if (ExamQuestions.Count < 1)
             {
@@ -323,10 +320,6 @@ namespace LMS1701.EA.SOAPAPI
                 var dbExamQuestion = db.ExamQuestion.ToList();
                 var dbExamQuestionList = db.ExamQuestionList.ToList();
                 var dbQuestionAnswers = db.QuestionAnswers.ToList();
-                var dbquestion = db.Question.ToList();
-                var dbanswer = db.Answer.ToList();
-
-                
                 for (int i = 0; i < ExamQuestions.Count(); i++)
                 {
 
@@ -356,28 +349,21 @@ namespace LMS1701.EA.SOAPAPI
                     for (int j = 0; j < ExamQuestionList.Count; j++)
                     {
                         int tempID = ExamQuestionList.ElementAt(j).QuestionID;
+                        #region    // List<EAD.Question> Question = dbquestion.Where(s => s.PKID == tempID).ToList();
 
-                        List<EAD.Question> Question = dbquestion.Where(s => s.PKID == tempID).ToList();
-                        Question quest = new Question();
-                        quest.PKID = Question.ElementAt(0).PKID;
-                        quest.Description = Question.ElementAt(0).Description;
+                        // quest.PKID = Question.ElementAt(0).PKID;
+                        //quest.Description = Question.ElementAt(0).Description;
+                        #endregion
+                        Question quest = QuestionAction.getQuestion(tempID);
                         List<EAD.QuestionAnswers> AnswersID = dbQuestionAnswers.Where(s => s.QuestionID == quest.PKID).ToList();
                         for (int k = 0; k < AnswersID.Count; k++)
                         {
                             int answer = AnswersID.ElementAt(k).AnswerID;
-                            var TheAnswer = from tempAnswer in dbanswer
-                                            where tempAnswer.PKID == answer
-                                            select tempAnswer;
-                            Answers ans = new Answers();
-                            ans.PKID = TheAnswer.ToArray()[0].PKID;
-                            ans.Answer1 = TheAnswer.FirstOrDefault().Answer1;
-                            ans.correct.isCorrect = AnswersID.ElementAt(k).IsCorrect;
-
+                            Answers ans = AnswerAction.getAnswer(answer);
                             quest.Answers.Add(ans);
                         }
                         ExamQ.quest.Add(quest);
                         exam.ExamQuestions.Add(ExamQ);
-
                     }
                 }
                 return exam;
