@@ -11,6 +11,11 @@ namespace ExamassessmentWCF
     {
         private static EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
         public static List<ExamAssessmentDaal.Answer> dbanswer = db.Answer.ToList();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public static Answers getAnswer(int id)
         {
             var TheAnswer = from tempAnswer in dbanswer

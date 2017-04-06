@@ -13,7 +13,11 @@ namespace LMS1701.EA.SOAPAPI
         private static EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
      
         private static List <EAD.Question> dbquestion = db.Question.ToList();
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="tempID"></param>
+        /// <returns></returns>
         public static Question getQuestion(int tempID)
         {
              List<EAD.Question> Question = dbquestion.Where(s => s.PKID == tempID).ToList();
