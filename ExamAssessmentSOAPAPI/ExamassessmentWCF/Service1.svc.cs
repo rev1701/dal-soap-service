@@ -10,6 +10,9 @@ using EAD = ExamAssessmentDaal;
 using LMS1701.EA.SOAPAPI;
 using System.Data.Entity.Core.Objects;
 using NLog;
+using ExamassessmentWCF.DTO;
+using ExamassessmentWCF;
+
 namespace LMS1701.EA.SOAPAPI
 {
 
@@ -59,6 +62,7 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionCategories(Categories, PKID, result);
 
         }*/
+       
         public void AddQuestionCategories(String Categories, String ExamQuestionID)
         {
             var Categoreis = db.Categories.Where(c => c.Categories_Name == Categories);
@@ -172,10 +176,6 @@ namespace LMS1701.EA.SOAPAPI
             var dbQuestExam = db.ExamQuestionList.ToList();
             var dbQuestion = db.Question.ToList();
 
-
-
-
-
             for (int i = 0; i < dbExamQuestion.Count; i++)
             {
                 ExamQuestion question = new ExamQuestion();
@@ -186,21 +186,22 @@ namespace LMS1701.EA.SOAPAPI
                 question.QuestionType.QuestionTypeName = dbExamQuestion.ElementAt(i).QuestionType.QuestionTypeName;
                 for (int j = 0; j < dbExamQuestion.ElementAt(i).ExamQuestion_Categories.Count; j++)
                 {
-                    Category cat = new Category();
+                    Category cat = CategoriesAction.getCategory(dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID);
 
+                    #region
+                    /*    cat.Categories_ID = dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID;
+                        cat.Categories_Name = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_Name;
 
-                    cat.Categories_ID = dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID;
-                    cat.Categories_Name = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_Name;
-
-                    List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
-                    for (int k = 0; k < listofSub.Count(); k++)
-                    {
-                        var subtopic = dbSubtopic.Where(s => s.Subtopic_ID == listofSub.ElementAt(k));
-                        SubTopic sub = new SubTopic();
-                        sub.Subtopic_ID = subtopic.ElementAt(0).Subtopic_ID;
-                        sub.Subtopic_Name = subtopic.ElementAt(0).Subtopic_Name;
-                        cat.subtopics.Add(sub);
-                    }
+                        List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
+                        for (int k = 0; k < listofSub.Count(); k++)
+                        {
+                            var subtopic = dbSubtopic.Where(s => s.Subtopic_ID == listofSub.ElementAt(k));
+                            SubTopic sub = 
+                            sub.Subtopic_ID = subtopic.ElementAt(0).Subtopic_ID;
+                            sub.Subtopic_Name = subtopic.ElementAt(0).Subtopic_Name;
+                            cat.subtopics.Add(sub);
+                        }*/
+                    #endregion
                     question.ExamQuestion_Categories.Add(cat);
                 }
 
@@ -325,37 +326,32 @@ namespace LMS1701.EA.SOAPAPI
                 var dbQuestionAnswers = db.QuestionAnswers.ToList();
                 var dbquestion = db.Question.ToList();
                 var dbanswer = db.Answer.ToList();
-                var dbCategories = db.Categories.ToList();
-                var dbSubtopics = db.Subtopic.ToList();
+               // var dbCategories = db.Categories.ToList();
+                //var dbSubtopics = db.Subtopic.ToList();
                 
                 for (int i = 0; i < ExamQuestions.Count(); i++)
                 {
 
-                    List<EAD.ExamQuestion> ExamQuestion = dbExamQuestion.Where(s => s.ExamQuestionID == ExamQuestions.ElementAt(i).ExamQuestionID).ToList();
-
-
-                    ExamQuestion ExamQ = new ExamQuestion();
-
-                    ExamQ.ExamQuestionID = ExamQuestion.ElementAt(0).ExamQuestionID;
-                    ExamQ.ExamQuestionName = ExamQuestion.ElementAt(0).ExamQuestionName;
-                    ExamQ.PKID = ExamQuestion.ElementAt(0).PKID;
-                    ExamQ.QuestionType.PKID = ExamQuestion.ElementAt(0).QuestionType.PKID;
-                    ExamQ.QuestionType.QuestionTypeName = ExamQuestion.ElementAt(0).QuestionType.QuestionTypeName;
+                    List<EAD.ExamQuestion> ExamQuestion = dbExamQuestion.Where(s => s.ExamQuestionID == ExamQuestions.ElementAt(i).ExamQuestionID).ToList();  
+                    ExamQuestion ExamQ = ExamAction.getExamQuestion(ExamQuestion.ElementAt(0));                
                     var categoryIDs=ExamQuestion.ElementAt(0).ExamQuestion_Categories.Select(x => x.Categories_ID).ToList();
                     List <Category>ExamQCategories = new List<Category>();
-
                     foreach (var item in categoryIDs)
                     {
-                        Category newCategory = new Category();
-                        newCategory = Mapper.Map<Category>(dbCategories.Where(x => x.Categories_ID == item).First());
-                        var subtopicIDS = dbCategories.Where(x => x.Categories_ID == item).First().Categories_Subtopic.Select(x => x.Subtopic_ID).ToList();
-                        foreach (var subID in subtopicIDS)
-                        {
-                            SubTopic newSubtopic = new SubTopic();
-                            newSubtopic = Mapper.Map<SubTopic>(dbSubtopics.Where(x => x.Subtopic_ID == subID).First());
-                            newCategory.subtopics.Add(newSubtopic);
-                        }
+                        Category newCategory = CategoriesAction.getCategory(item);
                         ExamQCategories.Add(newCategory);
+                        #region
+                        /* Category newCategory = new Category();
+                         newCategory = Mapper.Map<Category>(dbCategories.Where(x => x.Categories_ID == item).First());
+                         var subtopicIDS = dbCategories.Where(x => x.Categories_ID == item).First().Categories_Subtopic.Select(x => x.Subtopic_ID).ToList();
+                         foreach (var subID in subtopicIDS)
+                         {
+                             SubTopic newSubtopic = new SubTopic();
+                             newSubtopic = Mapper.Map<SubTopic>(dbSubtopics.Where(x => x.Subtopic_ID == subID).First());
+                             newCategory.subtopics.Add(newSubtopic);
+                         }
+                         ExamQCategories.Add(newCategory); */
+                        #endregion
                     }
                     ExamQ.ExamQuestion_Categories = ExamQCategories;
                     var ExamQuestionList = dbExamQuestionList.Where(s => s.ExamQuestionID == ExamQ.ExamQuestionID).ToList();

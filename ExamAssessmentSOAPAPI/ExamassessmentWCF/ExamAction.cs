@@ -1,4 +1,5 @@
-﻿using LMS1701.EA.SOAPAPI;
+﻿using AutoMapper;
+using LMS1701.EA.SOAPAPI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,15 @@ namespace LMS1701.EA.SOAPAPI
             exam.ExamType.PKID = ExamTemplate.FirstOrDefault().ExamType.PKID;
             exam.ExamType.ExamTypeName = ExamTemplate.FirstOrDefault().ExamType.ExamTypeName;
             return exam;
+        }
+        public static ExamQuestion getExamQuestion(EAD.ExamQuestion ExamQuestion)
+        {
+            AutoMapperConfiguration.Configure();
+            ExamQuestion ExamQ = new ExamQuestion();
+            ExamQ = Mapper.Map<ExamQuestion>(ExamQuestion);
+            ExamQ.QuestionType.PKID = ExamQuestion.QuestionType.PKID;
+            ExamQ.QuestionType.QuestionTypeName = ExamQuestion.QuestionType.QuestionTypeName;
+            return ExamQ;
         }
       
     }
