@@ -311,14 +311,7 @@ namespace LMS1701.EA.SOAPAPI
             AutoMapperConfiguration.Configure();
 
             List<EAD.ExamTemplate> ExamTemplate = db.ExamTemplate.Where(s => s.ExamTemplateID == id).ToList();
-            ExamTemplate exam = new ExamTemplate();
-            exam.PKID = ExamTemplate.First().PKID;
-            exam.CreatedDate = ExamTemplate.First().CreatedDate;
-            exam.ExamTemplateName = ExamTemplate.First().ExamTemplateName;
-            exam.ExamTemplateID = ExamTemplate.FirstOrDefault().ExamTemplateID;
-            exam.ExamType.PKID = ExamTemplate.FirstOrDefault().ExamType.PKID;
-            exam.ExamType.ExamTypeName = ExamTemplate.FirstOrDefault().ExamType.ExamTypeName;
-
+            ExamTemplate exam = ExamAction.getExam(id);
 
 
             List<EAD.ExamTemplateQuestions> ExamQuestions = db.ExamTemplateQuestions.Where(s => s.ExamTemplateID == exam.ExamTemplateID).ToList();
