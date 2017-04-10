@@ -19,8 +19,9 @@ namespace LMS1701.EA.SOAPAPI
     //db.SaveChanges means Saves changes to the database
     public class Service1 : IService1
     {
+        private ExamAction ExamAction = new ExamAction();
         private EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
-        ExamAction ExamAction = new ExamAction();
+      //  ExamAction Action = new ExamAction();
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
@@ -723,9 +724,15 @@ namespace LMS1701.EA.SOAPAPI
         /// <returns></returns>
         public List<SubTopic> GetSubtopicList() 
         {
-            var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j)); 
+            AutoMapperConfiguration.Configure();
+            //List<SubTopic> x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j)).ToList(); 
+            List<SubTopic> x = new List<SubTopic>();
+            foreach (EAD.Subtopic item in db.Subtopic.ToList())
+            {
+                x.Add(Mapper.Map<SubTopic>(item));
+            }
             // select all of the subtopics as entity objects, and maps to EAD.Subtopic using automapper
-            return x.ToList(); 
+            return x; 
         }
 
         /// <summary>

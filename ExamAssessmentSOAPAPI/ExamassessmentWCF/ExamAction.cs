@@ -23,6 +23,7 @@ namespace LMS1701.EA.SOAPAPI
         /// <returns></returns>
         public   ExamTemplate getExam(string id)
         {
+             db = new EAD.ExamAssessmentEntities();
             List<EAD.ExamTemplate> ExamTemplate = db.ExamTemplate.Where(s => s.ExamTemplateID == id).ToList();
             ExamTemplate exam = new ExamTemplate();
             exam.PKID = ExamTemplate.First().PKID;
