@@ -10,15 +10,20 @@ namespace LMS1701.EA.SOAPAPI
 {
     public class QuestionAction
     {
-        private static EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
-
-        private static List<EAD.Question> dbquestion = db.Question.ToList();
+        private EAD.ExamAssessmentEntities db;
+        private List<EAD.Question> dbquestion;
+        public QuestionAction()
+        {
+            db = new EAD.ExamAssessmentEntities();
+            dbquestion = db.Question.ToList();
+        }
+      
         /// <summary>
         /// 
         /// </summary>
         /// <param name="tempID"></param>
         /// <returns></returns>
-        public static Question getQuestion(int tempID)
+        public  Question getQuestion(int tempID)
         {
             List<EAD.Question> Question = dbquestion.Where(s => s.PKID == tempID).ToList();
             Question quest = new Question();

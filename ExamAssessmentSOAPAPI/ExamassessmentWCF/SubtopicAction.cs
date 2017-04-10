@@ -15,7 +15,7 @@ namespace LMS1701.EA.SOAPAPI
         {
             EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
             List<EAD.Subtopic> dbSubtopics = db.Subtopic.ToList();
-    }
+       }
         /// <summary>
         /// Returns A subtopic DTO objects based upon
         /// the id given.
