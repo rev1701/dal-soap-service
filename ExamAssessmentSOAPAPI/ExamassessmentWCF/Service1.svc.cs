@@ -20,7 +20,7 @@ namespace LMS1701.EA.SOAPAPI
     public class Service1 : IService1
     {
         private EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
-
+        ExamAction ExamAction = new ExamAction();
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
