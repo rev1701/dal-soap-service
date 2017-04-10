@@ -9,12 +9,21 @@ using System.Text;
 namespace LMS1701.EA.SOAPAPI
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IService1" in both code and config file together.
+
+    //Interface of the Service
     [ServiceContract]
     public interface IService1
     {
-
+        //Exposing the Methods For the Service
         [OperationContract]
         string GetData(int value);
+        //syntax
+        //Make sure you add one of these for every method defined you want to add to the service for it to show up as useable
+        //[OperationContract]
+        //[WebInvoke(Method ="Name of HTTP Method" = WebMessageFormat.Json, BodyStyole = WebMessageBodyStyle.Wrapped, UriTemplate = "Name Of Method"]) 
+        //METHOD SIGNATURE GOES HERE
+
+
         [OperationContract]
         [WebInvoke(Method = "GET", ResponseFormat = WebMessageFormat.Json, BodyStyle = WebMessageBodyStyle.Wrapped, UriTemplate = "TestThis")]
         List<SubTopic> GetSubtopicList();
