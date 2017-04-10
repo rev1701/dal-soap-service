@@ -16,15 +16,20 @@ namespace LMS1701.EA.SOAPAPI
 
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the class name "Service1" in code, svc and config file together.
     // NOTE: In order to launch WCF Test Client for testing this service, please select Service1.svc or Service1.svc.cs at the Solution Explorer and start debugging.
+    //db.SaveChanges means Saves changes to the database
     public class Service1 : IService1
     {
         private EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
-
+        ExamAction ExamAction = new ExamAction();
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
         }
-
+        /// <summary>
+        /// Adds an category to a subject ion the junction table
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="category"></param>
         public void spAddExistingCategory(String subject, String category)
 
         {
@@ -33,12 +38,22 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddExistingCategory(subject, category, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Adds an existing Subtopic to a category.
+        /// </summary>
+        /// <param name="subtopic"></param>
+        /// <param name="category"></param>
         public void spAddExistingSubtopicToCategory(String subtopic, String category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spAddExistingSubtopicToCategory(subtopic, category, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Adds a new Category.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="category"></param>
         public void spAddNewCategoryType(String subject, String category)
         {
             
@@ -46,6 +61,13 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Adds a question as an Exam Question 
+        /// </summary>
+        /// <param name="ExamQuestionID"></param>
+        /// <param name="QuestionID"></param>
+        /// <param name="name"></param>
+        /// <param name="QuestionType"></param>
         public void spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
@@ -59,6 +81,11 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionCategories(Categories, PKID, result);
 
         }*/
+        /// <summary>
+        /// Adds a Categorie to an exam Question.
+        /// </summary>
+        /// <param name="Categories"></param>
+        /// <param name="ExamQuestionID"></param>
         public void AddQuestionCategories(String Categories, String ExamQuestionID)
         {
             var Categoreis = db.Categories.Where(c => c.Categories_Name == Categories);
@@ -71,30 +98,50 @@ namespace LMS1701.EA.SOAPAPI
                     temp.Categories_ID = Categoreis.First().Categories_ID;
                     temp.ExamQuestion_ID = db.ExamQuestion.First(s => s.ExamQuestionID == ExamQuestionID).PKID;
                     db.ExamQuestion_Categories.Add(temp);
-                    NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.Categories_ID.ToString()));
+                    NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.Categories_ID.ToString())); 
+                    //Logs the List of IDs for the Categoires attached to the Exam Question
+
                     NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.ExamQuestion_ID.ToString()));
+                    //Logs the Exam Question ID of which Exam Question working with
                    
 
                 }
                 
             }
-            db.SaveChanges();
+            db.SaveChanges(); //Saves Changes to the Database
  
 
         }
 
+        /// <summary>
+        /// Adds a Question to Answer
+        /// </summary>
+        /// <param name="QuestionID"></param>
+        /// <param name="AnswerID"></param>
+        /// <param name="isCorrect"></param>
         public void spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect)
         {
             ObjectParameter result = new ObjectParameter("result", typeof(int));
             db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, result);
 
         }
+        /// <summary>
+        /// Removess a Question from an exam
+        /// </summary>
+        /// <param name="ExamID"></param>
+        /// <param name="ExamQuestionID"></param>
         public void RemoveQuestionFromExam(string ExamID, string ExamQuestionID)
         {
             var itemtoRemove = db.ExamTemplateQuestions.First(x => x.ExamTemplateID == ExamID && x.ExamQuestionID == ExamQuestionID);
             db.ExamTemplateQuestions.Remove(itemtoRemove);
             db.SaveChanges();
         }
+        /// <summary>
+        /// Adds a Question to an Exam
+        /// </summary>
+        /// <param name="ExamID"></param>
+        /// <param name="ExamQuestionID"></param>
+        /// <param name="weight"></param>
         public void spAddQuestionToExam(string ExamID, string ExamQuestionID, int weight)
         {
             
@@ -106,18 +153,33 @@ namespace LMS1701.EA.SOAPAPI
             db.SaveChanges();
 
         }
+        /// <summary>
+        /// Adds a subtopic type
+        /// </summary>
+        /// <param name="Subtopics"></param>
+        /// <param name="Category"></param>
         public void spAddSubtopicType(string Subtopics, string Category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spAddSubtopicType(Subtopics, Category, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Removes Question From Category
+        /// </summary>
+        /// <param name="Categories"></param>
+        /// <param name="ExamID"></param>
         public void spDeleteQuestionCategory(String Categories, String ExamID)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spDeleteQuestionCategory(Categories, ExamID, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Deletes From Junction Table. Removes a Category from a Question.
+        /// </summary>
+        /// <param name="Category"></param>
+        /// <param name="ExamQID"></param>
         public void DeleteQuestionCategory(String Category, String ExamQID)
         {
             var Categoreis = db.Categories.Where(c => c.Categories_Name == Category);
@@ -139,6 +201,11 @@ namespace LMS1701.EA.SOAPAPI
             }
             db.SaveChanges();
         }
+        /// <summary>
+        /// Removes an Answers from Question
+        /// </summary>
+        /// <param name="QuestionID"></param>
+        /// <param name="AnswerID"></param>
         public void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
@@ -159,6 +226,14 @@ namespace LMS1701.EA.SOAPAPI
             db.spRemoveQuestionFromExam(ExamID, ExamQuestionID, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Returns all the exam Questions
+        /// This includes everything attached to an exam Questions
+        /// such as all the categories
+        /// and all the Questions attached to that exam Question
+        /// And all the answes attached to the Questions.
+        /// </summary>
+        /// <returns></returns>
         public List<ExamQuestion> GetAllExamQuestion()
         {
             AutoMapperConfiguration.Configure();
@@ -223,7 +298,10 @@ namespace LMS1701.EA.SOAPAPI
             return result;
 
         }
-
+        /// <summary>
+        /// Returns a list of all the Questions
+        /// </summary>
+        /// <returns></returns>
         public List<Question> GetAllQuestions()
         {
             AutoMapperConfiguration.Configure();
@@ -243,6 +321,11 @@ namespace LMS1701.EA.SOAPAPI
             }
             return result;
         }
+        /// <summary>
+        /// Returns a list of answers for the question id passed in
+        /// </summary>
+        /// <param name="Questid"></param>
+        /// <returns></returns>
         public List<Answers> GetAnswersQuestion(int Questid)
         {
             if (db == null)
@@ -304,20 +387,22 @@ namespace LMS1701.EA.SOAPAPI
 
         }
 
-
+        /// <summary>
+        /// Returns a full exam Template
+        /// which inclueds the Exam Template itself 
+        /// as well as all the exam Questions attached to that exam.
+        /// The exam Questions will have multiple questions attached to them.
+        /// Exam Questions Can have multiple categoreis attached to them.
+        /// Each question has all the answers attached to it.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ExamTemplate getExamTemplate(String id)
         {
             AutoMapperConfiguration.Configure();
 
             List<EAD.ExamTemplate> ExamTemplate = db.ExamTemplate.Where(s => s.ExamTemplateID == id).ToList();
-            ExamTemplate exam = new ExamTemplate();
-            exam.PKID = ExamTemplate.First().PKID;
-            exam.CreatedDate = ExamTemplate.First().CreatedDate;
-            exam.ExamTemplateName = ExamTemplate.First().ExamTemplateName;
-            exam.ExamTemplateID = ExamTemplate.FirstOrDefault().ExamTemplateID;
-            exam.ExamType.PKID = ExamTemplate.FirstOrDefault().ExamType.PKID;
-            exam.ExamType.ExamTypeName = ExamTemplate.FirstOrDefault().ExamType.ExamTypeName;
-
+            ExamTemplate exam = ExamAction.getExam(id);
 
 
             List<EAD.ExamTemplateQuestions> ExamQuestions = db.ExamTemplateQuestions.Where(s => s.ExamTemplateID == exam.ExamTemplateID).ToList();
@@ -398,6 +483,11 @@ namespace LMS1701.EA.SOAPAPI
 
 
         }
+        /// <summary>
+        /// Returnsa list of all the SUbjects with their categories
+        /// and categories has a list of subtopics.
+        /// </summary>
+        /// <returns></returns>
         public List<Subject> GetAllSubject()
         {
             AutoMapperConfiguration.Configure();
@@ -462,21 +552,28 @@ namespace LMS1701.EA.SOAPAPI
         #region Devonte's Edits
 
 
-
+        /// <summary>
+        /// This method attaches an answer to a question using the entity that represents the question answers table.
+        /// Logging and Exception handling is present
+        /// </summary>
+        /// <param name="QuestionID">The Subquestion ID of the question you would like to add an answer to</param>
+        /// <param name="Answer">The Actual Answer</param>
+        /// <param name="IC">The boolean value that represents if the answer is the correct answer for the specified question</param>
         public void AddAnswer(int QuestionID, string Answer, bool IC)
         {
+            
             EAD.Answer ans = new EAD.Answer();
-            ans.Answer1 = Answer;
+            ans.Answer1 = Answer; 
 
             NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The answer value has been added"));
             try
             {
                 NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "before db.Answer.Add"));
-                db.Answer.Add(ans);
+                db.Answer.Add(ans);   //add the answer object to the database Answer Table
                 NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "After db.Answer.Add"));
-                db.SaveChanges();
-                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First();
-                int NewAnswerID = tempPKID.PKID;
+                db.SaveChanges();    
+                var tempPKID = db.Answer.OrderByDescending(item => item.PKID).First(); //Get the PKID of the answer that was just inserted
+                int NewAnswerID = tempPKID.PKID; 
                 if (tempPKID.PKID == null)
                 {
                     NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The PKID of new answer has never been recieved"));
@@ -487,42 +584,48 @@ namespace LMS1701.EA.SOAPAPI
                     NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "The answer PKID has been received"));
                 }
 
-                spAddQuestionToAnswer(QuestionID, NewAnswerID, IC);
+                spAddQuestionToAnswer(QuestionID, NewAnswerID, IC);  //Call a method that uses a stored procedure call to update the junction table in the database according to the question Answer combination
                 NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", "Stored Procedure fired"));
             }
             catch (Exception ex)
             {
-                // to do
+                // TODO
             }
         }
 
+        /// <summary>
+        /// Delete
+        /// </summary>
+        /// Might want to change this Method's parameters and functionality to use the PKID because to delete you have to type in the whole answer instead of easily using PKID and also the whole string has to match which is more work
+        /// <param name="Answerdesc">The actual answer string</param>
         public void DeleteAnswer(string Answerdesc)
         {
+            
             int answerID = 0;
             EAD.Answer removedAnswer = new EAD.Answer();
             try
             {
                 foreach (var item in db.Answer) //Gets the Answer which will be needed so it can be removed
                 {
-                    if (item.Answer1 == Answerdesc)
+                    if (item.Answer1 == Answerdesc) 
                     {
-                        answerID = item.PKID;
-                        removedAnswer = item; //keeps a reference to the subtopic that will be removed
+                        answerID = item.PKID; 
+                        removedAnswer = item;
                     }
                 }
             }
             catch (Exception ex)
             {
-                // to do
+                // TODO
             }
 
             try
             {
                 foreach (var item in db.QuestionAnswers) //Removes all references to the Answer in the database
                 {
-                    if (item.AnswerID == answerID)
+                    if (item.AnswerID == answerID) 
                     {
-                        db.QuestionAnswers.Remove(item);
+                        db.QuestionAnswers.Remove(item); //Remove the row from the database
                     }
                 }
                 db.Answer.Remove(removedAnswer); // removes the Answer from the Answer table.
@@ -530,46 +633,61 @@ namespace LMS1701.EA.SOAPAPI
             }
             catch (Exception ex)
             {
-                // to do
+                //TODO
             }
         }
 
-
+        /// <summary>
+        /// Delete An Exam Using the ExamTemplateID 
+        /// </summary>
+        /// <param name="ExamTID">The ExamTemplateID of the exam to be deleted</param>
         public void DeleteExam(string ExamTID)
         {
 
-            EAD.ExamTemplate removedExam = new EAD.ExamTemplate();
-            foreach (var item in db.ExamTemplate) //Gets the Exam which will be needed so it can be removed
-            {
-                if (item.ExamTemplateID.Equals(ExamTID))
-                {
-
-                    removedExam = item; //keeps a reference to the Exam that will be removed
-                }
-            }
-            foreach (var item in db.ExamTemplateQuestions) //Removes all references to the Exam in the database
-            {
-                if (item.ExamTemplateID == ExamTID)
-                {
-                    db.ExamTemplateQuestions.Remove(item);
-                }
-            }
-            db.ExamTemplate.Remove(removedExam); // removes the ExamTemplate from the ExamTemplate table.
-            db.SaveChanges();
-        }
-
-
-        public void AddNewExam(string exName, string exTID, string ExamType)
-        {
-            EAD.ExamTemplate newExt = new EAD.ExamTemplate();
-            newExt.ExamTemplateName = exName;
-            newExt.ExamTemplateID = exTID;
-            newExt.ExamTypeID = db.ExamType.Where(x => x.ExamTypeName == ExamType).Select(x => x.PKID).First();
-            newExt.CreatedDate = DateTime.Now;
+            EAD.ExamTemplate removedExam = new EAD.ExamTemplate(); 
             try
             {
-                db.ExamTemplate.Add(newExt);
-                db.SaveChanges();
+                foreach (var item in db.ExamTemplate) //Gets the Exam which will be needed so it can be removed
+                {
+                    if (item.ExamTemplateID.Equals(ExamTID))
+                    {
+
+                        removedExam = item; 
+                    }
+                }
+                foreach (var item in db.ExamTemplateQuestions) //Removes all references to the Exam in the database
+                {
+                    if (item.ExamTemplateID == ExamTID) 
+                    {
+                        db.ExamTemplateQuestions.Remove(item); //Delete from Junction Table
+                    }
+                }
+                db.ExamTemplate.Remove(removedExam); // removes the ExamTemplate from the ExamTemplate table.
+                db.SaveChanges(); 
+            }
+            catch (Exception ex) 
+            {
+                //TODO
+            }
+        }
+        
+        /// <summary>
+        /// This Method adds a brand new exam to the database. The Parameters passed in defines the new values in the database
+        /// </summary>
+        /// <param name="exName">The name of the Exam</param>
+        /// <param name="exTID">The Exam Template ID</param>
+        /// <param name="ExamType">The Exam Type</param>
+        public void AddNewExam(string exName, string exTID, string ExamType)
+        {
+            EAD.ExamTemplate newExt = new EAD.ExamTemplate(); 
+            newExt.ExamTemplateName = exName;
+            newExt.ExamTemplateID = exTID; 
+            newExt.ExamTypeID = db.ExamType.Where(x => x.ExamTypeName == ExamType).Select(x => x.PKID).First(); //
+            newExt.CreatedDate = DateTime.Now; //generates the current DateTime
+            try
+            {
+                db.ExamTemplate.Add(newExt); // adds the new exam template to the database
+                db.SaveChanges(); 
             }
             catch (Exception ex)
             {
@@ -582,12 +700,12 @@ namespace LMS1701.EA.SOAPAPI
         {
             try
             {
-                foreach (var item in db.ExamTemplate)
+                foreach (var item in db.ExamTemplate) 
                 {
-                    if (item.ExamTemplateID.Equals(ExamTemplateID))
+                    if (item.ExamTemplateID.Equals(ExamTemplateID)) 
                     {
-                        item.ExamTemplateName = exName;
-                        db.SaveChanges();
+                        item.ExamTemplateName = exName; // store the current Exam Template Name passed in into the database's current 
+                        db.SaveChanges(); 
                     }
                 }
             }
@@ -599,25 +717,33 @@ namespace LMS1701.EA.SOAPAPI
 
         #endregion
 
-
-        public List<SubTopic> GetSubtopicList()
+        /// <summary>
+        /// Gets The List of Subtopics in the Database 
+        /// </summary>
+        /// <returns></returns>
+        public List<SubTopic> GetSubtopicList() 
         {
-            var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j));
-            return x.ToList();
+            var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j)); 
+            // select all of the subtopics as entity objects, and maps to EAD.Subtopic using automapper
+            return x.ToList(); 
         }
 
+        /// <summary>
+        /// Deletes a Subtopic in the Subtopic Database based on the name
+        /// </summary>
+        /// <param name="SubtopicName">Subtopic Name for removal</param>
         public void DeleteSubtopic(string SubtopicName)
         {
             int subtopicID = 0;
-            EAD.Subtopic removedTopic = new EAD.Subtopic();
+            EAD.Subtopic removedTopic = new EAD.Subtopic(); //Make a Data Access Library Subtopic Object to prepare to remove this object from the database
             try
             {
                 foreach (var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
                 {
-                    if (item.Subtopic_Name == SubtopicName)
+                    if (item.Subtopic_Name == SubtopicName) 
                     {
                         subtopicID = item.Subtopic_ID;
-                        removedTopic = item; //keeps a reference to the subtopic that will be removed
+                        removedTopic = item; 
                     }
                 }
             }
@@ -628,37 +754,45 @@ namespace LMS1701.EA.SOAPAPI
 
             try
             {
-
-
                 foreach (var item in db.Categories_Subtopic) //Removes all references to the subtopic in the database
                 {
-                    if (item.Subtopic_ID == subtopicID)
+                    if (item.Subtopic_ID == subtopicID) 
                     {
-                        db.Categories_Subtopic.Remove(item);
+                        db.Categories_Subtopic.Remove(item); 
                     }
                 }
+
+                db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
+                db.SaveChanges(); 
             }
             catch (Exception ex)
             {
                 // to do
             }
-            db.Subtopic.Remove(removedTopic); // removes the subtopic from the subtopic table.
-            db.SaveChanges();
         }
 
+
+        /// <summary>
+        /// Removes A Subtopic from being attached to a Category in a Junction Table in the Database
+        /// </summary>
+        /// <param name="SubtopicName">Name of the Subtopic to be dettached</param>
+        /// <param name="CategoryName">Name of the Category</param>
         public void RemoveSubtopicFromCategory(string SubtopicName, string CategoryName)
         {
+            //DISCLAIMER: ; in hindsight it might have been easier to pass in the id of the subtopic name and the id of the category name. The belief was that this method would be easier to use with knowledge of the subtopic and category name without going back and forth to the database to find those things out.
+
+            
             int subtopicID = 0;
             int categoryID = 0;
 
-            EAD.Subtopic removedTopic = new EAD.Subtopic();
+            EAD.Subtopic removedTopic = new EAD.Subtopic();  
             try
             {
                 foreach (var item in db.Subtopic) //Gets the subtopicID which will be needed so it can be removed
                 {
-                    if (item.Subtopic_Name == SubtopicName)
+                    if (item.Subtopic_Name == SubtopicName) 
                     {
-                        subtopicID = item.Subtopic_ID;
+                        subtopicID = item.Subtopic_ID; 
                     }
                 }
             }
@@ -672,8 +806,8 @@ namespace LMS1701.EA.SOAPAPI
                 foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
                 {
                     if (item.Categories_Name == CategoryName)
-                    {
-                        categoryID = item.Categories_ID;
+                    { 
+                        categoryID = item.Categories_ID; 
                     }
                 }
             }
@@ -685,45 +819,50 @@ namespace LMS1701.EA.SOAPAPI
             {
                 foreach (var item in db.Categories_Subtopic) //Finds the row on the junction table that contains the pair of values and removes it
                 {
-                    if (item.Subtopic_ID == subtopicID && item.Categories_ID == categoryID)
+                   
+                    if (item.Subtopic_ID == subtopicID && item.Categories_ID == categoryID) 
                     {
-                        db.Categories_Subtopic.Remove(item);
+                        db.Categories_Subtopic.Remove(item); //Remove that row where both ID's fit that condition
                     }
                 }
+                db.SaveChanges();
             }
             catch (Exception ex)
             {
                 //to do 
             }
-            db.SaveChanges();
         }
 
+        /// <summary>
+        /// This Method makes sure that the Category does not have any dependencies and then deletes it from the categories table
+        /// </summary>
+        /// <param name="CategoryName">Name of the Category for deleteion</param>
         public void DeleteCategory(string CategoryName)
         {
-            int categoryID = 0;
-            EAD.Categories removedCategory = new EAD.Categories();
+            int categoryID = 0; //prepare to store the CategoryID
+            EAD.Categories removedCategory = new EAD.Categories(); 
             try
             {
-                foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
+                foreach (var item in db.Categories)
                 {
-                    if (item.Categories_Name == CategoryName)
+                    if (item.Categories_Name == CategoryName) //If the database's current Category Name matches the one passed in
                     {
-                        categoryID = item.Categories_ID;
-                        removedCategory = item; //keeps a reference to the category that will be removed
+                        categoryID = item.Categories_ID; 
+                        removedCategory = item; 
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception ex) 
             {
                 //to do 
             }
             try
             {
-                foreach (var item in db.Subject_Categories) //Removes all references to the category from subjects
-                {
-                    if (item.Categories_ID == categoryID)
+                foreach (var item in db.Subject_Categories) { //Iterates through the Subject_Categories table
+              
+                    if (item.Categories_ID == categoryID) 
                     {
-                        db.Subject_Categories.Remove(item);
+                        db.Subject_Categories.Remove(item); //Removes all references to the category from subjects
                     }
                 }
             }
@@ -738,7 +877,7 @@ namespace LMS1701.EA.SOAPAPI
                 {
                     if (item.Categories_ID == categoryID)
                     {
-                        db.ExamQuestion_Categories.Remove(item);
+                        db.ExamQuestion_Categories.Remove(item); // Remove that row in the junction table ExamQuestion_Categories
                     }
                 }
             }
@@ -750,22 +889,26 @@ namespace LMS1701.EA.SOAPAPI
             try
             {
                 db.Categories.Remove(removedCategory); // removes the category from the subtopic table.
+                db.SaveChanges(); 
             }
             catch (Exception ex)
             {
                 //to do
             }
-            db.SaveChanges();
-        }
+                }
 
+        /// <summary>
+        /// Adds New subject to the database using SubjectName
+        /// </summary>
+        /// <param name="SubjectName">New Subject Name</param>
         public void AddSubject(string SubjectName)
         {
-            EAD.Subject addedSubject = new EAD.Subject(); //Object to be passed into Subject Table
-            addedSubject.Subject_Name = SubjectName; //Only Needs Name property
+            EAD.Subject addedSubject = new EAD.Subject(); 
+            addedSubject.Subject_Name = SubjectName;
             try
             {
                 db.Subject.Add(addedSubject); //adds object to database
-                db.SaveChanges();
+                db.SaveChanges(); 
             }
             catch (Exception ex)
             {
@@ -774,6 +917,11 @@ namespace LMS1701.EA.SOAPAPI
         }
 
 
+        /// <summary>
+        /// Detattach a category from a subject using both the category name and the subject name
+        /// </summary>
+        /// <param name="CategoryName">Category Name to be removed from subject</param>
+        /// <param name="SubjectName">Subject Name that Category is connected to</param>
         public void RemoveCategoryFromSubject(string CategoryName, string SubjectName)
         {
 
@@ -784,9 +932,9 @@ namespace LMS1701.EA.SOAPAPI
             {
                 foreach (var item in db.Subject) //Gets the subjectID which will be needed so it can be removed
                 {
-                    if (item.Subject_Name == SubjectName)
+                    if (item.Subject_Name == SubjectName) 
                     {
-                        subjectID = item.Subject_ID;
+                        subjectID = item.Subject_ID; 
                     }
                 }
             }
@@ -799,9 +947,9 @@ namespace LMS1701.EA.SOAPAPI
             {
                 foreach (var item in db.Categories) //Gets the categoryID which will be needed so it can be removed
                 {
-                    if (item.Categories_Name == CategoryName)
+                    if (item.Categories_Name == CategoryName) 
                     {
-                        categoryID = item.Categories_ID;
+                        categoryID = item.Categories_ID; // store the CategoryID from the database to a variable
                     }
                 }
             }
@@ -814,9 +962,10 @@ namespace LMS1701.EA.SOAPAPI
             {
                 foreach (var item in db.Subject_Categories) //Finds the row on the junction table that contains the pair of values and removes it
                 {
-                    if (item.Subject_ID == subjectID && item.Categories_ID == categoryID)
+                    if (item.Subject_ID == subjectID && item.Categories_ID == categoryID) 
                     {
-                        db.Subject_Categories.Remove(item);
+                        db.Subject_Categories.Remove(item); //Remove the row from the junction table
+                        db.SaveChanges();
                     }
                 }
             }
@@ -824,21 +973,27 @@ namespace LMS1701.EA.SOAPAPI
             {
                 //to do
             }
-            db.SaveChanges();
+            
         }
 
-        public void DeleteSubject(string SubjectName)
+
+        /// <summary>
+        /// This Method Deletes a subject
+        /// </summary>
+        /// <param name="SubjectName">The name of the Subject up for deletion</param>
+        public void DeleteSubject(string SubjectName) 
         {
             int subjectID = 0;
-            EAD.Subject removedSubject = new EAD.Subject();
+            EAD.Subject removedSubject = new EAD.Subject(); 
 
             try
             {
-                foreach (var item in db.Subject) //Gets the subjectID which will be needed so it can be removed
+                //Gets the subjectID which will be needed so it can be removed
+                foreach (var item in db.Subject)
                 {
                     if (item.Subject_Name == SubjectName)
                     {
-                        subjectID = item.Subject_ID;
+                        subjectID = item.Subject_ID; 
                         removedSubject = item; //keeps a reference to the subject that will be removed
                     }
                 }
@@ -850,11 +1005,12 @@ namespace LMS1701.EA.SOAPAPI
 
             try
             {
-                foreach (var item in db.Subject_Categories) //Removes all references to the subject in the database
+                //Removes all references to the subject in the database
+                foreach (var item in db.Subject_Categories) //For each row in the Subject Categories Junction Table 
                 {
-                    if (item.Subject_ID == subjectID)
+                    if (item.Subject_ID == subjectID) 
                     {
-                        db.Subject_Categories.Remove(item);
+                        db.Subject_Categories.Remove(item); //Remove the row from the junction table
                     }
                 }
             }
@@ -866,44 +1022,38 @@ namespace LMS1701.EA.SOAPAPI
             try
             {
                 db.Subject.Remove(removedSubject); // removes the subject from the subtopic table.
+                db.SaveChanges(); 
             }
             catch (Exception ex)
             {
                 //to do
             }
-            db.SaveChanges();
         }
-
-
-        public void UpdateAnswer(int answerid, string oldanswer)
+        
+        /// <summary>
+        /// //Updates the Answer in the database using the answer id and the new answer
+        /// </summary>
+        /// <param name="answerid">The ID of the answer you want to change</param>
+        /// <param name="newanswer">The string of the new answer you want to store</param>
+        public void UpdateAnswer(int answerid, string newanswer) 
         {
             try
             {
                 var answer = db.Answer.Where(x => x.PKID == answerid);
-                answer.First().Answer1 = oldanswer;
-                db.SaveChanges();
+                answer.First().Answer1 = newanswer; //replace the old answer in the databse with the new answer passed in
+                db.SaveChanges(); 
             }
             catch (Exception ex)
             {
                 // to do
             }
-            
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
         {
 
-            AutoMapperConfiguration.Configure();
-            SubTopic test2 = new SubTopic();
-            try
-            {
-                // test2 = Mapper.Map<SubTopic>(test2);
-            }
-            catch (Exception ex)
-            {
-                // to do 
-            }
-
+            AutoMapperConfiguration.Configure(); 
+            SubTopic test2 = new SubTopic(); 
             try
             {
                 if (composite == null)
@@ -933,15 +1083,15 @@ namespace LMS1701.EA.SOAPAPI
             }
             return IDList;
         }
-        public void AddExamQuestion(ExamQuestion examQuestion)
+        public void AddExamQuestion(ExamQuestion examQuestion) // Adds an exam question using a whole exam question object/model/EAD
         {
 
-            if (examQuestion == null)
+            if (examQuestion == null) //Exam Question does it exist
             {
-                throw new ArgumentNullException("Exam Question");
+                throw new ArgumentNullException("Exam Question"); //You passed in a empty exam Question Object
             }
             AutoMapperConfiguration.Configure();
-            EAD.ExamQuestion DALExamQuestion = new EAD.ExamQuestion();
+            EAD.ExamQuestion DALExamQuestion = new EAD.ExamQuestion(); 
             DALExamQuestion.ExamQuestionID = examQuestion.ExamQuestionID;
             DALExamQuestion.ExamQuestionName = examQuestion.ExamQuestionName;
             DALExamQuestion.QuestionTypeID = examQuestion.QuestionType.PKID;
@@ -970,17 +1120,17 @@ namespace LMS1701.EA.SOAPAPI
                 {
                     EAD.Answer answertoAdd = new EAD.Answer();
                     answertoAdd.Answer1 = answer.Answer1;
-                    answertoAdd.AddLanguageTypeID = 1;
+                    answertoAdd.AddLanguageTypeID = 1; //Change the Language type to 1
                     EAD.QuestionAnswers answercombination = new EAD.QuestionAnswers();
                     db.Answer.Add(answertoAdd); // adds answer to answer Table
-                    db.SaveChanges();
+                    db.SaveChanges(); 
                     answercombination.AnswerID = answertoAdd.PKID;
                     answercombination.QuestionID = questiontoAdd.PKID;
                     answercombination.IsCorrect = answer.correct.isCorrect;
 
 
-                    db.QuestionAnswers.Add(answercombination); //
-                    db.SaveChanges();
+                    db.QuestionAnswers.Add(answercombination); // Add the QuestionAnswers junction table row
+                    db.SaveChanges(); 
                 }
 
 
