@@ -25,7 +25,11 @@ namespace LMS1701.EA.SOAPAPI
         {
             return string.Format("You entered: {0}", value);
         }
-
+        /// <summary>
+        /// Adds an category to a subject ion the junction table
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="category"></param>
         public void spAddExistingCategory(String subject, String category)
 
         {
@@ -34,12 +38,22 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddExistingCategory(subject, category, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Adds an existing Subtopic to a category.
+        /// </summary>
+        /// <param name="subtopic"></param>
+        /// <param name="category"></param>
         public void spAddExistingSubtopicToCategory(String subtopic, String category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spAddExistingSubtopicToCategory(subtopic, category, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Adds a new Category.
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="category"></param>
         public void spAddNewCategoryType(String subject, String category)
         {
             
@@ -47,6 +61,13 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Adds a question as an Exam Question 
+        /// </summary>
+        /// <param name="ExamQuestionID"></param>
+        /// <param name="QuestionID"></param>
+        /// <param name="name"></param>
+        /// <param name="QuestionType"></param>
         public void spAddQuestionAsExamQuestion(String ExamQuestionID, int QuestionID, String name, int QuestionType)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
@@ -60,6 +81,11 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionCategories(Categories, PKID, result);
 
         }*/
+        /// <summary>
+        /// Adds a Categorie to an exam Question.
+        /// </summary>
+        /// <param name="Categories"></param>
+        /// <param name="ExamQuestionID"></param>
         public void AddQuestionCategories(String Categories, String ExamQuestionID)
         {
             var Categoreis = db.Categories.Where(c => c.Categories_Name == Categories);
@@ -87,18 +113,35 @@ namespace LMS1701.EA.SOAPAPI
 
         }
 
+        /// <summary>
+        /// Adds a Question to Answer
+        /// </summary>
+        /// <param name="QuestionID"></param>
+        /// <param name="AnswerID"></param>
+        /// <param name="isCorrect"></param>
         public void spAddQuestionToAnswer(int QuestionID, int AnswerID, bool isCorrect)
         {
             ObjectParameter result = new ObjectParameter("result", typeof(int));
             db.spAddQuestionToAnswer(QuestionID, AnswerID, isCorrect, result);
 
         }
+        /// <summary>
+        /// Removess a Question from an exam
+        /// </summary>
+        /// <param name="ExamID"></param>
+        /// <param name="ExamQuestionID"></param>
         public void RemoveQuestionFromExam(string ExamID, string ExamQuestionID)
         {
             var itemtoRemove = db.ExamTemplateQuestions.First(x => x.ExamTemplateID == ExamID && x.ExamQuestionID == ExamQuestionID);
             db.ExamTemplateQuestions.Remove(itemtoRemove);
             db.SaveChanges();
         }
+        /// <summary>
+        /// Adds a Question to an Exam
+        /// </summary>
+        /// <param name="ExamID"></param>
+        /// <param name="ExamQuestionID"></param>
+        /// <param name="weight"></param>
         public void spAddQuestionToExam(string ExamID, string ExamQuestionID, int weight)
         {
             
@@ -110,18 +153,33 @@ namespace LMS1701.EA.SOAPAPI
             db.SaveChanges();
 
         }
+        /// <summary>
+        /// Adds a subtopic type
+        /// </summary>
+        /// <param name="Subtopics"></param>
+        /// <param name="Category"></param>
         public void spAddSubtopicType(string Subtopics, string Category)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spAddSubtopicType(Subtopics, Category, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Removes Question From Category
+        /// </summary>
+        /// <param name="Categories"></param>
+        /// <param name="ExamID"></param>
         public void spDeleteQuestionCategory(String Categories, String ExamID)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
             db.spDeleteQuestionCategory(Categories, ExamID, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Deletes From Junction Table. Removes a Category from a Question.
+        /// </summary>
+        /// <param name="Category"></param>
+        /// <param name="ExamQID"></param>
         public void DeleteQuestionCategory(String Category, String ExamQID)
         {
             var Categoreis = db.Categories.Where(c => c.Categories_Name == Category);
@@ -143,6 +201,11 @@ namespace LMS1701.EA.SOAPAPI
             }
             db.SaveChanges();
         }
+        /// <summary>
+        /// Removes an Answers from Question
+        /// </summary>
+        /// <param name="QuestionID"></param>
+        /// <param name="AnswerID"></param>
         public void spRemoveAnswerFromQuestion(int QuestionID, int AnswerID)
         {
             ObjectParameter myOutputParamInt = new ObjectParameter("result", typeof(int));
@@ -308,7 +371,16 @@ namespace LMS1701.EA.SOAPAPI
 
         }
 
-
+        /// <summary>
+        /// Returns a full exam Template
+        /// which inclueds the Exam Template itself 
+        /// as well as all the exam Questions attached to that exam.
+        /// The exam Questions will have multiple questions attached to them.
+        /// Exam Questions Can have multiple categoreis attached to them.
+        /// Each question has all the answers attached to it.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public ExamTemplate getExamTemplate(String id)
         {
             AutoMapperConfiguration.Configure();
@@ -395,6 +467,11 @@ namespace LMS1701.EA.SOAPAPI
 
 
         }
+        /// <summary>
+        /// Returnsa list of all the SUbjects with their categories
+        /// and categories has a list of subtopics.
+        /// </summary>
+        /// <returns></returns>
         public List<Subject> GetAllSubject()
         {
             AutoMapperConfiguration.Configure();
