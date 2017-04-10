@@ -15,7 +15,7 @@ namespace ExamassessmentWCF
         {
             EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
             List<ExamAssessmentDaal.Answer> dbanswer = db.Answer.ToList();
-    }
+        }
         /// <summary>
         /// 
         /// </summary>
