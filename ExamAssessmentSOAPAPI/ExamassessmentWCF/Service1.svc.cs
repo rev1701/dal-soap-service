@@ -21,7 +21,7 @@ namespace LMS1701.EA.SOAPAPI
     {
         private ExamAction ExamAction = new ExamAction();
         private EAD.ExamAssessmentEntities db = new EAD.ExamAssessmentEntities();
-        ExamAction Action = new ExamAction();
+      //  ExamAction Action = new ExamAction();
         public string GetData(int value)
         {
             return string.Format("You entered: {0}", value);
@@ -403,7 +403,7 @@ namespace LMS1701.EA.SOAPAPI
             AutoMapperConfiguration.Configure();
 
             List<EAD.ExamTemplate> ExamTemplate = db.ExamTemplate.Where(s => s.ExamTemplateID == id).ToList();
-            ExamTemplate exam = Action.getExam(id);
+            ExamTemplate exam = ExamAction.getExam(id);
 
 
             List<EAD.ExamTemplateQuestions> ExamQuestions = db.ExamTemplateQuestions.Where(s => s.ExamTemplateID == exam.ExamTemplateID).ToList();
@@ -724,9 +724,15 @@ namespace LMS1701.EA.SOAPAPI
         /// <returns></returns>
         public List<SubTopic> GetSubtopicList() 
         {
-            var x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j)); 
+            AutoMapperConfiguration.Configure();
+            //List<SubTopic> x = db.Subtopic.Select(j => Mapper.Map<SubTopic>(j)).ToList(); 
+            List<SubTopic> x = new List<SubTopic>();
+            foreach (EAD.Subtopic item in db.Subtopic.ToList())
+            {
+                x.Add(Mapper.Map<SubTopic>(item));
+            }
             // select all of the subtopics as entity objects, and maps to EAD.Subtopic using automapper
-            return x.ToList(); 
+            return x; 
         }
 
         /// <summary>
