@@ -298,7 +298,10 @@ namespace LMS1701.EA.SOAPAPI
             return result;
 
         }
-
+        /// <summary>
+        /// Returns a list of all the Questions
+        /// </summary>
+        /// <returns></returns>
         public List<Question> GetAllQuestions()
         {
             AutoMapperConfiguration.Configure();
@@ -318,6 +321,11 @@ namespace LMS1701.EA.SOAPAPI
             }
             return result;
         }
+        /// <summary>
+        /// Returns a list of answers for the question id passed in
+        /// </summary>
+        /// <param name="Questid"></param>
+        /// <returns></returns>
         public List<Answers> GetAnswersQuestion(int Questid)
         {
             if (db == null)
