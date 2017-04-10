@@ -226,6 +226,14 @@ namespace LMS1701.EA.SOAPAPI
             db.spRemoveQuestionFromExam(ExamID, ExamQuestionID, myOutputParamInt);
 
         }
+        /// <summary>
+        /// Returns all the exam Questions
+        /// This includes everything attached to an exam Questions
+        /// such as all the categories
+        /// and all the Questions attached to that exam Question
+        /// And all the answes attached to the Questions.
+        /// </summary>
+        /// <returns></returns>
         public List<ExamQuestion> GetAllExamQuestion()
         {
             AutoMapperConfiguration.Configure();
