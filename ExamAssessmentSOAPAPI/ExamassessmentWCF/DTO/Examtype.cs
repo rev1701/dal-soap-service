@@ -11,14 +11,12 @@ namespace LMS1701.EA.SOAPAPI
     {
         public Examtype()
         {
-            ExamTemplates = new List<ExamTemplate>();
         }
         [DataMember]
         public int PKID { get; set; }
         [DataMember]
         public string ExamTypeName { get; set; }
 
-        [DataMember]
-        public virtual ICollection<ExamTemplate> ExamTemplates { get; set; }
+
     }
 }
