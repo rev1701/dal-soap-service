@@ -43,7 +43,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public void spAddNewCategoryType(String subject, String category)
         {
-            
+
             ObjectParameter myOutputParamInt = new ObjectParameter("result", (int)0);
             db.spAddExistingSubtopicToCategory(subject, category, myOutputParamInt);
 
@@ -55,20 +55,19 @@ namespace LMS1701.EA.SOAPAPI
             db.spAddQuestionAsExamQuestion(ExamQuestionID, QuestionID, name, QuestionType, myOutputParamInt);
 
         }
-      /*  public void spAddQuestionCategories(String Categories, int PKID)
-        {
-            int result = 0;
-            db.spAddQuestionCategories(Categories, PKID, result);
+        /*  public void spAddQuestionCategories(String Categories, int PKID)
+          {
+              int result = 0;
+              db.spAddQuestionCategories(Categories, PKID, result);
+          }*/
 
-        }*/
-       
         public void AddQuestionCategories(String Categories, String ExamQuestionID)
         {
             var Categoreis = db.Categories.Where(c => c.Categories_Name == Categories);
-            if(Categoreis.Count() > 0)
+            if (Categoreis.Count() > 0)
             {
                 var QuestionID = db.ExamQuestion.Where(c => c.ExamQuestionID == ExamQuestionID);
-                if(QuestionID.Count() > 0)
+                if (QuestionID.Count() > 0)
                 {
                     EAD.ExamQuestion_Categories temp = new EAD.ExamQuestion_Categories();
                     temp.Categories_ID = Categoreis.First().Categories_ID;
@@ -76,13 +75,13 @@ namespace LMS1701.EA.SOAPAPI
                     db.ExamQuestion_Categories.Add(temp);
                     NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.Categories_ID.ToString()));
                     NLogConfig.logger.Log(new LogEventInfo(LogLevel.Info, "WFCLogger", temp.ExamQuestion_ID.ToString()));
-                   
+
 
                 }
-                
+
             }
             db.SaveChanges();
- 
+
 
         }
 
@@ -100,7 +99,7 @@ namespace LMS1701.EA.SOAPAPI
         }
         public void spAddQuestionToExam(string ExamID, string ExamQuestionID, int weight)
         {
-            
+
             EAD.ExamTemplateQuestions toadd = new EAD.ExamTemplateQuestions();
             toadd.ExamTemplateID = ExamID;
             toadd.ExamQuestionID = ExamQuestionID;
@@ -190,7 +189,6 @@ namespace LMS1701.EA.SOAPAPI
                     #region
                     /*    cat.Categories_ID = dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID;
                         cat.Categories_Name = dbCategories.Where(s => s.Categories_ID == dbExamQuestion.ElementAt(i).ExamQuestion_Categories.ElementAt(j).Categories_ID).First().Categories_Name;
-
                         List<int> listofSub = dbCatSub.Where(s => s.Categories_ID == cat.Categories_ID).Select(s => s.Subtopic_ID).ToList();
                         for (int k = 0; k < listofSub.Count(); k++)
                         {
@@ -323,10 +321,10 @@ namespace LMS1701.EA.SOAPAPI
                 for (int i = 0; i < ExamQuestions.Count(); i++)
                 {
 
-                    List<EAD.ExamQuestion> ExamQuestion = dbExamQuestion.Where(s => s.ExamQuestionID == ExamQuestions.ElementAt(i).ExamQuestionID).ToList();  
-                    ExamQuestion ExamQ = ExamAction.getExamQuestion(ExamQuestion.ElementAt(0));                
-                    var categoryIDs=ExamQuestion.ElementAt(0).ExamQuestion_Categories.Select(x => x.Categories_ID).ToList();
-                    List <Category>ExamQCategories = new List<Category>();
+                    List<EAD.ExamQuestion> ExamQuestion = dbExamQuestion.Where(s => s.ExamQuestionID == ExamQuestions.ElementAt(i).ExamQuestionID).ToList();
+                    ExamQuestion ExamQ = ExamAction.getExamQuestion(ExamQuestion.ElementAt(0));
+                    var categoryIDs = ExamQuestion.ElementAt(0).ExamQuestion_Categories.Select(x => x.Categories_ID).ToList();
+                    List<Category> ExamQCategories = new List<Category>();
                     foreach (var item in categoryIDs)
                     {
                         Category newCategory = CategoriesAction.getCategory(item);
@@ -860,7 +858,7 @@ namespace LMS1701.EA.SOAPAPI
             {
                 // to do
             }
-            
+
         }
 
         public CompositeType GetDataUsingDataContract(CompositeType composite)
