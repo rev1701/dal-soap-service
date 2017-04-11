@@ -547,7 +547,7 @@ namespace LMS1701.EA.SOAPAPI
 
 
             }
-            return result.ToList();
+            return result.Distinct().ToList();
         }
 
         #region Devonte's Edits
